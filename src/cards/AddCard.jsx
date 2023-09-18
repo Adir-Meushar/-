@@ -27,10 +27,7 @@ console.log(initialFormData);
 export default function AddCard({ added }) {
     const [ismodal, setIsModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
-
     const { userRoleTyps } = useContext(GeneralContext);
-
-
     const inputChange = (ev) => {
         const { name, value } = ev.target;
         setFormData({
@@ -55,11 +52,8 @@ export default function AddCard({ added }) {
                 setIsModal(false)
             });
     }
-
-
     return (
         <div>
-
             {ismodal && (
                 <div className="modal-frame">
                     <div className="modal">
@@ -90,7 +84,6 @@ export default function AddCard({ added }) {
             {userRoleTyps === RoleTyps.admin || userRoleTyps === RoleTyps.business ? (
                 <AiOutlinePlusCircle onClick={() => setIsModal(true)} className="plusBtn" />
             ) : ("")}
-
         </div>
     );
 }

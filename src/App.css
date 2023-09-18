@@ -20,6 +20,10 @@ button{
   right: 50px;
   color: rgb(16, 16, 79);
 }
+.fav{
+  color: red;
+  cursor: pointer;
+}
 .card-box{
   border: solid black 1px;
   width: 19vw;

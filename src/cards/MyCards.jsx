@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import AddCard from "./AddCard";
-import { GeneralContext } from "../App";
-import { RoleTyps } from "../components/Navbar";
+
 
 export default function Cards() {
     const [cards, setCards] = useState([])
-    const { userRoleTyps } = useContext(GeneralContext);
+
 
     useEffect(() => {
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
