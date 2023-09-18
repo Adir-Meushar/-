@@ -8,6 +8,7 @@ import FavCards from './cards/FavCards';
 
 import About from './pages/About';
 import UsersMenagment from './admin/UserMenagment';
+import BussinessPage from './pages/BusinessPage';
 
 export default function Router() {
     return (
@@ -20,6 +21,7 @@ export default function Router() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/account" element={<Account />} />
+            <Route path='/bussiness' element ={<BussinessPage/>}/>
         </Routes>
     )
 }

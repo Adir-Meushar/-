@@ -24,13 +24,13 @@ const initialFormData = cardStructur.reduce((obj, field) => {
     return obj;
 }, {});
 console.log(initialFormData);
-export default function AddCard({added}) {
+export default function AddCard({ added }) {
     const [ismodal, setIsModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
-  
+
     const { userRoleTyps } = useContext(GeneralContext);
 
-    
+
     const inputChange = (ev) => {
         const { name, value } = ev.target;
         setFormData({
@@ -46,7 +46,7 @@ export default function AddCard({added}) {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(formData),
-            
+
         })
             .then(res => res.json())
             .then((data) => {
@@ -59,7 +59,7 @@ export default function AddCard({added}) {
 
     return (
         <div>
-        
+
             {ismodal && (
                 <div className="modal-frame">
                     <div className="modal">
@@ -72,7 +72,7 @@ export default function AddCard({added}) {
                         <form onSubmit={addCard}>
                             {cardStructur.map(s =>
                                 <label key={s.name}>
-                                 
+
                                     <input placeholder={s.name}
                                         type={s.type}
                                         name={s.name}
@@ -86,6 +86,7 @@ export default function AddCard({added}) {
                     </div>
                 </div>
             )}
+            {/* <AiOutlinePlusCircle onClick={() => setIsModal(true)} className="plusBtn" /> */}
             {userRoleTyps === RoleTyps.admin || userRoleTyps === RoleTyps.business ? (
                 <AiOutlinePlusCircle onClick={() => setIsModal(true)} className="plusBtn" />
             ) : ("")}

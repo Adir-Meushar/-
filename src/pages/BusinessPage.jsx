@@ -1,9 +1,9 @@
-function BusinessPage() {
+export default function BussinessPage() {
     return (
         <div>
-            <p>It worked!!!</p>
+            <h1>Business page!</h1>
         </div>
     )
 }
 
-export default BusinessPage
+

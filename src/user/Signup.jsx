@@ -13,7 +13,6 @@ import { useContext } from 'react';
 import { GeneralContext } from '../App';
 import Switch from '@mui/material/Switch';
 import { FormControlLabel } from '@mui/material';
-import Joi from 'joi';
 
 const defaultTheme = createTheme();
 
@@ -35,7 +34,6 @@ export const clientStructure = [
   { name: 'business', type: 'boolean', label: 'Business', required: true, block: false },
 ];
 
-
 export default function Signup() {
   const navigate = useNavigate();
   const { setLoader } = useContext(GeneralContext);
@@ -55,7 +53,7 @@ export default function Signup() {
 
     setLoader(true);
 
-    fetch(`https://api.shipap.co.il/clients/signup?token=d2960d76-3431-11ee-b3e9-14dda9d4a5f0`, {
+    fetch(`https://api.shipap.co.il/clients/signup?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
       credentials: 'include',
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
