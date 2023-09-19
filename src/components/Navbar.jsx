@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link, useNavigate } from "react-router-dom";
 import { GeneralContext } from "../App";
+import SearchBar from "./SearchBar";
 
 export const RoleTyps = {
   none: 0,
@@ -29,30 +30,13 @@ const pages = [
   { route: "/about", title: "About" },
   { route: "/login", title: "Login", permissions: [RoleTyps.none] },
   { route: "/signup", title: "Signup", permissions: [RoleTyps.none] },
-  {
-    route: "/favcards",
-    title: "Favcards",
-    permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin],
-  },
-  {
-    route: "/mycards",
-    title: "Mycards",
-    permissions: [RoleTyps.business, RoleTyps.admin],
-  },
-  {
-    route: "/admin",
-    title: "User Managment",
-    permissions: [RoleTyps.admin],
-  },
+  { route: "/favcards", title: "Favcards",permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin],},
+  {route: "/mycards",title: "Mycards",permissions: [RoleTyps.business, RoleTyps.admin],},
+  {route: "/admin",title: "User Managment",permissions: [RoleTyps.admin],},
 ];
 const settings = [
-  {
-    route: "/account",
-    title: "Account",
-    permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin],
-  },
+   {route: "/account",title: "Account",permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin],},
 ];
-
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -107,7 +91,6 @@ function Navbar() {
           >
            Cards
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -115,8 +98,7 @@ function Navbar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+              color="inherit" >
               <MenuIcon />
             </IconButton>
             <Menu
@@ -189,8 +171,10 @@ function Navbar() {
                 </Link>
               ))}
           </Box>
-
+      
           {user ? (
+            <> 
+            <SearchBar/>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -236,7 +220,7 @@ function Navbar() {
                 </MenuItem>
               </Menu>
             </Box>
-          ) : (
+            </> ) : (
             ""
           )}
         </Toolbar>

@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar, { RoleTyps } from "./components/Navbar";
 import { createContext, useEffect, useState } from "react";
 import Loader from "./components/Loader";
-import Cards from "./cards/Cards";
+import BottomNav from "./components/BottomNav";
 
 
 export const GeneralContext = createContext();
@@ -45,6 +45,7 @@ function App() {
       value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType }}>
       <Navbar />
       <Router />
+      <BottomNav/>
       {loader && <Loader />}
     </GeneralContext.Provider>
   );

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
 import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
+import { VscHeartFilled } from "react-icons/vsc";
 export default function FavCards() {
     const [favCards, setFavCards] = useState([])
-    const [favCard, setFavCard] = useState(false)
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -36,7 +35,7 @@ export default function FavCards() {
             })
                 .then(() => {
                     setFavCards(favCards.filter((c) => c.id !== cardId))
-                    setFavCard(false)
+
                 });
         }
 
@@ -59,9 +58,9 @@ export default function FavCards() {
                             <p>Adress: {c.city + ' ' + c.street}</p>
                             <p>Card Number:{c.id}</p>
                             <div className="btn-box">
-                                <VscHeartFilled className="fav" onClick={()=>removeFav(c.id)} />
-                                <AiOutlinePhone />
-                                <AiFillDelete onClick={() => deleteCard(c.id)} />
+                                <VscHeartFilled className="fav card-icon" onClick={() => removeFav(c.id)} />
+                                <AiOutlinePhone className="card-icon" />
+                                <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
                             </div>
 
                         </div>

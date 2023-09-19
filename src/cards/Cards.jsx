@@ -63,14 +63,14 @@ export default function Cards() {
                                 {userRoleTyps === RoleTyps.user || userRoleTyps === RoleTyps.business || userRoleTyps === RoleTyps.admin ? (
                                     <>
                                         {c.isFavorite ? (
-                                            <VscHeartFilled onClick={() => removeFav(c.id)} className="fav" />
+                                            <VscHeartFilled onClick={() => removeFav(c.id)} className="fav card-icon" />
                                         ) : (
-                                            <VscHeart onClick={() => addFav(c.id)} className="fav" />
+                                            <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
                                         )}
-                                        <AiOutlinePhone />
+                                        <AiOutlinePhone className="card-icon" />
                                     </>
                                 ) : (
-                                    <AiOutlinePhone />
+                                    <AiOutlinePhone className="card-icon" />
                                 )}
                             </div>
                         </div>

@@ -193,3 +193,55 @@ export default function Cards() {
     );
 }
 
+
+
+/// bottom nav works with no lables
+import React, { useContext } from 'react';
+import { styled } from '@mui/system';
+import BottomNavigation from '@mui/material/BottomNavigation'; // Use '@mui/material' for BottomNavigation
+import BottomNavigationAction from '@mui/material/BottomNavigationAction'; // Use '@mui/material' for BottomNavigationAction
+import { FcAbout } from "react-icons/fc";
+import FavoriteIcon from '@mui/icons-material/Favorite'; // Use '@mui/icons-material' for FavoriteIcon
+import { BiSolidUserRectangle } from "react-icons/bi";
+import { GeneralContext } from "../App";
+import { RoleTyps } from './Navbar';
+import { Link } from 'react-router-dom';
+
+const useStyles = styled({
+    root: {
+        width: 500,
+    },
+});
+const pages = [
+    { route: "/about", title: "About", icon: <FcAbout /> },
+    { route: "/favcards", title: "Favcards", icon: <FavoriteIcon />, permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
+    { route: "/mycards", title: "Mycards", icon: <BiSolidUserRectangle />, permissions: [RoleTyps.business, RoleTyps.admin], },
+];
+const checkPermissions = (permissions, userRoletype) => {
+    return permissions.includes(userRoletype);
+};
+export default function BottomNav() {
+    const classes = useStyles();
+    const [value, setValue] = React.useState(0);
+    const { user, setUser, setLoader, userRoleTyps, setUserRoleType } =
+        useContext(GeneralContext);
+    return (
+        <BottomNavigation
+            value={value}
+            onChange={(event, newValue) => {
+                setValue(newValue);
+            }}
+            showLabels //????
+            className={`${classes.root} bottom-nav`}
+        >
+            {pages.filter((page) =>
+                !page.permissions || checkPermissions(page.permissions, userRoleTyps)
+            ).map((page) => (
+                console.log(page.title), // Add this line for debugging
+                <Link key={page.route} to={page.route}>
+                    <BottomNavigationAction className='bottom-nav-icon' label={page.title} icon={page.icon} />
+                </Link>
+            ))}
+        </BottomNavigation>
+    );
+}

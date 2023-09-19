@@ -8,6 +8,7 @@ button{
 .container{
   width: 85vw;
   margin: 0 auto;
+ margin-bottom: 70px;
   gap: 30px;
   display: grid;
   grid-template-columns: repeat(4,1fr);
@@ -20,9 +21,29 @@ button{
   right: 50px;
   color: rgb(16, 16, 79);
 }
+.bottom-nav{
+  border: 1px solid black;
+  margin-top: 15px;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+
+}
+
+.btn-box{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.card-icon{
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 .fav{
   color: red;
-  cursor: pointer;
+}
+.bottom-nav-icon{
+  font-size: 1.4rem;
 }
 .card-box{
   border: solid black 1px;
