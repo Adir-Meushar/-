@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
 import { VscHeartFilled } from "react-icons/vsc";
+import { GeneralContext } from "../App";
 export default function FavCards() {
     const [favCards, setFavCards] = useState([])
+    const { user } = useContext(GeneralContext);
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -34,7 +36,7 @@ export default function FavCards() {
                 method: 'PUT',
             })
                 .then(() => {
-                    localStorage.removeItem(`favorite_${cardId}`);
+                    localStorage.removeItem(`favorite_${user.id}_${cardId}`);
                     setFavCards(favCards.filter((c) => c.id !== cardId))
 
                 });
