@@ -20,6 +20,7 @@ export default function Cards() {
 
     function addFav(cardId) {
         if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
+            localStorage.setItem(`favorite_${cardId}`, 'true');
             fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
                 credentials: 'include',
                 method: 'PUT',
@@ -33,6 +34,7 @@ export default function Cards() {
 
     function removeFav(cardId) {
         if (window.confirm('Are you sure you want to remove this Card from your Favorites?')) {
+            localStorage.removeItem(`favorite_${cardId}`);
             fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
                 credentials: 'include',
                 method: 'PUT',
@@ -62,7 +64,7 @@ export default function Cards() {
                             <div className="btn-box">
                                 {userRoleTyps === RoleTyps.user || userRoleTyps === RoleTyps.business || userRoleTyps === RoleTyps.admin ? (
                                     <>
-                                        {c.isFavorite ? (
+                                        {localStorage.getItem(`favorite_${c.id}`) === 'true'? (
                                             <VscHeartFilled onClick={() => removeFav(c.id)} className="fav card-icon" />
                                         ) : (
                                             <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />

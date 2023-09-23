@@ -31,7 +31,7 @@ const SearchIconContainer = styled('div')(({ theme }) => ({
 
 const SearchBarInput = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
-  padding: theme.spacing(1, 1, 1, 0),
+  padding: theme.spacing(1, 1, 1, 6),
   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
   transition: theme.transitions.create('width'),
   width: '100%',
@@ -39,7 +39,11 @@ const SearchBarInput = styled(InputBase)(({ theme }) => ({
     width: '35ch',
   },
 }));
-
+const handleInputChange = (event) => {
+  const inputValue = event.target.value;
+  console.log(inputValue);
+  
+};
 function SearchBar() {
   return (
     <SearchContainer>
@@ -50,6 +54,7 @@ function SearchBar() {
       className='search-input'
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
+        onChange={handleInputChange}
       />
     </SearchContainer>
   );

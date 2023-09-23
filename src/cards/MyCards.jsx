@@ -1,11 +1,10 @@
 import React, {  useEffect, useState } from "react";
 import AddCard from "./AddCard";
-
-
+import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
+import { VscHeartFilled } from "react-icons/vsc";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 export default function Cards() {
     const [cards, setCards] = useState([])
-
-
     useEffect(() => {
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -15,7 +14,6 @@ export default function Cards() {
                 setCards(data)
             });
     }, [])
-
     function deleteCard(id) {
         if (!window.confirm('Are you sure you want to delete this card?')) {
             return;
@@ -28,15 +26,12 @@ export default function Cards() {
                     setCards(cards.filter((c) => c.id !== id))
                 });
         }
-
     }
     return (
         <>
             <h2>My Cards</h2>
             <AddCard added={(newCard) => setCards([...cards, newCard])} />
             <div className="container">
-
-
                 {cards.map((c) => (
                     <div key={c.id} className="card-box">
                         <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
@@ -49,15 +44,13 @@ export default function Cards() {
                             <p>Adress: {c.city + ' ' + c.street}</p>
                             <p>Card Number:{c.id}</p>
                             <div className="btn-box">
-                                <button>Fav</button>
-                                <button>Call(?)</button>
-                                <button onClick={() => deleteCard(c.id)}>Del</button>
+                               <VscHeartFilled className="fav card-icon "/>
+                                <AiOutlinePhone className="card-icon"/>
+                                <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)}/>
                             </div>
-
                         </div>
                     </div>
                 ))}
-
             </div>
         </>
     );

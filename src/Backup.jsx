@@ -194,54 +194,112 @@ export default function Cards() {
 }
 
 
-
-/// bottom nav works with no lables
-import React, { useContext } from 'react';
-import { styled } from '@mui/system';
-import BottomNavigation from '@mui/material/BottomNavigation'; // Use '@mui/material' for BottomNavigation
-import BottomNavigationAction from '@mui/material/BottomNavigationAction'; // Use '@mui/material' for BottomNavigationAction
-import { FcAbout } from "react-icons/fc";
-import FavoriteIcon from '@mui/icons-material/Favorite'; // Use '@mui/icons-material' for FavoriteIcon
-import { BiSolidUserRectangle } from "react-icons/bi";
+///fav-with-local//
+import React, { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../App";
-import { RoleTyps } from './Navbar';
-import { Link } from 'react-router-dom';
+import { RoleTyps } from "../components/Navbar";
+import { VscHeart, VscHeartFilled } from "react-icons/vsc";
+import { AiOutlinePhone } from "react-icons/ai";
 
-const useStyles = styled({
-    root: {
-        width: 500,
-    },
-});
-const pages = [
-    { route: "/about", title: "About", icon: <FcAbout /> },
-    { route: "/favcards", title: "Favcards", icon: <FavoriteIcon />, permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
-    { route: "/mycards", title: "Mycards", icon: <BiSolidUserRectangle />, permissions: [RoleTyps.business, RoleTyps.admin], },
-];
-const checkPermissions = (permissions, userRoletype) => {
-    return permissions.includes(userRoletype);
-};
-export default function BottomNav() {
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const { user, setUser, setLoader, userRoleTyps, setUserRoleType } =
-        useContext(GeneralContext);
+export default function Cards() {
+    const [cards, setCards] = useState([]);
+    const { userRoleTyps } = useContext(GeneralContext);
+
+    // Initialize cards from local storage or API data
+    useEffect(() => {
+        // Check if there are cards in local storage
+        const storedCards = JSON.parse(localStorage.getItem("favoriteCards")) || [];
+
+        // Fetch cards from the API if local storage is empty
+        if (storedCards.length === 0) {
+            fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
+                .then((res) => res.json())
+                .then((data) => {
+                    // Initialize the favorite status for each card
+                    const cardsWithFavorites = data.map((card) => ({
+                        ...card,
+                        isFavorite: false,
+                    }));
+                    setCards(cardsWithFavorites);
+                });
+        } else {
+            // Set cards from local storage
+            setCards(storedCards);
+        }
+    }, []);
+
+    // Function to update favorite status and local storage
+    function updateFavoriteStatus(cardId, isFavorite) {
+        // Update the favorite status for the specific card
+        const updatedCards = cards.map((card) =>
+            card.id === cardId ? { ...card, isFavorite } : card
+        );
+
+        // Update local storage
+        localStorage.setItem("favoriteCards", JSON.stringify(updatedCards));
+
+        // Update state
+        setCards(updatedCards);
+    }
+
+    function addFav(cardId) {
+        if (window.confirm("Are you sure you want to add this Card to your Favorites?")) {
+            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
+                credentials: "include",
+                method: "PUT",
+            })
+                .then(() => {
+                    updateFavoriteStatus(cardId, true);
+                });
+        }
+    }
+
+    function removeFav(cardId) {
+        if (window.confirm("Are you sure you want to remove this Card from your Favorites?")) {
+            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
+                credentials: "include",
+                method: "PUT",
+            })
+                .then(() => {
+                    updateFavoriteStatus(cardId, false);
+                });
+        }
+    }
+
+
     return (
-        <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
-            showLabels //????
-            className={`${classes.root} bottom-nav`}
-        >
-            {pages.filter((page) =>
-                !page.permissions || checkPermissions(page.permissions, userRoleTyps)
-            ).map((page) => (
-                console.log(page.title), // Add this line for debugging
-                <Link key={page.route} to={page.route}>
-                    <BottomNavigationAction className='bottom-nav-icon' label={page.title} icon={page.icon} />
-                </Link>
-            ))}
-        </BottomNavigation>
+        <>
+            <h2>Cards</h2>
+            <div className="container">
+                {cards.map((c) => (
+                    <div key={c.id} className="card-box">
+                        <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
+                        <div className="detail-box">
+                            <div>
+                                <h3>{c.title}</h3>
+                                <p>{c.description}</p>
+                            </div>
+                            <p>{c.phone}</p>
+                            <p>Address: {c.city + ' ' + c.street}</p>
+                            <p>Card Number: {c.id}</p>
+                            <div className="btn-box">
+                                {userRoleTyps === RoleTyps.user || userRoleTyps === RoleTyps.business || userRoleTyps === RoleTyps.admin ? (
+                                    <>
+                                        {c.isFavorite ? (
+                                            <VscHeartFilled onClick={() => removeFav(c.id)} className="fav card-icon" />
+                                        ) : (
+                                            <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
+                                        )}
+                                        <AiOutlinePhone className="card-icon" />
+                                    </>
+                                ) : (
+                                    <AiOutlinePhone className="card-icon" />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 }

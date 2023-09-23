@@ -8,7 +8,7 @@ button{
 .container{
   width: 85vw;
   margin: 0 auto;
- margin-bottom: 70px;
+ margin-bottom: 5%;
   gap: 30px;
   display: grid;
   grid-template-columns: repeat(4,1fr);
@@ -20,10 +20,14 @@ button{
   bottom: 50px;
   right: 50px;
   color: rgb(16, 16, 79);
+  transition: all .5s;
+}
+.plusBtn:hover,.card-icon:hover{
+  transform: scale(1.1);
+
 }
 .bottom-nav{
   border: 1px solid black;
-  margin-top: 15px;
   width: 100vw;
   position: fixed;
   bottom: 0;
@@ -38,7 +42,9 @@ button{
 .card-icon{
   font-size: 1.5rem;
   cursor: pointer;
+  transition: all .5s;
 }
+
 .fav{
   color: red;
 }
@@ -47,12 +53,13 @@ button{
 }
 .card-box{
   border: solid black 1px;
-  width: 19vw;
+  width: 18vw;
   min-width: 320px;
-  height: 580px;
-  max-height: 620px;
+  height: 500px;
+  min-height: 480px;
   text-align: center;
   border-radius: 7px;
+  margin: 0 auto;
 }
 .img-box{
   height: 50%;
@@ -146,5 +153,18 @@ text-align: center;
 @media screen and (max-width:1500px){
   .container{
     grid-template-columns: repeat(3,1fr);
+  }
+}
+
+
+@media screen and (max-width:1200px){
+  .container{
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media screen and (max-width:760px){
+  .container{
+    grid-template-columns: repeat(1,1fr);
   }
 }

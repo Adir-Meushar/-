@@ -34,6 +34,7 @@ export default function FavCards() {
                 method: 'PUT',
             })
                 .then(() => {
+                    localStorage.removeItem(`favorite_${cardId}`);
                     setFavCards(favCards.filter((c) => c.id !== cardId))
 
                 });
@@ -44,8 +45,6 @@ export default function FavCards() {
         <div>
             <h2>FavCards</h2>
             <div className="container">
-
-
                 {favCards.map((c) => (
                     <div key={c.id} className="card-box">
                         <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
@@ -62,7 +61,6 @@ export default function FavCards() {
                                 <AiOutlinePhone className="card-icon" />
                                 <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
                             </div>
-
                         </div>
                     </div>
                 ))}

@@ -23,7 +23,6 @@ const initialFormData = cardStructur.reduce((obj, field) => {
     obj[field.name] = '';
     return obj;
 }, {});
-console.log(initialFormData);
 export default function AddCard({ added }) {
     const [ismodal, setIsModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
@@ -35,7 +34,6 @@ export default function AddCard({ added }) {
             [name]: value,
         });
     };
-
     function addCard(ev) {
         ev.preventDefault();
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
@@ -43,12 +41,11 @@ export default function AddCard({ added }) {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(formData),
-
         })
             .then(res => res.json())
             .then((data) => {
                 added(data)
-                console.log(data);
+           
                 setIsModal(false)
             });
     }
