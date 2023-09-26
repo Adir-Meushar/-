@@ -13,16 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link, useNavigate, useResolvedPath } from "react-router-dom";
-import { GeneralContext } from "../App";
+import { GeneralContext, lightTheme } from "../App";
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import SearchBar from "./SearchBar";
-
 export const RoleTyps = {
   none: 0,
   user: 1,
   business: 2,
   admin: 3,
 };
-
 const checkPermissions = (permissions, userRoletype) => {
   return permissions.includes(userRoletype);
 };
@@ -32,17 +31,16 @@ const pages = [
   { route: "/signup", title: "Signup", permissions: [RoleTyps.none] },
   { route: "/favcards", title: "Favcards", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
   { route: "/mycards", title: "Mycards", permissions: [RoleTyps.business, RoleTyps.admin], },
-  { route: "/admin", title: "User Managment", permissions: [RoleTyps.admin], },
-];
+  { route: "/admin", title: "User Managment", permissions: [RoleTyps.admin], },];
 const settings = [
   { route: "/account", title: "Account", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
 ];
-export default function Navbar() {
+export default function Navbar({ theme, onToggleTheme }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { user, setUser, setLoader, userRoleTyps, setUserRoleType } = useContext(GeneralContext);
   const navigate = useNavigate();
-  const path=useResolvedPath().pathname;
+  const path = useResolvedPath().pathname;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -98,27 +96,14 @@ export default function Navbar() {
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left", }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
+              transformOrigin={{ vertical: "top", horizontal: "left", }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages
-                .filter(
-                  (page) =>
-                    !page.permissions ||
-                    checkPermissions(page.permissions, userRoleTyps)
-                )
+              sx={{ display: { xs: "block", md: "none" }, }} >
+              {pages.filter((page) => !page.permissions ||
+                checkPermissions(page.permissions, userRoleTyps))
                 .map((page) => (
                   <Link key={page.route} to={page.route}>
                     <MenuItem onClick={handleCloseNavMenu}>
@@ -143,32 +128,27 @@ export default function Navbar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-            }}
-          >
+            }}>
             My Cards
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages
-              .filter(
-                (page) =>
-                  !page.permissions ||
-                  checkPermissions(page.permissions, userRoleTyps)
-              )
+            {pages.filter((page) => !page.permissions ||
+              checkPermissions(page.permissions, userRoleTyps))
               .map((page) => (
                 <Link key={page.route} to={page.route}>
                   <Button
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block", backgroundColor:page.route===path?'cornflowerblue':''}}
-                  >
+                    sx={{ my: 2, color: "white", display: "block", backgroundColor: page.route === path ? 'cornflowerblue' : '' }}>
                     {page.title}
                   </Button>
                 </Link>
               ))}
           </Box>
-
+          <SearchBar />
+          {theme === lightTheme ? <MdOutlineDarkMode onClick={onToggleTheme} className="theme" /> :
+            <MdOutlineLightMode onClick={onToggleTheme} className="theme" />}
           {user ? (
             <>
-              <SearchBar />
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -179,44 +159,28 @@ export default function Navbar() {
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
+                  anchorOrigin={{ vertical: "top", horizontal: "right", }}
                   keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
+                  transformOrigin={{ vertical: "top", horizontal: "right", }}
                   open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings
-                    .filter(
-                      (s) =>
-                        !s.permissions ||
-                        checkPermissions(s.permissions, userRoleTyps)
-                    )
+                  onClose={handleCloseUserMenu}>
+                  {settings.filter((s) => !s.permissions || checkPermissions(s.permissions, userRoleTyps))
                     .map((s) => (
                       <Link
                         key={s.route}
                         to={s.route}
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
+                        style={{ textDecoration: "none", color: "black" }} >
                         <MenuItem onClick={handleCloseUserMenu}>
                           <Typography textAlign="center">{s.title}</Typography>
                         </MenuItem>
                       </Link>
                     ))}
-
                   <MenuItem onClick={logout}>
                     <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
                 </Menu>
               </Box>
-            </>) : (
-            ""
-          )}
+            </>) : ("")}
         </Toolbar>
       </Container>
     </AppBar>
