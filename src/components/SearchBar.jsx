@@ -42,7 +42,7 @@ const SearchBarInput = styled(InputBase)(({ theme }) => ({
 const handleInputChange = (event) => {
   const inputValue = event.target.value;
   console.log(inputValue);
-  
+
 };
 function SearchBar() {
   return (
@@ -51,7 +51,7 @@ function SearchBar() {
         <SearchIcon />
       </SearchIconContainer>
       <SearchBarInput
-      className='search-input'
+        className='search-input'
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
         onChange={handleInputChange}

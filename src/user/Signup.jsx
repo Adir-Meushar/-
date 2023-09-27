@@ -9,12 +9,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GeneralContext } from '../App';
 import Switch from '@mui/material/Switch';
 import { FormControlLabel } from '@mui/material';
-
-const defaultTheme = createTheme();
 
 export const clientStructure = [
   { name: 'firstName', type: 'text', label: 'First Name', required: true, block: false },
@@ -37,6 +35,7 @@ export const clientStructure = [
 export default function Signup() {
   const navigate = useNavigate();
   const { setLoader } = useContext(GeneralContext);
+  const [isFormValid,setIsFormValid]=useState()
 
   const handleSubmit = ev => {
     ev.preventDefault();
@@ -74,7 +73,7 @@ export default function Signup() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -121,6 +120,7 @@ export default function Signup() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled
             >
               Signup
             </Button>
@@ -135,6 +135,6 @@ export default function Signup() {
         </Box>
       </Container>
       <br /> <br /> <br /> <br />
-    </ThemeProvider>
+      </>
   );
 }

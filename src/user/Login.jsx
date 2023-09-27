@@ -7,14 +7,13 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { GeneralContext } from "../App";
 import { useContext, useState } from "react";
 import { RoleTyps } from "../components/Navbar";
 import Joi from "joi";
 
-const defaultTheme = createTheme();
+
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -24,7 +23,7 @@ export default function Login() {
   const [isFormValid,setIsFormValid]=useState(false)
   const [errors, setErrors] = useState({})
   const navigate = useNavigate();
-  const { setUser, setLoader, setUserRoleType } = useContext(GeneralContext);
+  const { setUser, setLoader, setUserRoleType,snackbar,user } = useContext(GeneralContext);
 
   const schema = Joi.object({
     email: Joi.string().email({ tlds: false }).required(),
@@ -88,6 +87,7 @@ export default function Login() {
           setUserRoleType(RoleTyps.admin);
         }
         navigate("/");
+        snackbar(`Welcome ${data.fullName}`)
       })
       .catch((err) => {
         console.log(err.message);
@@ -96,7 +96,7 @@ export default function Login() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+  
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -164,7 +164,7 @@ export default function Login() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    
   );
 }
 

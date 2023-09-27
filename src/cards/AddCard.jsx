@@ -26,7 +26,7 @@ const initialFormData = cardStructur.reduce((obj, field) => {
 export default function AddCard({ added }) {
     const [ismodal, setIsModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
-    const { userRoleTyps } = useContext(GeneralContext);
+    const { userRoleTyps, setLoader } = useContext(GeneralContext);
     const inputChange = (ev) => {
         const { name, value } = ev.target;
         setFormData({
@@ -36,6 +36,7 @@ export default function AddCard({ added }) {
     };
     function addCard(ev) {
         ev.preventDefault();
+        setLoader(true)
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'POST',
@@ -45,7 +46,7 @@ export default function AddCard({ added }) {
             .then(res => res.json())
             .then((data) => {
                 added(data)
-           
+                setLoader(false)
                 setIsModal(false)
             });
     }

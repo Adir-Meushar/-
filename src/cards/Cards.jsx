@@ -6,7 +6,7 @@ import { AiOutlinePhone } from "react-icons/ai";
 
 export default function Cards() {
     const [cards, setCards] = useState([])
-    const { userRoleTyps,user } = useContext(GeneralContext);
+    const { userRoleTyps,user ,snackbar} = useContext(GeneralContext);
 
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
@@ -26,6 +26,7 @@ export default function Cards() {
                 .then(() => {
                     // Update the favorite status for the specific card
                     setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: true } : card));
+                    snackbar(`Card Number ${cardId} Was Added To your Favorite List`)
                 });
         }
     }
@@ -40,6 +41,7 @@ export default function Cards() {
                     localStorage.removeItem(`favorite_${user.id}_${cardId}`);
                     // Update the favorite status for the specific card
                     setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: false } : card));
+                    snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
                 });
         }
     }

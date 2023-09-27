@@ -6,6 +6,7 @@ import Loader from "./components/Loader";
 import BottomNav from "./components/BottomNav";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import Snackbar from "./components/SnackBar";
 
 export const darkTheme = createTheme({
   palette: {
@@ -32,6 +33,7 @@ export const GeneralContext = createContext();
 export default function App() {
   const [user, setUser] = useState();
   const [loader, setLoader] = useState(true);
+  const [snackbarText,setSnackbarText]=useState('')
   const [userRoleTyps, setUserRoleType] = useState(RoleTyps.none);
   const [currentTheme, setCurrentTheme] = useState(lightTheme);
   useEffect(() => {
@@ -65,15 +67,20 @@ export default function App() {
   const toggleTheme = () => {
     setCurrentTheme(currentTheme === lightTheme ? darkTheme : lightTheme);
   };
+  const snackbar = (text) => {
+    setSnackbarText(text);
+    setTimeout(() => setSnackbarText(""), 3 * 1000);
+  };
   return (
     <ThemeProvider theme={currentTheme}>
       <CssBaseline />
       <GeneralContext.Provider
-        value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType }}>
+        value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType ,snackbar}}>
         <Navbar theme={currentTheme} onToggleTheme={toggleTheme} />
         <Router />
         <BottomNav />
         {loader && <Loader />}
+        {snackbarText && <Snackbar text={snackbarText} />}
       </GeneralContext.Provider>
     </ThemeProvider>
   );

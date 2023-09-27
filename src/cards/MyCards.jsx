@@ -5,7 +5,7 @@ import { VscHeartFilled,VscHeart } from "react-icons/vsc";
 import { GeneralContext } from "../App";
 export default function MyCards() {
     const [cards, setCards] = useState([])
-    const { user } = useContext(GeneralContext);
+    const { user,snackbar,setLoader } = useContext(GeneralContext);
     useEffect(() => {
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -13,6 +13,7 @@ export default function MyCards() {
             .then(res => res.json())
             .then(data => {
                 setCards(data)
+                setLoader(false)
             });
     }, [])
     function addFav(cardId) {
@@ -25,6 +26,7 @@ export default function MyCards() {
                 .then(() => {
                     // Update the favorite status for the specific card
                     setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: true } : card));
+                    snackbar(`Card Number ${cardId} Was Added To your Favorite List`)
                 });
         }
     }
@@ -38,6 +40,7 @@ export default function MyCards() {
             })
                 .then(() => {
                     setCards(cards.filter((c) => c.id !== id))
+                    snackbar(`Card Number ${id} Was Deleted From your List`)
                 });
         }
     }
@@ -50,6 +53,7 @@ export default function MyCards() {
                 .then(() => {
                     localStorage.removeItem(`favorite_${user.id}_${cardId}`);
                     setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: false } : card));
+                    snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
                 });
         }
     }
