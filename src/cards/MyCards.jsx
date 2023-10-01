@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AddCard from "./AddCard";
 import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
+import {CiEdit} from "react-icons/ci";
 import { VscHeartFilled,VscHeart } from "react-icons/vsc";
 import { GeneralContext } from "../App";
 export default function MyCards() {
@@ -24,8 +25,6 @@ export default function MyCards() {
                 method: 'PUT',
             })
                 .then(() => {
-                    // Update the favorite status for the specific card
-                    setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: true } : card));
                     snackbar(`Card Number ${cardId} Was Added To your Favorite List`)
                 });
         }
@@ -52,7 +51,6 @@ export default function MyCards() {
             })
                 .then(() => {
                     localStorage.removeItem(`favorite_${user.id}_${cardId}`);
-                    setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: false } : card));
                     snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
                 });
         }
@@ -68,10 +66,10 @@ export default function MyCards() {
                         <div className="detail-box">
                             <div>
                                 <h3>{c.title}</h3>
-                                <p>{c.description}</p>
+                                <p>{c.subtitle}</p>
                             </div>
-                            <p>{c.phone}</p>
-                            <p>Adress: {c.city + ' ' + c.street}</p>
+                            <p>Email:{c.email}</p>
+                            <p>Adress: {c.street +' '+ c.city + ' ' + c.state}</p>
                             <p>Card Number:{c.id}</p>
                             <div className="btn-box">
                                 {localStorage.getItem(`favorite_${user.id}_${c.id}`) ? (
@@ -79,6 +77,7 @@ export default function MyCards() {
                                 ) : (
                                     <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
                                 )}
+                                <CiEdit className="card-icon"/>
                                 <AiOutlinePhone className="card-icon" />
                                 <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
                             </div>

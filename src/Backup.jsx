@@ -303,3 +303,37 @@ export default function Cards() {
         </>
     );
 }
+
+<div>
+<h2>FavCards</h2>
+<div className="container">
+    {favCards.map((c) => {
+        if (c.id === undefined) {
+            return null; // Skip rendering when c.id is undefined
+        }
+
+        return (
+            <div key={c.id} className="card-box">
+                <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
+                <div className="detail-box">
+                    <div>
+                        <h3>{c.title}</h3>
+                        <p>{c.subtitle}</p>
+                    </div>
+                    <p>Email:{c.email}</p>
+                    <p>Address: {c.street + ' ' + c.city + ' ' + c.state}</p>
+                    <p>Card Number:{c.id}</p>
+                    <div className="btn-box">
+                        <VscHeartFilled className="fav card-icon" onClick={() => removeFav(c.id)} />
+                        <AiOutlinePhone className="card-icon" />
+                        {c.clientId === user.id || userRoleTyps === RoleTyps.admin ? (
+                            <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
+                        ) : null}
+                    </div>
+                </div>
+            </div>
+        );
+    })}
+
+</div>
+</div>

@@ -7,25 +7,20 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { GeneralContext } from '../App';
 import Switch from '@mui/material/Switch';
 import { FormControlLabel } from '@mui/material';
 import { clientStructure } from './Signup';
-
-const defaultTheme = createTheme();
-
 export default function Account() {
   const navigate = useNavigate();
   const { user, setUser, setLoader } = useContext(GeneralContext);
-
+console.log(user);
   const handleSubmit = ev => {
     ev.preventDefault();
     const obj = {};
     const elements = ev.target.elements;
-
     clientStructure.filter(s => !s.initialOnly).forEach(s => {
       if (s.type === 'boolean') {
         obj[s.name] = elements[s.name].checked;
@@ -33,10 +28,8 @@ export default function Account() {
         obj[s.name] = elements[s.name].value;
       }
     });
-
     setLoader(true);
-
-    fetch(`https://api.shipap.co.il/clients/update?token=d2960d76-3431-11ee-b3e9-14dda9d4a5f0`, {
+    fetch(`https://api.shipap.co.il/clients/update?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
       credentials: 'include',
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
@@ -47,9 +40,8 @@ export default function Account() {
         navigate('/')
       });
   };
-
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <>
       {
         user ?
           <Container component="main" maxWidth="xs">
@@ -60,8 +52,7 @@ export default function Account() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-              }}
-            >
+              }}>
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                 <LockOutlinedIcon />
               </Avatar>
@@ -91,7 +82,6 @@ export default function Account() {
                               value={user[s.name]}
                               style={{ width: s.name === 'email' ? '210%' :'' }} //find other way..
                               onChange={ev => setUser({ ...user, [s.name]: ev.target.value })}
-                           
                             />
                         }
                       </Grid>
@@ -102,8 +92,7 @@ export default function Account() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
+                  sx={{ mt: 3, mb: 2 }}>
                   Save
                 </Button>
               </Box>
@@ -111,6 +100,6 @@ export default function Account() {
           </Container> : ''
       }
       <br /> <br /> <br /> <br />
-    </ThemeProvider>
+      </>
   );
 }

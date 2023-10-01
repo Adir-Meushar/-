@@ -2,15 +2,18 @@ import { useContext, useEffect, useState } from "react"
 import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
 import { VscHeartFilled } from "react-icons/vsc";
 import { GeneralContext } from "../App";
+import { RoleTyps } from "../components/Navbar";
 export default function FavCards() {
     const [favCards, setFavCards] = useState([])
-    const { user,snackbar,setLoader } = useContext(GeneralContext);
+    const { user,snackbar,setLoader,userRoleTyps } = useContext(GeneralContext);
+
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setFavCards(data)
                 setLoader(false)
             });
@@ -21,7 +24,7 @@ export default function FavCards() {
             return;
         } else {
             setLoader(true)
-            fetch(`https://api.shipap.co.il/business/cards/${id}?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
+            fetch(`https://api.shipap.co.il/${userRoleTyps===RoleTyps.admin?'admin':'business'}/cards/${id}?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
                 credentials: 'include',
                 method: 'DELETE',
             })
@@ -45,7 +48,6 @@ export default function FavCards() {
                     snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
                 });
         }
-
     }
     return (
         <div>
@@ -57,15 +59,16 @@ export default function FavCards() {
                         <div className="detail-box">
                             <div>
                                 <h3>{c.title}</h3>
-                                <p>{c.description}</p>
+                                <p>{c.subtitle}</p>
                             </div>
-                            <p>{c.phone}</p>
-                            <p>Adress: {c.city + ' ' + c.street}</p>
+                            <p>Email:{c.email}</p>
+                            <p>Adress: {c.street +' '+ c.city + ' ' + c.state}</p>
                             <p>Card Number:{c.id}</p>
                             <div className="btn-box">
                                 <VscHeartFilled className="fav card-icon" onClick={() => removeFav(c.id)} />
                                 <AiOutlinePhone className="card-icon" />
-                                <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
+                                {c.clientId===user.id||userRoleTyps===RoleTyps.admin?  <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />:''}
+                              
                             </div>
                         </div>
                     </div>
