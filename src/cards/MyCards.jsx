@@ -4,8 +4,10 @@ import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
 import {CiEdit} from "react-icons/ci";
 import { VscHeartFilled,VscHeart } from "react-icons/vsc";
 import { GeneralContext } from "../App";
+import EditCard from "./EditCard";
 export default function MyCards() {
     const [cards, setCards] = useState([])
+    const [editCard,setEditCard]=useState();
     const { user,snackbar,setLoader } = useContext(GeneralContext);
     useEffect(() => {
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
@@ -29,6 +31,18 @@ export default function MyCards() {
                 });
         }
     }
+    function removeFav(cardId) {
+        if (window.confirm('Are you sure you want to remove this Card from your Favorites?')) {
+            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
+                credentials: 'include',
+                method: 'PUT',
+            })
+                .then(() => {
+                    localStorage.removeItem(`favorite_${user.id}_${cardId}`);
+                    snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
+                });
+        }
+    }
     function deleteCard(id) {
         if (!window.confirm('Are you sure you want to delete this card?')) {
             return;
@@ -43,18 +57,14 @@ export default function MyCards() {
                 });
         }
     }
-    function removeFav(cardId) {
-        if (window.confirm('Are you sure you want to remove this Card from your Favorites?')) {
-            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    localStorage.removeItem(`favorite_${user.id}_${cardId}`);
-                    snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
-                });
+   function update(c){
+        if(c){
+            const i=cards.findIndex((x)=>x.id==c.id);
+            cards.splice(i,1,c);
+            setCards([...cards])
         }
-    }
+        setEditCard();
+   }
     return (
         <>
             <h2>My Cards</h2>
@@ -71,20 +81,21 @@ export default function MyCards() {
                             <p>Email:{c.email}</p>
                             <p>Adress: {c.street +' '+ c.city + ' ' + c.state}</p>
                             <p>Card Number:{c.id}</p>
-                            <div className="btn-box">
+                            {user&& <div className="btn-box">
                                 {localStorage.getItem(`favorite_${user.id}_${c.id}`) ? (
                                     <VscHeartFilled onClick={() => removeFav(c.id)} className="fav card-icon" />
                                 ) : (
                                     <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
                                 )}
-                                <CiEdit className="card-icon"/>
+                            
                                 <AiOutlinePhone className="card-icon" />
                                 <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
-                            </div>
+                            </div>}
+                           
                         </div>
                     </div>
                 ))}
             </div>
         </>
     );
-}
+}    {/* <EditCard card={editCard} cardEdited={update} />   */}

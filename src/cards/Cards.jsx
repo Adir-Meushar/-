@@ -61,7 +61,6 @@ export default function Cards() {
             <h2>Cards</h2>
             <div className="container">
                 {cards.map((c) => (
-                    
                     <div key={c.id} className="card-box shadow-lg">
                         <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
                         <div className="detail-box">

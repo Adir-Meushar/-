@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { GeneralContext } from "../App";
 import { RoleTyps } from "../components/Navbar";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-const cardStructur = [
+export const cardStructur = [
     { name: 'title', type: 'text', label: 'title', required: true, block: false },
     { name: 'description', type: 'text', label: 'description', required: true, block: false },
     { name: 'subtitle', type: 'text', label: 'subtitle', required: true, block: false },
@@ -19,7 +19,7 @@ const cardStructur = [
     { name: 'houseNumber', type: 'number', label: 'House Number', required: true, block: false },
     { name: 'zip', type: 'number', label: 'Zip', required: true, block: false },
 ];
-const initialFormData = cardStructur.reduce((obj, field) => {
+ const initialFormData = cardStructur.reduce((obj, field) => {
     obj[field.name] = '';
     return obj;
 }, {});
@@ -78,10 +78,9 @@ export default function AddCard({ added }) {
                     </div>
                 </div>
             )}
-            {/* <AiOutlinePlusCircle onClick={() => setIsModal(true)} className="plusBtn" /> */}
-            {userRoleTyps === RoleTyps.admin || userRoleTyps === RoleTyps.business ? (
+          
                 <AiOutlinePlusCircle onClick={() => setIsModal(true)} className="plusBtn" />
-            ) : ("")}
+          
         </div>
     );
 }

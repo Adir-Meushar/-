@@ -73,7 +73,8 @@ export default function App() {
   };
   return (
     <ThemeProvider theme={currentTheme}>
-      <CssBaseline />
+      <CssBaseline />  
+      {/*CssBaseline damaging other css but dark mode works */}
       <GeneralContext.Provider
         value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType ,snackbar}}>
         <Navbar theme={currentTheme} onToggleTheme={toggleTheme} />
