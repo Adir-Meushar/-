@@ -73,7 +73,7 @@ export default function AddCard({ added }) {
                                     />
                                 </label>
                             )}
-                            <button className="addBtn" >Add Card</button>
+                            <button className="save-btn" >Add Card</button>
                         </form>
                     </div>
                 </div>

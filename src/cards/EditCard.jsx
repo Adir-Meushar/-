@@ -3,17 +3,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../App";
 import { RoleTyps } from "../components/Navbar";
 import { cardStructur } from "./AddCard"
-import { CiEdit } from "react-icons/ci";
+import { FaRegEdit } from "react-icons/fa";
 
 export default function EditCard({ card, cardEdited }) {
-    const [formData, setFormData] = useState();
+    const [formData, setFormData] = useState({});
     const [ismodal, setIsModal] = useState(false);
     const {setLoader } = useContext(GeneralContext);
     useEffect(() => {
         if (card) {
+            console.log(card);
             setFormData(card);
         } else {
-            setFormData();
+            setFormData({});
         }
     }, [card])
     const inputChange = (ev) => {
@@ -34,6 +35,7 @@ export default function EditCard({ card, cardEdited }) {
         })
             .then(() => {
                 cardEdited(formData)
+                setIsModal(false)
                 setLoader(false)
                
             });
@@ -44,7 +46,7 @@ export default function EditCard({ card, cardEdited }) {
                 <div className="modal-frame">
                     <div className="modal">
                         <header>
-                            <button className="close" onClick={() => cardEdited()}>
+                            <button className="close" onClick={() => setIsModal(false)}>
                                 X
                             </button>
                             <h2>Edit Card</h2>
@@ -55,16 +57,16 @@ export default function EditCard({ card, cardEdited }) {
                                     <input placeholder={s.name}
                                         type={s.type}
                                         name={s.name}
-                                        value={formData[s.name]}
-                                        onChange={inputChange}
-                                    />
+                                        value={formData[s.name]||''}
+                                        onChange={inputChange}/>
                                 </label>
                             )}
-                            <button className="save" >Save Changes</button>
+                            <button className="save-btn" >Save Changes</button>
                         </form>
                     </div>
                 </div>
             )}
+            <FaRegEdit className="card-icon" onClick={()=>setIsModal(true)}/>
         </div>
     );
 }

@@ -87,8 +87,8 @@ export default function MyCards() {
                                 ) : (
                                     <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
                                 )}
-                            
                                 <AiOutlinePhone className="card-icon" />
+                                <EditCard card={c} cardEdited={update}/>  
                                 <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
                             </div>}
                            
@@ -98,4 +98,4 @@ export default function MyCards() {
             </div>
         </>
     );
-}    {/* <EditCard card={editCard} cardEdited={update} />   */}
+}  

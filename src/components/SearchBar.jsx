@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -39,12 +39,25 @@ const SearchBarInput = styled(InputBase)(({ theme }) => ({
     width: '35ch',
   },
 }));
-const handleInputChange = (event) => {
-  const inputValue = event.target.value;
-  console.log(inputValue);
 
-};
 function SearchBar() {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSearch = () => {
+    // You can perform the search action here using the inputValue
+    console.log('Performing search with input:', inputValue);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <SearchContainer>
       <SearchIconContainer>
@@ -54,7 +67,9 @@ function SearchBar() {
         className='search-input'
         placeholder="Search…"
         inputProps={{ 'aria-label': 'search' }}
+        value={inputValue}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
       />
     </SearchContainer>
   );

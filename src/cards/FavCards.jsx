@@ -3,10 +3,11 @@ import { AiOutlinePhone, AiFillDelete } from "react-icons/ai";
 import { VscHeartFilled } from "react-icons/vsc";
 import { GeneralContext } from "../App";
 import { RoleTyps } from "../components/Navbar";
+import EditCard from "./EditCard";
 export default function FavCards() {
     const [favCards, setFavCards] = useState([])
+    const [editCard,setEditCard]=useState();
     const { user, snackbar, setLoader, userRoleTyps } = useContext(GeneralContext);
-
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -50,6 +51,14 @@ export default function FavCards() {
                 );
         }
     }
+    function update(c){
+        if(c){
+            const i=favCards.findIndex((x)=>x.id==c.id);
+            favCards.splice(i,1,c);
+            setFavCards([...favCards])
+        }
+        setEditCard();
+   }
     return (
         <div>
             <h2>FavCards</h2>
@@ -69,7 +78,10 @@ export default function FavCards() {
                                 <VscHeartFilled className="fav card-icon" onClick={() => removeFav(c.id)} />
                                 <AiOutlinePhone className="card-icon" />
                                 {user && (c.clientId === user.id || userRoleTyps === RoleTyps.admin) ? (
-                                    <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
+                                    <>
+                                    <EditCard card={c} cardEdited={update}/> 
+                                    <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} /> 
+                                    </>
                                 ) : ''}
                             </div>
                         </div>
