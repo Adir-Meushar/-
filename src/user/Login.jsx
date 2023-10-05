@@ -12,9 +12,6 @@ import { GeneralContext } from "../App";
 import { useContext, useState } from "react";
 import { RoleTyps } from "../components/Navbar";
 import Joi from "joi";
-
-
-
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',

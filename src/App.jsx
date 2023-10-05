@@ -36,6 +36,11 @@ export default function App() {
   const [snackbarText,setSnackbarText]=useState('')
   const [userRoleTyps, setUserRoleType] = useState(RoleTyps.none);
   const [currentTheme, setCurrentTheme] = useState(lightTheme);
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchChange = (query) => {
+    setSearchQuery(query); // Update the search query in the parent component
+  };
+
   useEffect(() => {
     fetch(`https://api.shipap.co.il/clients/login`, {
       credentials: "include",
@@ -77,8 +82,8 @@ export default function App() {
       {/*CssBaseline damaging other css but dark mode works */}
       <GeneralContext.Provider
         value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType ,snackbar}}>
-        <Navbar theme={currentTheme} onToggleTheme={toggleTheme} />
-        <Router />
+        <Navbar theme={currentTheme} onToggleTheme={toggleTheme}   onSearchChange={handleSearchChange}/>
+        <Router query={searchQuery} />
         <BottomNav />
         {loader && <Loader />}
         {snackbarText && <Snackbar text={snackbarText} />}

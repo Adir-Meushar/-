@@ -1,14 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../App";
-import { RoleTyps } from "../components/Navbar";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
-import { AiFillDelete, AiOutlinePhone } from "react-icons/ai";
-import EditCard from "./EditCard";
-
-export default function Cards() {
+import Cardiii from "./Card";
+export default function Cards({ searchQuery }) {
     const [cards, setCards] = useState([])
-    const [editCard,setEditCard]=useState();
-    const { userRoleTyps, user, snackbar } = useContext(GeneralContext);
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
             .then(res => res.json())
@@ -16,95 +9,28 @@ export default function Cards() {
                 setCards(data)
             });
     }, [])
+    function updateCardInEdit(updatedCard) {
+        // Find the index of the updated card in the cards state and update it
+        const updatedCards = cards.map((c) =>
+          c.id === updatedCard.id ? updatedCard : c
+        );
+        setCards(updatedCards);
+      }
+      function deleteCardFromState(deletedCardId) {
+        // Filter out the deleted card from the cards state
+        const updatedCards = cards.filter((c) => c.id !== deletedCardId);
+        setCards(updatedCards);
+      }
+   const filteredCards = cards.filter((c) =>
+   c.title.toLowerCase().includes(searchQuery.toLowerCase())
 
-    function addFav(cardId) {
-        if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
-            localStorage.setItem(`favorite_${user.id}_${cardId}`, 'true');
-            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    snackbar(`Card Number ${cardId} Was Added To your Favorite List`)
-                });
-        }
-    }
-
-    function removeFav(cardId) {
-        if (window.confirm('Are you sure you want to remove this Card from your Favorites?')) {
-            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    localStorage.removeItem(`favorite_${user.id}_${cardId}`);
-                    snackbar(`Card Number ${cardId} Was Removed From your Favorite List`)
-                });
-        }
-    }
-    function deleteCard(id) {
-        if (!window.confirm('Are you sure you want to delete this card?')) {
-            return;
-        } else {
-            fetch(`https://api.shipap.co.il/${userRoleTyps === RoleTyps.admin ? 'admin' : 'business'}/cards/${id}?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'DELETE',
-            })
-                .then(() => {
-                    setCards(cards.filter((c) => c.id !== id))
-                    snackbar(`Card Number ${id} Was Deleted From your List`)
-                });
-        }
-    }
-    function update(c){
-        if(c){
-            const i=cards.findIndex((x)=>x.id==c.id);
-            cards.splice(i,1,c);
-            setCards([...cards])
-        }
-        setEditCard();
-   }
+ );
     return (
         <>
             <h2>Cards</h2>
             <div className="container">
-                {cards.map((c) => (
-                    <div key={c.id} className="card-box shadow-lg">
-                        <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
-                        <div className="detail-box">
-                            <div>
-                                <h3>{c.title}</h3>
-                                <p>{c.subtitle}</p>
-                            </div>
-                            <p>Email:{c.email}</p>
-                            <p>Address: {c.street + ' ' + c.city + ' ' + c.state}</p>
-                            <p>Card Number: {c.id}</p>
-                            <div className="btn-box">
-                                {user ? (
-                                    <>
-                                        {localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
-                                            <VscHeartFilled onClick={() => removeFav(c.id)} className="fav card-icon" />
-                                        ) : (
-                                            <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
-                                        )}
-                                        <AiOutlinePhone className="card-icon" />
-                                        {
-                                          (c.clientId === user.id || userRoleTyps === RoleTyps.admin)  ? (
-                                                <>
-                                                    <EditCard card={c} cardEdited={update} />
-                                                    <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
-                                                </>
-                                            ) : (
-                                                ""
-                                            )
-                                        }
-                                    </>
-                                ) : (
-                                    <AiOutlinePhone className="card-icon" />
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                {filteredCards.map((c) => (
+                    <Cardiii c={c} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState}/>
                 ))}
             </div>
         </>

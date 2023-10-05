@@ -40,7 +40,7 @@ const SearchBarInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function SearchBar() {
+export default function SearchBar({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (event) => {
@@ -49,7 +49,7 @@ function SearchBar() {
 
   const handleSearch = () => {
     // You can perform the search action here using the inputValue
-    console.log('Performing search with input:', inputValue);
+    onSearch(inputValue);
   };
 
   const handleKeyPress = (event) => {
@@ -75,4 +75,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+

@@ -9,13 +9,13 @@ import About from './pages/About';
 import UsersMenagment from './admin/UserMenagment';
 import BussinessPage from './pages/BusinessPage';
 
-export default function Router() {
+export default function Router({query}) {
     return (
         <Routes>
-            <Route path="/" element={<Cards />} />
+            <Route path="/" element={<Cards searchQuery={query}/>} />
             <Route path="/about" element={<About />} />
-            <Route path="/mycards" element={<MyCards />} />
-            <Route path="/favcards" element={<FavCards />} />
+            <Route path="/mycards" element={<MyCards searchQuery={query}/>} />
+            <Route path="/favcards" element={<FavCards searchQuery={query} />} />
             <Route path="/admin" element={<UsersMenagment />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

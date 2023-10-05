@@ -12,10 +12,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link, useNavigate, useResolvedPath } from "react-router-dom";
+import { Link, useLocation, useNavigate, useResolvedPath } from "react-router-dom";
 import { GeneralContext, lightTheme } from "../App";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
-import SearchBar from "./SearchBar";
 export const RoleTyps = {
   none: 0,
   user: 1,
@@ -35,9 +34,15 @@ const pages = [
 const settings = [
   { route: "/account", title: "Account", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
 ];
-export default function Navbar({ theme, onToggleTheme }) {
+export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    onSearchChange(event.target.value); // Pass the search query to the parent component
+  }
   const { user, setUser, setLoader, userRoleTyps, setUserRoleType } = useContext(GeneralContext);
   const navigate = useNavigate();
   const path = useResolvedPath().pathname;
@@ -81,7 +86,7 @@ export default function Navbar({ theme, onToggleTheme }) {
               mr: 2, display: { xs: "none", md: "flex" }, fontFamily: "monospace",
               fontWeight: 700, letterSpacing: ".3rem", color: "inherit", textDecoration: "none",
             }}>
-            {user ? user.fullName:"Bussines Cards"}
+            {user ? user.fullName : "Bussines Cards"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -144,7 +149,9 @@ export default function Navbar({ theme, onToggleTheme }) {
                 </Link>
               ))}
           </Box>
-          <SearchBar />
+          {location.pathname === '/about'||location.pathname === '/login' ||location.pathname === '/signup'? '' : 
+          <div><input className='search' type="text" placeholder="Search..."
+            value={searchQuery}onChange={handleSearchChange}/></div>}
           {theme === lightTheme ? <MdOutlineDarkMode onClick={onToggleTheme} className="theme" /> :
             <MdOutlineLightMode onClick={onToggleTheme} className="theme" />}
           {user ? (
@@ -156,8 +163,7 @@ export default function Navbar({ theme, onToggleTheme }) {
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
+                  sx={{ mt: "45px" }} id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{ vertical: "top", horizontal: "right", }}
                   keepMounted
@@ -167,8 +173,7 @@ export default function Navbar({ theme, onToggleTheme }) {
                   {settings.filter((s) => !s.permissions || checkPermissions(s.permissions, userRoleTyps))
                     .map((s) => (
                       <Link
-                        key={s.route}
-                        to={s.route}
+                        key={s.route} to={s.route}
                         style={{ textDecoration: "none", color: "black" }} >
                         <MenuItem onClick={handleCloseUserMenu}>
                           <Typography textAlign="center">{s.title}</Typography>
