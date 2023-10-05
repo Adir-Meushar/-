@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Cardiii from "./Card";
+import Card from "./Card";
 export default function FavCards({ searchQuery }) {
     const [favCards, setFavCards] = useState([])
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function FavCards({ searchQuery }) {
             <h2>Fav Cards</h2>
             <div className="container">
                 {filteredCards.map((c) => (
-                    <Cardiii c={c} 
+                    <Card c={c} 
                     cardEdited={updateCardInEdit}
                     cardDeleted={deleteCardFromState}
                     removeFromFav={removeFavFromState} />

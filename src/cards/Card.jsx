@@ -7,7 +7,7 @@ import EditCard from "./EditCard";
 import { useLocation } from "react-router-dom";
 
 
-export default function Cardiii({ c,cardEdited,cardDeleted,removeFromFav }) {
+export default function Card({ c,cardEdited,cardDeleted,removeFromFav }) {
   const [cards, setCards] = useState([])
   const [editCard,setEditCard]=useState();
   const location = useLocation();

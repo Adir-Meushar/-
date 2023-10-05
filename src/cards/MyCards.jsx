@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Cardiii from "./Card";
+import Card from "./Card";
 import AddCard from "./AddCard";
 export default function MyCards({ searchQuery }) {
     const [myCards, setMyCards] = useState([])
@@ -32,7 +32,7 @@ export default function MyCards({ searchQuery }) {
             <h2>My Cards</h2>
             <div className="container">
                 {filteredCards.map((c) => (
-                    <Cardiii c={c} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
+                    <Card c={c} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
                 ))}
                 <AddCard added={(newCard) => setMyCards([...myCards, newCard])} />
             </div>
