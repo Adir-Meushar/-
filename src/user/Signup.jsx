@@ -48,7 +48,7 @@ export default function Signup() {
     street:'',
     houseNumber:'',
     zip:'',
-    bussines:'',
+    business:'',
   })
   const [isFormValid,setIsFormValid]=useState(false)
   const [errors, setErrors] = useState({})
@@ -68,13 +68,13 @@ export default function Signup() {
     }), 
     imgUrl:Joi.string(),
     imgAlt:Joi.string(),
-    state:Joi.string(),
-    country:Joi.string(),
-    city:Joi.string(),
-    street:Joi.string(),
+    state:Joi.string().min(2),
+    country:Joi.string().min(2),
+    city:Joi.string().min(2),
+    street:Joi.string().min(2),
     houseNumber:Joi.number(),
     zip:Joi.number(),
-    bussines:Joi.allow()
+    business:Joi.allow()
   });
   const handleValid = (ev) => {
     const { name, value } = ev.target;
@@ -146,7 +146,7 @@ export default function Signup() {
                   <Grid key={s.name} item xs={12} sm={s.block ? 12 : 6}>
                     {
                       s.type === 'boolean' ?
-                        <FormControlLabel
+                        <FormControlLabel style={{marginTop:'25px'}}
                           control={<Switch color="primary" name={s.name} />}
                           label={s.label}
                           labelPlacement="start"

@@ -30,7 +30,7 @@ export default function Cards({ searchQuery }) {
             <h2>Cards</h2>
             <div className="container">
                 {filteredCards.map((c) => (
-                    <Card c={c} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState}/>
+                    <Card c={c} key={c.id} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState}/>
                 ))}
             </div>
         </>

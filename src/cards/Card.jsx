@@ -5,7 +5,7 @@ import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { AiFillDelete, AiOutlinePhone } from "react-icons/ai";
 import EditCard from "./EditCard";
 import { useLocation } from "react-router-dom";
-
+import './card.css'
 
 export default function Card({ c,cardEdited,cardDeleted,removeFromFav }) {
   const [cards, setCards] = useState([])

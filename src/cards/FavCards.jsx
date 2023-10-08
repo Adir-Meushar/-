@@ -37,6 +37,7 @@ export default function FavCards({ searchQuery }) {
             <div className="container">
                 {filteredCards.map((c) => (
                     <Card c={c} 
+                    key={c.id}
                     cardEdited={updateCardInEdit}
                     cardDeleted={deleteCardFromState}
                     removeFromFav={removeFavFromState} />

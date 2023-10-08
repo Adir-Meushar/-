@@ -3,15 +3,20 @@ import Card from "./Card";
 import AddCard from "./AddCard";
 export default function MyCards({ searchQuery }) {
     const [myCards, setMyCards] = useState([])
-    useEffect(() => {
+    const fetchMyCards = () => {
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
         })
-            .then(res => res.json())
-            .then(data => {
-                setMyCards(data)
-            });
-    }, [])
+        .then(res => res.json())
+        .then(data => {
+            setMyCards(data);
+        });
+    };
+
+    useEffect(() => {
+        fetchMyCards();
+    }, []); // Fetch cards when the component mounts
+
     function updateCardInEdit(updatedCard) {
         // Find the index of the updated card in the cards state and update it
         const updatedCards = myCards.map((c) =>
@@ -32,9 +37,9 @@ export default function MyCards({ searchQuery }) {
             <h2>My Cards</h2>
             <div className="container">
                 {filteredCards.map((c) => (
-                    <Card c={c} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
+                    <Card c={c} key={c.id} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
                 ))}
-                <AddCard added={(newCard) => setMyCards([...myCards, newCard])} />
+                <AddCard added={() => fetchMyCards()} />
             </div>
         </>
     );
