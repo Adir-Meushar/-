@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
 import AddCard from "./AddCard";
+import { GeneralContext } from "../App";
 export default function MyCards({ searchQuery }) {
     const [myCards, setMyCards] = useState([])
+    const{setLoader}=useContext(GeneralContext)
     const fetchMyCards = () => {
+        setLoader(true)
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
         })
         .then(res => res.json())
         .then(data => {
             setMyCards(data);
+            setLoader(false)
         });
     };
 

@@ -21,7 +21,7 @@ export const cardStructur = [
     { name: 'city', type: 'text', label: 'City', required: true, block: false },
     { name: 'street', type: 'text', label: 'Street', required: true, block: false },
     { name: 'houseNumber', type: 'number', label: 'House Number', required: true, block: false },
-    { name: 'description', type: 'text', label: 'description', required: true, block: false },
+    { name: 'description', type: 'text', label: 'Description', required: true, block: false },
     { name: 'zip', type: 'number', label: 'Zip', required: true, block: false },
 
 ];
@@ -119,7 +119,7 @@ export default function AddCard({ added }) {
                                                 <TextareaAutosize className="textArea"
                                                     rowsMin={3}
                                                     required={s.required}
-                                                    label={s.label}
+                                                    placeholder={s.label+'...'}
                                                     name={s.name}
                                                     onChange={handleValid}
                                                     value={formData[s.name]}

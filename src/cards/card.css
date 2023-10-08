@@ -7,9 +7,12 @@
     text-align: left;
     border-radius: 7px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .img-box{
-    height: 48%;
+    height: 45%;
   }
   .img-box img{
     width: 100%; 
@@ -19,11 +22,20 @@
   .detail-box{
    font-size: .9rem;
    padding-left: 10px;
+   height: 47%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+  }
+  .detail-box h3{
+    padding-bottom:20px ;
   }
   .btn-box{
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+    margin-bottom:7px ;
+
   }
   .card-icon{
     font-size: 1.5rem;

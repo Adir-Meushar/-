@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import {RiLogoutBoxRLine} from "react-icons/ri";
 import { Link, useLocation, useNavigate, useResolvedPath } from "react-router-dom";
 import { GeneralContext, lightTheme } from "../App";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
@@ -86,7 +87,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               mr: 2, display: { xs: "none", md: "flex" }, fontFamily: "monospace",
               fontWeight: 700, letterSpacing: ".3rem", color: "inherit", textDecoration: "none",
             }}>
-            {user ? user.fullName : "Bussines Cards"}
+            {user ? user.fullName : "Business Cards"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -110,7 +111,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               {pages.filter((page) => !page.permissions ||
                 checkPermissions(page.permissions, userRoleTyps))
                 .map((page) => (
-                  <Link key={page.route} to={page.route}>
+                  <Link key={page.route} to={page.route}  style={{ textDecoration: "none", color:'black' }}>
                     <MenuItem onClick={handleCloseNavMenu}>
                       <Typography textAlign="center">{page.title}</Typography>
                     </MenuItem>
@@ -149,7 +150,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
                 </Link>
               ))}
           </Box>
-          {location.pathname === '/about'||location.pathname === '/login' ||location.pathname === '/signup'? '' : 
+          {location.pathname === '/about'||location.pathname === '/login'||location.pathname === '/account' ||location.pathname === '/signup'? '' : 
           <div><input className='search' type="text" placeholder="Search..."
             value={searchQuery}onChange={handleSearchChange}/></div>}
           {theme === lightTheme ? <MdOutlineDarkMode onClick={onToggleTheme} className="theme" /> :
@@ -174,14 +175,14 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
                     .map((s) => (
                       <Link
                         key={s.route} to={s.route}
-                        style={{ textDecoration: "none", color: "black" }} >
+                        style={{ textDecoration: "none", color:'black' }} >
                         <MenuItem onClick={handleCloseUserMenu}>
                           <Typography textAlign="center">{s.title}</Typography>
                         </MenuItem>
                       </Link>
                     ))}
                   <MenuItem onClick={logout}>
-                    <Typography textAlign="center">Logout</Typography>
+                    <Typography textAlign="center">Logout <RiLogoutBoxRLine style={{marginBottom:'-3px'}}/></Typography>
                   </MenuItem>
                 </Menu>
               </Box>

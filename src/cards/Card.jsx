@@ -79,7 +79,9 @@ function update(c) {
         <p>Email: {c.email}</p>
         <p>Address: {c.street + ' ' + c.city + ' ' + c.state}</p>
         <p>Card Number: {c.id}</p>
-        {<div className="btn-box">
+       
+      </div>
+      {<div className="btn-box">
           {user ? (
             <>
               {localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
@@ -103,7 +105,6 @@ function update(c) {
             <AiOutlinePhone className="card-icon" />
           )}
         </div>}
-      </div>
     </div>
   );
 }

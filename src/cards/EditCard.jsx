@@ -107,7 +107,7 @@ export default function EditCard({ card, cardEdited }) {
                                             <div>
                                                 <TextareaAutosize className="textArea"
                                                     rowsMin={3}
-                                                    placeholder={s.label}
+                                                    placeholder={s.name}
                                                     name={s.name}
                                                     onChange={handleValid}
                                                     value={formData[s.name]}

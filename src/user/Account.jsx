@@ -18,7 +18,7 @@ const modifiedClientStructure = clientStructure.map((item) =>
   item.name === 'email' ? { ...item, block: true } : item);
 
 export default function EditAccount() {
-  const { user, setUser, setLoader } = useContext(GeneralContext);
+  const { user, setUser, setLoader,snackbar } = useContext(GeneralContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     // Set initial state to empty values
@@ -113,6 +113,7 @@ export default function EditAccount() {
         setLoader(false);
         // You can redirect or update state as needed after successful update
         navigate('/');
+        snackbar('Your Account Was Updated!')
       })
       .catch((err) => {
         console.error(err);

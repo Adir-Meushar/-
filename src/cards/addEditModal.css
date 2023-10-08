@@ -23,7 +23,8 @@
   }
   
   .modal h2 {
-    color: #282c34;
+    color: #696262;
+    margin-top: 4px;
   }
   
    .modal .close {
@@ -67,7 +68,10 @@
     width: 100%;
     resize: none;
     outline: none;
-   
+  }
+  .textArea::placeholder{
+    font-size: 1.1rem;
+    font-weight: lighter;
   }
   .helper-text{
     font-size: .8rem;

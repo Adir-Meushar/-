@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
+import { GeneralContext } from "../App";
 export default function FavCards({ searchQuery }) {
     const [favCards, setFavCards] = useState([])
+    const {setLoader}=useContext(GeneralContext)
     useEffect(() => {
+        setLoader(true)
         fetch(`https://api.shipap.co.il/cards/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
         })
             .then(res => res.json())
             .then(data => {
                 setFavCards(data)
+                setLoader(false)
             });
     }, [])
     function updateCardInEdit(updatedCard) {

@@ -1,3 +1,15 @@
+
+.search{
+  height: 30px;
+  width: 13vw;
+  outline: none;
+  border-radius: 10px;
+  border: none;
+  
+}
+.search::placeholder{
+  padding-left: 10px;
+}
 a {
   text-decoration: none;
 }
@@ -12,7 +24,7 @@ button{
 .container{
   width: 85vw;
   margin: 0 auto;
- margin-bottom: 5%;
+  margin-bottom: 7%;
   gap: 30px;
   display: grid;
   grid-template-columns: repeat(4,1fr);
@@ -21,9 +33,9 @@ button{
   font-size:4rem;
   cursor: pointer;
   position: absolute;
-  bottom: 50px;
+  bottom: 70px;
   right: 50px;
-  color: rgb(16, 16, 79);
+ 
   transition: all .5s;
 }
 .plusBtn:hover,.card-icon:hover{
