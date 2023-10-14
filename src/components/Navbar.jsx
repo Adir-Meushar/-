@@ -84,7 +84,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
             component="a"
             href="/"
             sx={{
-              mr: 2, display: { xs: "none", md: "flex" }, fontFamily: "monospace",
+              mr: 2, display: { xs: "none", md: "flex" }, 
               fontWeight: 700, letterSpacing: ".3rem", color: "inherit", textDecoration: "none",
             }}>
             {user ? user.fullName : "Business Cards"}
@@ -129,13 +129,12 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
             }}>
-            My Cards
+             {user ? user.fullName : "Business Cards"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.filter((page) => !page.permissions ||

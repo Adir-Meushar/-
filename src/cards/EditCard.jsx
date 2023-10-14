@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../App";
+import { GeneralContext,darkTheme } from "../App";
 import { cardStructur } from "./AddCard"
 import { FaRegEdit } from "react-icons/fa";
 import Joi from "joi";
@@ -9,7 +9,7 @@ import { Button, CssBaseline, Grid, TextField, TextareaAutosize, Typography } fr
 export default function EditCard({ card, cardEdited }) {
     const [formData, setFormData] = useState({});
     const [ismodal, setIsModal] = useState(false);
-    const { setLoader,snackbar } = useContext(GeneralContext);
+    const { setLoader,snackbar,currentTheme } = useContext(GeneralContext);
     const [isFormValid, setIsFormValid] = useState(false)
     const [errors, setErrors] = useState({})
     const schema = Joi.object({
@@ -86,7 +86,7 @@ export default function EditCard({ card, cardEdited }) {
                 <Container className="modal-frame" component="main" maxWidth="xxl">
                     <CssBaseline />
                     <Box
-                        className='modal'
+                       className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
                         sx={{
                             width: '65vw',
                             height: '80vh',
@@ -112,7 +112,7 @@ export default function EditCard({ card, cardEdited }) {
                                                     onChange={handleValid}
                                                     value={formData[s.name]}
                                                     autoComplete={s.name}
-                                                    style={{ maxHeight: '200px', minHeight: '100px' }}
+                                                    style={{ maxHeight: '200px', minHeight: '110px'}}
                                                 />
                                                 <span className="helper-text">{errors[s.name]}</span>
                                             </div>

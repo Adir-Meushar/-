@@ -5,15 +5,11 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BiSolidUserRectangle } from "react-icons/bi";
-import { GeneralContext } from "../App";
+import { GeneralContext,darkTheme } from "../App";
 import { RoleTyps } from './Navbar';
 import { Link, useResolvedPath } from 'react-router-dom';
 
-const useStyles = () => styled('div')({ 
-    root: {
-        width: 500,
-    },
-});
+
 
 const pages = [
     { route: "/about", title: "About", icon: <HiOutlineInformationCircle /> },
@@ -25,10 +21,10 @@ const checkPermissions = (permissions, userRoletype) => {
     return permissions.includes(userRoletype);
 };
 export default function BottomNav() {
-    const classes = useStyles();
+   
     const [value, setValue] = useState(0);
     const path = useResolvedPath().pathname;
-    const { user, setUser, setLoader, userRoleTyps, setUserRoleType } = useContext(GeneralContext);
+    const { user, setUser, setLoader, userRoleTyps, setUserRoleType,currentTheme } = useContext(GeneralContext);
 
     // Find the index of the page that matches the current path
     const activePageIndex = pages.findIndex((page) => page.route === path);
@@ -43,13 +39,17 @@ export default function BottomNav() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+ const style={
+    backgroundColor:currentTheme===darkTheme?'rgb(40 40 40)':'#aad3ff',
+    color: currentTheme === darkTheme ? 'white' : 'black',
+ }
     return (
         <BottomNavigation
             value={value}
             onChange={handleChange}
             showLabels
-            className={`${classes.root} bottom-nav`}
+            className={'bottom-nav'}
+            style={style}
         >
             {pages
                 .filter((page) => !page.permissions || checkPermissions(page.permissions, userRoleTyps))
@@ -66,3 +66,6 @@ export default function BottomNav() {
         </BottomNavigation>
     );
 }
+
+
+// ${classes.root}

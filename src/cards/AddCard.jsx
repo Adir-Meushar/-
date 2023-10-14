@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { GeneralContext } from "../App";
+import { GeneralContext, darkTheme } from "../App";
 import { RoleTyps } from "../components/Navbar";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Joi from "joi";
@@ -70,7 +70,7 @@ export default function AddCard({ added }) {
         setIsFormValid(!validate.error)
         setErrors(tempErrors)
     }
-    const {  setLoader,snackbar } = useContext(GeneralContext);
+    const {  setLoader,snackbar,currentTheme } = useContext(GeneralContext);
  
     function addCard(ev) {
         ev.preventDefault();
@@ -91,13 +91,14 @@ export default function AddCard({ added }) {
                 snackbar(`Card Added Succesfully!`)
             });
     }
+    console.log(currentTheme);
     return (
         <>
             {ismodal && (
                 <Container className="modal-frame" component="main" maxWidth="xxl">
                     <CssBaseline />
                     <Box
-                        className='modal'
+                       className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
                         sx={{
                             width: '65vw',
                             height: '80vh',
@@ -117,14 +118,14 @@ export default function AddCard({ added }) {
                                         {s.name === 'description' ? (
                                             <div>
                                                 <TextareaAutosize className="textArea"
-                                                    rowsMin={3}
+                                                   
                                                     required={s.required}
                                                     placeholder={s.label+'...'}
                                                     name={s.name}
                                                     onChange={handleValid}
                                                     value={formData[s.name]}
                                                     autoComplete={s.name}
-                                                    style={{ maxHeight: '200px', minHeight: '100px' }}
+                                                    style={{ maxHeight: '200px', minHeight: '110px' }}
                                                 />
                                                 <span className="helper-text">{errors[s.name]}</span>
                                             </div>
@@ -147,11 +148,13 @@ export default function AddCard({ added }) {
                                 ))}
                                 <Grid item xs={12}>
                                     <Button
+                                     className="save-btn"
                                         type="submit"
                                         fullWidth
                                         variant="contained"
                                         disabled={!isFormValid}>
-                                        Add
+                                            
+                                        Submit
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -159,7 +162,7 @@ export default function AddCard({ added }) {
                     </Box>
                 </Container>
             )}
-            <AiOutlinePlusCircle onClick={() => setIsModal(true)} className="plusBtn" />
+            <AiOutlinePlusCircle onClick={() => setIsModal(true)} className={currentTheme===darkTheme?'add-btn-dark':'add-btn-light'} />
         </>
     );
 }      

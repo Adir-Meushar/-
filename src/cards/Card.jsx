@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { GeneralContext } from "../App";
+import { GeneralContext,darkTheme } from "../App";
 import { RoleTyps } from "../components/Navbar";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { AiFillDelete, AiOutlinePhone } from "react-icons/ai";
@@ -11,7 +11,7 @@ export default function Card({ c,cardEdited,cardDeleted,removeFromFav }) {
   const [cards, setCards] = useState([])
   const [editCard,setEditCard]=useState();
   const location = useLocation();
-  const { userRoleTyps, user, snackbar } = useContext(GeneralContext);
+  const { userRoleTyps, user, snackbar,currentTheme } = useContext(GeneralContext);
 
   function addFav(cardId) {
     if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
@@ -67,7 +67,7 @@ function update(c) {
   setEditCard();
 }
   return ( 
-    <div key={c.id} className="card-box shadow-lg">
+    <div key={c.id} className={`card-box ${currentTheme === darkTheme ? 'dark-card' : 'light-card'}`}>
       <div className="img-box">
         <img src={c.imgUrl} alt={c.imgAlt} />
       </div>

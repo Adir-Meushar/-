@@ -1,5 +1,6 @@
 import Router from "./Router";
 import "./App.css";
+import './responsive.css';
 import Navbar, { RoleTyps } from "./components/Navbar";
 import { createContext, useEffect, useState } from "react";
 import Loader from "./components/Loader";
@@ -11,7 +12,13 @@ import Snackbar from "./components/SnackBar";
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    background:{
+      default:'#161616'
+    }
   },
+  typography:{
+    fontFamily:'Inter',
+  }
 });
 export const lightTheme = createTheme({
   palette: {
@@ -22,11 +29,14 @@ export const lightTheme = createTheme({
       main: '#FF4081', // Define your secondary color
     },
     background: {
-      default: '#FFFFFF', // Define your background color
+      default: '#d8f5ff', // Define your background color
     },
     // Other theme options...
   },
   // Typography and other theme options...
+  typography:{
+    fontFamily:'Inter',
+  }
 });
 export const GeneralContext = createContext();
 
@@ -81,7 +91,7 @@ export default function App() {
       <CssBaseline />  
       {/*CssBaseline damaging other css but dark mode works */}
       <GeneralContext.Provider
-        value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType ,snackbar}}>
+        value={{ user, setUser, setLoader, userRoleTyps, setUserRoleType ,snackbar,currentTheme}}>
         <Navbar theme={currentTheme} onToggleTheme={toggleTheme}   onSearchChange={handleSearchChange}/>
         <Router query={searchQuery} />
         <BottomNav />

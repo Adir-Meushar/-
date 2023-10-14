@@ -57,11 +57,13 @@ export default function Signup() {
     middleName:Joi.allow(),
     lastName:Joi.string().min(2),
     email: Joi.string().email({ tlds: false }).required(),
-    password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
-    .messages({
-      "string.pattern.base": "Password must meet the specified criteria",
-      "any.required": "Password is required",
-    }),
+    password: Joi.string()
+    // .pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
+    // .messages({
+    //   "string.pattern.base": "Password must meet the specified criteria",
+    //   "any.required": "Password is required",
+    // })
+    ,
     phone: Joi.string().pattern(/^[0-9]{10,15}$/).required().messages({
       "string.pattern.base": "Phone must be a number 10-13.",
       "any.required": "Password is required",

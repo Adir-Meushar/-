@@ -6,7 +6,7 @@ import Cards from './cards/Cards';
 import MyCards from './cards/MyCards';
 import FavCards from './cards/FavCards';
 import About from './pages/About';
-import UsersMenagment from './admin/UserMenagment';
+import UsersManagement from './admin/UsersManagement';
 import BussinessPage from './pages/BusinessPage';
 
 export default function Router({query}) {
@@ -16,7 +16,7 @@ export default function Router({query}) {
             <Route path="/about" element={<About />} />
             <Route path="/mycards" element={<MyCards searchQuery={query}/>} />
             <Route path="/favcards" element={<FavCards searchQuery={query} />} />
-            <Route path="/admin" element={<UsersMenagment />} />
+            <Route path="/admin" element={<UsersManagement />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/account" element={<Account />} />

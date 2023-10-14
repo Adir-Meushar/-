@@ -38,7 +38,10 @@ export default function MyCards({ searchQuery }) {
     );
     return (
         <>
-            <h2>My Cards</h2>
+              <div className="page-header">
+                <h1 >My Cards</h1>
+                <p>Here you can find and create your own businesses and attractionss cards.</p>
+            </div>
             <div className="container">
                 {filteredCards.map((c) => (
                     <Card c={c} key={c.id} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
