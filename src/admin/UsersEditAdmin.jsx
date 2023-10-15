@@ -9,13 +9,13 @@ import Container from '@mui/material/Container';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Joi from 'joi';
-import { GeneralContext } from '../App';
+import { GeneralContext, darkTheme } from '../App';
 import { clientStructure } from '../user/Signup';
 
 const modifiedClientStructure = clientStructure.map((item) =>
     item.name === 'email' ? { ...item, block: true } : item);
-    export default function UsersEditAdmin({ usersDetails,closeUserEdit,updateUserState  }) {
-    const { user, setUser, setLoader, snackbar } = useContext(GeneralContext);
+export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUserState }) {
+    const { user, setUser, setLoader, snackbar, currentTheme } = useContext(GeneralContext);
     const [formData, setFormData] = useState({
         // Set initial state to empty values
         firstName: '',
@@ -35,7 +35,6 @@ const modifiedClientStructure = clientStructure.map((item) =>
         business: false,
     });
     useEffect(() => {
-        // When the user data is available, populate the form data
         if (usersDetails) {
             setFormData({
                 firstName: usersDetails.firstName || '',
@@ -56,7 +55,7 @@ const modifiedClientStructure = clientStructure.map((item) =>
             });
         }
     }, [usersDetails]);
-    const [isFormValid, setIsFormValid] = useState(true); // Assuming the form starts as valid
+    const [isFormValid, setIsFormValid] = useState(true);
     const [errors, setErrors] = useState({});
     const schema = Joi.object({
         firstName: Joi.string().min(2),
@@ -74,7 +73,7 @@ const modifiedClientStructure = clientStructure.map((item) =>
         zip: Joi.number(),
         business: Joi.boolean(),
     });
-    console.log(usersDetails);
+
     const handleValid = (ev) => {
         const { name, value } = ev.target;
         const obj = { ...formData, [name]: value };
@@ -93,44 +92,47 @@ const modifiedClientStructure = clientStructure.map((item) =>
         console.log(validate.error);
     };
 
-    const handleSubmit = (ev,userId) => {
+    const handleSubmit = (ev, userId) => {
         ev.preventDefault();
         const obj = { ...formData };
         setLoader(true);
         fetch(`https://api.shipap.co.il/admin/clients/${userId}?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'PUT',
-            headers: {'Content-type': 'application/json'},
+            headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj),
-         })
-         .then(() => {
-            setLoader(false);
-            snackbar(`User Number ${userId} Was Updated Succesfully!`)
-            updateUserState(obj);
-            console.log('Update function called with', obj);
-         }).catch((err) => {
-            console.error(err);
-            setLoader(false);
-        });      
+        })
+
+            .then(() => {
+                setLoader(false);
+                snackbar(`User Number ${userId} Was Updated Succesfully!`)
+                updateUserState(obj);
+
+            }).catch((err) => {
+                console.error(err);
+                setLoader(false);
+            });
     };
+
     return (
         <>
             {usersDetails ? (
-                <Container component="main" maxWidth="xs">
+                <Container className="modal-frame" component="main" maxWidth="xxl">
                     <CssBaseline />
-                    <Button onClick={() => closeUserEdit()}>X</Button>
                     <Box
+                        className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
                         sx={{
-                            marginTop: 8,
+                            width: '50vw',
+                            marginTop: 2,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                        }}
-                    >
-                        <Typography component="h1" variant="h5">
+                        }}>
+                        <Button className="close" onClick={() => closeUserEdit()}>X</Button>
+                        <Typography paddingTop={'20px'} component="h1" variant="h5">
                             Edit User Account
                         </Typography>
-                        <Box component="form" onSubmit={(ev)=>handleSubmit(ev,usersDetails.id)} noValidate sx={{ mt: 1 }}>
+                        <Box component="form" onSubmit={(ev) => handleSubmit(ev, usersDetails.id)} noValidate sx={{ mt: 1 }}>
                             <Grid container spacing={2}>
                                 {modifiedClientStructure.map((s) => (
                                     <Grid key={s.name} item sm={s.block ? 12 : 6}>
@@ -174,8 +176,7 @@ const modifiedClientStructure = clientStructure.map((item) =>
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                disabled={!isFormValid}
-                            >
+                                disabled={!isFormValid} >
                                 Save
                             </Button>
                         </Box>

@@ -96,7 +96,7 @@ export default function EditCard({ card, cardEdited }) {
                         }}
                     >
                         <Button className="close" onClick={() => setIsModal(false)}>X</Button>
-                        <Typography component="h2" variant="h5">
+                        <Typography paddingTop={'20px'} component="h2" variant="h5">
                             Edit Card
                         </Typography>
                         <Box component="form" onSubmit={editCard} noValidate >

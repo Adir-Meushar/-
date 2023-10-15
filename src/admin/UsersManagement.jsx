@@ -50,7 +50,7 @@ export default function UsersManagement() {
         usersRef.current = updatedUsers;
     };
     return (
-        <div>
+        <div >
             <div className="page-header">
             <h1 >Users Management</h1>
             </div>
