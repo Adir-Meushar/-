@@ -74,11 +74,11 @@ function update(c) {
       <div className="detail-box">
         <div>
           <h3>{c.title}</h3>
-          <p>{c.subtitle}</p>
+          <p>"{c.subtitle}"</p>
         </div>
-        <p>Email: {c.email}</p>
-        <p>Address: {c.street + ' ' + c.city + ' ' + c.state}</p>
-        <p>Card Number: {c.id}</p>
+        <p><b>Email:</b>{c.email}</p>
+        <p> <b>Address:</b> {c.street + ' ' + c.city + ' ' + c.state}</p>
+        <p> <b>Card Number:</b> {c.id}</p>
        
       </div>
       {<div className="btn-box">

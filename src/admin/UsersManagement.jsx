@@ -2,13 +2,13 @@ import { useContext, useEffect, useState,useRef  } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
 import './usersManagement.css'
-import { GeneralContext } from "../App";
+import { GeneralContext, darkTheme } from "../App";
 import UsersEditAdmin from './UsersEditAdmin';
 
 export default function UsersManagement() {
     const [users, setUsers] = useState([]);
     const [isEditUser,setIsEditUser]=useState(null);
-    const { snackbar } = useContext(GeneralContext)
+    const { snackbar,currentTheme } = useContext(GeneralContext)
     const usersRef = useRef(users);
     useEffect(() => {
         fetch(`https://api.shipap.co.il/admin/clients?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
@@ -56,7 +56,7 @@ export default function UsersManagement() {
             </div>
             <table className="users-table">
                 <thead>
-                    <tr>
+                    <tr style={{ color: currentTheme === darkTheme ? 'black' : '' }}>
                         <th>X</th>
                         <th>Full Name</th>
                         <th>Email</th>

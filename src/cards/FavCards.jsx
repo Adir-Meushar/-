@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
 import { GeneralContext } from "../App";
+import { TbCards,TbDots } from "react-icons/tb";
 export default function FavCards({ searchQuery }) {
     const [favCards, setFavCards] = useState([])
     const { setLoader } = useContext(GeneralContext)
@@ -42,13 +43,17 @@ export default function FavCards({ searchQuery }) {
                 <p>Here you will find All your favorite cards.</p>
             </div>
             <div className="container">
-                {filteredCards.map((c) => (
+                {filteredCards.length > 0 ? filteredCards.map((c) => (
                     <Card c={c}
                         key={c.id}
                         cardEdited={updateCardInEdit}
                         cardDeleted={deleteCardFromState}
                         removeFromFav={removeFavFromState} />
-                ))}
+                )) :
+                    <div className="empty-msg">
+                        <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some </p>
+                      <div className="cards-icon-box" > <TbCards className="cards-icon" /> <TbDots className="dots"/></div> 
+                    </div>}
             </div>
         </>
     );

@@ -1,47 +1,36 @@
-/* Style the users-table */
 .users-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
   
-  /* Style the table headers */
   .users-table th {
-    background-color: #f2f2f2;
+    background-color: #ebebeb;
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
   }
   
-  /* Style the table header for action buttons */
-  /* .users-table th:nth-child(5), */
   .users-table th:nth-child(7) {
-    background-color: #ff6666; /* Red for Edit and Delete headers */
+    background-color: #ff6666; 
     color: white;
    
   }
   
-  /* Style the table cells */
   .users-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #bbbbbb;
+    padding: 20px;
     text-align: center;
   }
   
-
-  
-  /* Style the Edit and Delete buttons */
   .users-table .fa-edit,
   .users-table .ai-delete {
     cursor: pointer;
     transition: all .4s;
   }
   
-
-  /* Hover effect for action buttons */
   .users-table .fa-edit:hover,
   .users-table .ai-delete:hover {
-    /* font-weight: bold; */
     transform: scale(1.2);
   }
   

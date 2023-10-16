@@ -44,7 +44,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     setSearchQuery(event.target.value);
     onSearchChange(event.target.value); // Pass the search query to the parent component
   }
-  const { user, setUser, setLoader, userRoleTyps, setUserRoleType } = useContext(GeneralContext);
+  const { user, setUser, setLoader, userRoleTyps, setUserRoleType ,currentTheme} = useContext(GeneralContext);
   const navigate = useNavigate();
   const path = useResolvedPath().pathname;
   const handleOpenNavMenu = (event) => {
@@ -87,7 +87,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               mr: 2, display: { xs: "none", md: "flex" }, 
               fontWeight: 700, letterSpacing: ".3rem", color: "inherit", textDecoration: "none",
             }}>
-            {user ? user.fullName : "Business Cards"}
+            {user ? user.fullName : "CardCraft"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -111,7 +111,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               {pages.filter((page) => !page.permissions ||
                 checkPermissions(page.permissions, userRoleTyps))
                 .map((page) => (
-                  <Link key={page.route} to={page.route}  style={{ textDecoration: "none", color:'black' }}>
+                  <Link key={page.route} to={page.route}  style={{ color: currentTheme === lightTheme ? 'black' : 'white' }}>
                     <MenuItem onClick={handleCloseNavMenu}>
                       <Typography textAlign="center">{page.title}</Typography>
                     </MenuItem>
@@ -143,7 +143,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
                 <Link key={page.route} to={page.route}>
                   <Button
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block", backgroundColor: page.route === path ? 'cornflowerblue' : '' }}>
+                    sx={{ my: 2, color: "white", display: "block", backgroundColor: page.route === path ? (currentTheme===lightTheme?'cornflowerblue':'#5e5e5e') : '' }}>
                     {page.title}
                   </Button>
                 </Link>
@@ -174,7 +174,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
                     .map((s) => (
                       <Link
                         key={s.route} to={s.route}
-                        style={{ textDecoration: "none", color:'black' }} >
+                        style={{ color: currentTheme === lightTheme ? 'black' : 'white' }} >
                         <MenuItem onClick={handleCloseUserMenu}>
                           <Typography textAlign="center">{s.title}</Typography>
                         </MenuItem>

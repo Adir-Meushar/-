@@ -2,19 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
 import AddCard from "./AddCard";
 import { GeneralContext } from "../App";
+import { TbCards,TbDots } from "react-icons/tb";
 export default function MyCards({ searchQuery }) {
     const [myCards, setMyCards] = useState([])
-    const{setLoader}=useContext(GeneralContext)
+    const { setLoader } = useContext(GeneralContext)
     const fetchMyCards = () => {
         setLoader(true)
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
         })
-        .then(res => res.json())
-        .then(data => {
-            setMyCards(data);
-            setLoader(false)
-        });
+            .then(res => res.json())
+            .then(data => {
+                setMyCards(data);
+                setLoader(false)
+            });
     };
 
     useEffect(() => {
@@ -38,16 +39,21 @@ export default function MyCards({ searchQuery }) {
     );
     return (
         <>
-              <div className="page-header">
+            <div className="page-header">
                 <h1 >My Cards</h1>
-                <p>Here you can find and create your own businesses and attractionss cards.</p>
+                <p>Here you can find and create your own businesses and attractions cards.</p>
             </div>
             <div className="container">
-                {filteredCards.map((c) => (
+                {filteredCards.length > 0 ? filteredCards.map((c) => (
                     <Card c={c} key={c.id} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
-                ))}
-                <AddCard added={() => fetchMyCards()} />
-            </div>
+                )) :
+                    <div className="empty-msg">
+                        <p>You Don't Have Any Business Cards At The Moment Feel Free To Create Some </p>
+                        <div className="cards-icon-box" > <TbCards className="cards-icon" /> <TbDots className="dots" /></div>
+                    </div>
+                }  
+                </div>
+            <AddCard added={() => fetchMyCards()} />
         </>
     );
 }

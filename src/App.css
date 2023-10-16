@@ -28,16 +28,34 @@ button{
   cursor: pointer;
 }
 .container{
+  position: relative;
   width: 85vw;
   margin: 0 auto;
   margin-bottom: 7%;
   gap: 30px;
   display: grid;
   grid-template-columns: repeat(4,1fr);
+  min-height: 30vh;
 }
 
-
-
+.empty-msg{
+  width: 80%;
+  font-size: 1.6rem;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+}
+.cards-icon-box{
+  width: 40%;
+  margin: 70px auto;
+ 
+}
+.cards-icon{
+  font-size: 5rem;
+}
+.dots{
+  font-size: 3rem;
+}
 .bottom-nav{
   border: 1px solid black;
   width: 100vw;
@@ -50,4 +68,6 @@ button{
   font-size: 1.4rem;
 }
 
-
+.steps{
+  margin-left: 20px;
+}
