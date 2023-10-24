@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
+import { GeneralContext } from "../App";
+import { darkTheme } from "../App";
 export default function Cards({ searchQuery }) {
+    const {currentTheme}=useContext(GeneralContext);
     const [cards, setCards] = useState([])
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
@@ -27,8 +30,8 @@ export default function Cards({ searchQuery }) {
  );
     return (
         <>
-        <div className="page-header">
-        <h1 >Cards</h1>
+        <div className={`page-header ${currentTheme===darkTheme?'page-header-dark':''}`}>
+        <h1 > Businesse Cards</h1>
              <p>Welcome! here you can find cards of various businesses and attractions. </p>
         </div>
            

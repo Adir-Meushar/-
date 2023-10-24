@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Switch from '@mui/material/Switch';
@@ -68,7 +67,11 @@ export default function EditAccount() {
     lastName: Joi.string().min(2),
     email: Joi.string().email({ tlds: false }).required(),
     phone: Joi.string().pattern(/^[0-9]{10,15}$/).required(),
-    imgUrl: Joi.string(),
+    imgUrl: Joi.string().uri({
+      scheme: ['http', 'https'],
+    }).allow('').messages({
+      "string.uri": "Invalid image URL format",
+    }),
     imgAlt: Joi.string(),
     state: Joi.string().min(2),
     country: Joi.string().min(2),
@@ -124,7 +127,7 @@ export default function EditAccount() {
   return (
     <>
       {user ? (
-        <Container component="main" maxWidth="xs">
+        <Container  component="main" maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
@@ -134,8 +137,8 @@ export default function EditAccount() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{m:1, bgcolor: 'primary.main',width:'200px',height:'200px' }}>
+              <img className='profile-img'  src={user.imgUrl.length>0?user.imgUrl:'https://srcwap.com/wp-content/uploads/2022/08/blank-profile-picture-hd-images-photo.jpg'} alt={user.imgAlt} />
             </Avatar>
             <Typography component="h1" variant="h5">
               Edit Account

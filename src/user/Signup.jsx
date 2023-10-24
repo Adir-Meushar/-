@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import {AiOutlineForm} from "react-icons/ai";
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link, useNavigate } from 'react-router-dom';
@@ -58,17 +58,21 @@ export default function Signup() {
     lastName:Joi.string().min(2),
     email: Joi.string().email({ tlds: false }).required(),
     password: Joi.string()
-    // .pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
-    // .messages({
-    //   "string.pattern.base": "Password must meet the specified criteria",
-    //   "any.required": "Password is required",
-    // })
+    .pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
+    .messages({
+      "string.pattern.base": "Password must meet the specified criteria",
+      "any.required": "Password is required",
+    })
     ,
     phone: Joi.string().pattern(/^[0-9]{10,15}$/).required().messages({
       "string.pattern.base": "Phone must be a number 10-13.",
       "any.required": "Password is required",
     }), 
-    imgUrl:Joi.string(),
+    imgUrl: Joi.string().uri({
+      scheme: ['http', 'https'],
+    }).allow('').messages({
+      "string.uri": "Invalid image URL format",
+    }),
     imgAlt:Joi.string(),
     state:Joi.string().min(2),
     country:Joi.string().min(2),
@@ -137,10 +141,10 @@ export default function Signup() {
             flexDirection: 'column',
             alignItems: 'center',
           }} >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+            <AiOutlineForm />
           </Avatar>
-          <Typography  component="h1" variant="h5">Signup</Typography>
+          <Typography  component="h1" variant="h5">Sign up</Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <Grid container spacing={2}>
               {
@@ -173,7 +177,7 @@ export default function Signup() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={!isFormValid}>
-              Signup
+              Sign up
             </Button>
             <Grid container justifyContent="center">
               <Grid item>

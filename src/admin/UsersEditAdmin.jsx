@@ -63,7 +63,11 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
         lastName: Joi.string().min(2),
         email: Joi.string().email({ tlds: false }).required(),
         phone: Joi.string().pattern(/^[0-9]{10,15}$/).required(),
-        imgUrl: Joi.string(),
+        imgUrl: Joi.string().uri({
+            scheme: ['http', 'https'],
+          }).allow('').messages({
+            "string.uri": "Invalid image URL format",
+          }),
         imgAlt: Joi.string(),
         state: Joi.string().min(2),
         country: Joi.string().min(2),
@@ -91,7 +95,7 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
         setIsFormValid(!validate.error);
         console.log(validate.error);
     };
-
+console.log(usersDetails);
     const handleSubmit = (ev, userId) => {
         ev.preventDefault();
         const obj = { ...formData };
@@ -105,6 +109,7 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
 
             .then(() => {
                 setLoader(false);
+                closeUserEdit();
                 snackbar(`User Number ${userId} Was Updated Succesfully!`)
                 updateUserState(obj);
 

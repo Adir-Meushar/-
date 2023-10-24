@@ -3,9 +3,10 @@ import Card from "./Card";
 import AddCard from "./AddCard";
 import { GeneralContext } from "../App";
 import { TbCards,TbDots } from "react-icons/tb";
+import { darkTheme } from "../App";
 export default function MyCards({ searchQuery }) {
     const [myCards, setMyCards] = useState([])
-    const { setLoader } = useContext(GeneralContext)
+    const { setLoader,currentTheme } = useContext(GeneralContext)
     const fetchMyCards = () => {
         setLoader(true)
         fetch(`https://api.shipap.co.il/business/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
@@ -39,7 +40,7 @@ export default function MyCards({ searchQuery }) {
     );
     return (
         <>
-            <div className="page-header">
+           <div className={`page-header ${currentTheme===darkTheme?'page-header-dark':''}`}>
                 <h1 >My Cards</h1>
                 <p>Here you can find and create your own businesses and attractions cards.</p>
             </div>

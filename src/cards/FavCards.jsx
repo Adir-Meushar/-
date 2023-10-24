@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
 import { GeneralContext } from "../App";
-import { TbCards,TbDots } from "react-icons/tb";
+import { TbCards, TbDots } from "react-icons/tb";
+import { darkTheme } from "../App";
 export default function FavCards({ searchQuery }) {
     const [favCards, setFavCards] = useState([])
-    const { setLoader } = useContext(GeneralContext)
+   
+    const { setLoader, user,currentTheme } = useContext(GeneralContext)
     useEffect(() => {
         setLoader(true)
         fetch(`https://api.shipap.co.il/cards/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
@@ -38,26 +40,36 @@ export default function FavCards({ searchQuery }) {
     );
     return (
         <>
-            <div className="page-header">
-                <h1 >Favorite Cards</h1>
-                <p>Here you will find All your favorite cards.</p>
-            </div>
-            <div className="container">
-                {filteredCards.length > 0 ? filteredCards.map((c) => (
-                    <Card c={c}
-                        key={c.id}
-                        cardEdited={updateCardInEdit}
-                        cardDeleted={deleteCardFromState}
-                        removeFromFav={removeFavFromState} />
-                )) :
-                    <div className="empty-msg">
-                        <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some </p>
-                      <div className="cards-icon-box" > <TbCards className="cards-icon" /> <TbDots className="dots"/></div> 
-                    </div>}
-            </div>
+        {user&&(
+            <div>
+               <div className={`page-header ${currentTheme===darkTheme?'page-header-dark':''}`}>
+              <h1 >Favorite Cards</h1>
+              <p>Here you will find All your favorite cards.</p>
+          </div>
+          <div className="container">
+              {filteredCards.length > 0 ? filteredCards.map((c) => (
+                  (
+                      <Card
+                          c={c}
+                          key={c.id}
+                          cardEdited={updateCardInEdit}
+                          cardDeleted={deleteCardFromState}
+                          removeFromFav={removeFavFromState}
+                      />
+                  ) 
+              )) : 
+                  <div className="empty-msg">
+                      <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some</p>
+                      <div className="cards-icon-box">
+                          <TbCards className="cards-icon" /> <TbDots className="dots" />
+                      </div>
+                  </div>
+              }
+          </div>
+          </div>
+        )}
         </>
     );
 }
-
 
 

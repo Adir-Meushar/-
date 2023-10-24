@@ -16,6 +16,7 @@ import {RiLogoutBoxRLine} from "react-icons/ri";
 import { Link, useLocation, useNavigate, useResolvedPath } from "react-router-dom";
 import { GeneralContext, lightTheme } from "../App";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
+import { PiUserCircleDuotone } from "react-icons/pi";
 export const RoleTyps = {
   none: 0,
   user: 1,
@@ -81,8 +82,8 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link} 
+            to="/"
             sx={{
               mr: 2, display: { xs: "none", md: "flex" }, 
               fontWeight: 700, letterSpacing: ".3rem", color: "inherit", textDecoration: "none",
@@ -119,22 +120,24 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
                 ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1, marginRight:'150px' }} /> */}
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to={'/'}
             sx={{
-              mr: 2,
+              mr: 1,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              
             }}>
-             {user ? user.fullName : "Business Cards"}
+             {user ? user.firstName : "CardCraft"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.filter((page) => !page.permissions ||
@@ -158,7 +161,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
             <>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0,marginLeft:'20px' }}>
                     <Avatar alt={user.fullName} src="/static/images/avatar/2.jpg" />
                   </IconButton>
                 </Tooltip>
@@ -176,12 +179,12 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
                         key={s.route} to={s.route}
                         style={{ color: currentTheme === lightTheme ? 'black' : 'white' }} >
                         <MenuItem onClick={handleCloseUserMenu}>
-                          <Typography textAlign="center">{s.title}</Typography>
+                          <Typography textAlign="left">{s.title} <PiUserCircleDuotone style={{marginBottom:'-5px',fontSize:'1.3rem'}}/></Typography>
                         </MenuItem>
                       </Link>
                     ))}
                   <MenuItem onClick={logout}>
-                    <Typography textAlign="center">Logout <RiLogoutBoxRLine style={{marginBottom:'-3px'}}/></Typography>
+                    <Typography textAlign="left">Logout <RiLogoutBoxRLine style={{marginBottom:'-5px',marginLeft:'10px',fontSize:'1.3rem'}}/></Typography>
                   </MenuItem>
                 </Menu>
               </Box>

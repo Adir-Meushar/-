@@ -459,3 +459,62 @@ export default function EditCard({ card, cardEdited }) {
         </div>
     );
 }
+<>
+          <div className="page-header">
+                <h1 >Favorite Cards</h1>
+                <p>Here you will find All your favorite cards.</p>
+            </div>
+            <div className="container">
+                {filteredCards.length > 0 ? filteredCards.map((c) => (
+                    localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
+                        <Card
+                            c={c}
+                            key={c.id}
+                            cardEdited={updateCardInEdit}
+                            cardDeleted={deleteCardFromState}
+                            removeFromFav={removeFavFromState}
+                        />
+                    ) : null
+                )) : (
+                    <div className="empty-msg">
+                        <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some</p>
+                        <div className="cards-icon-box">
+                            <TbCards className="cards-icon" /> <TbDots className="dots" />
+                        </div>
+                    </div>
+                )}
+            </div>
+
+        </>
+
+
+// fixed local storage clear but empty msg wont apper for other users
+{user && (
+    <div>
+        <div className="page-header">
+            <h1 >Favorite Cards</h1>
+            <p>Here you will find All your favorite cards.</p>
+        </div>
+        <div className="container">
+            {filteredCards.length > 0 &&localStorage.length ? filteredCards.map((c) => (
+                localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
+                    <Card
+                        c={c}
+                        key={c.id}
+                        cardEdited={updateCardInEdit}
+                        cardDeleted={deleteCardFromState}
+                        removeFromFav={removeFavFromState}
+                    />
+                ) : ''
+            ))
+                : (
+                    <div className="empty-msg">
+                        <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some</p>
+                        <div className="cards-icon-box">
+                            <TbCards className="cards-icon" /> <TbDots className="dots" />
+                        </div>
+                    </div>
+                )}
+        </div>
+    </div>
+)}

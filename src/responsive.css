@@ -1,17 +1,28 @@
 @media screen and (max-width:1500px){
     .container{
       grid-template-columns: repeat(3,1fr);
+      width: 80vw;
+      min-width: 1000px;
+      margin-bottom: 10%;
     }
   }
   
   @media screen and (max-width:1200px){
     .container{
       grid-template-columns: repeat(2,1fr);
+      width: 70vw;
+      min-width: 710px;
+      margin-bottom: 13%;
     }
   }
   
-  @media screen and (max-width:760px){
+  @media screen and (max-width:750px){
     .container{
       grid-template-columns: repeat(1,1fr);
+      min-width: 450px;
+      margin-bottom: 23%;
+    }
+    .card-box{
+      min-width: 335px;
     }
   }
