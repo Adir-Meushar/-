@@ -6,6 +6,15 @@
     right: 0;
     bottom: 0;
   }
+  .add-btn{
+    font-size:4rem;
+    cursor: pointer;
+    position: absolute;
+    top: 130px;
+    right: 50px;
+    color: rgb(1, 1, 59);
+    transition: all .5s;
+  }
   /* light-modal */
   .light-modal {
     text-align: center;
@@ -59,19 +68,12 @@
     color: #837f7f;
   
   }
+
+
   .add-btn-light{
-    font-size:4rem;
-    cursor: pointer;
-    position: absolute;
-    bottom: 70px;
-    right: 50px;
-    color: rgb(1, 1, 59);
-    transition: all .5s;
+    color: rgb(0, 0, 69);
   }
-  .add-btn-light:hover,.card-icon:hover{
-    transform: scale(1.1);
-  
-  }
+
   /* dark-modal */
  .dark-modal{
   text-align: center;
@@ -132,15 +134,9 @@
     color: #c5c4c4;
   }
   .add-btn-dark{
-    font-size:4rem;
-    cursor: pointer;
-    position: absolute;
-    bottom: 70px;
-    right: 50px;
    color: rgb(184, 183, 183);
-    transition: all .5s;
   }
-  .add-btn-dark:hover,.card-icon:hover{
+  .add-btn:hover,.card-icon:hover{
     transform: scale(1.1);
   
   }

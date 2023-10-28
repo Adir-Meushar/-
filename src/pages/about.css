@@ -28,7 +28,7 @@
   /* Dark-Container */
   .dark-mode .page-header {
     box-shadow: 0 10px 15px -3px rgb(216 215 215 / 10%), 0 4px 6px -4px rgb(213 213 213 / 10%);
-    background-color: #333333;
+    background: linear-gradient(to right, #414345, #232526);
   }
   .dark-mode .about-box{
     background-color: #494949;

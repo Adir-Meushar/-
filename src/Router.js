@@ -7,7 +7,7 @@ import MyCards from './cards/MyCards';
 import FavCards from './cards/FavCards';
 import About from './pages/About';
 import UsersManagement from './admin/UsersManagement';
-import BussinessPage from './pages/BusinessPage';
+import BusinessPage from './pages/BusinessPage';
 
 export default function Router({query}) {
     return (
@@ -20,7 +20,7 @@ export default function Router({query}) {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/account" element={<Account />} />
-            <Route path='/bussiness' element ={<BussinessPage/>}/>
+            <Route path='/business/:id' element ={<BusinessPage/>}/>
         </Routes>
     )
 }

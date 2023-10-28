@@ -3,8 +3,9 @@ import './about.css'
 import { useContext } from "react";
 import { GeneralContext } from "../App";
 import { darkTheme } from "../App";
+import { AiOutlinePhone, AiOutlineMail } from "react-icons/ai";
 export default function About() {
-    const {currentTheme}=useContext(GeneralContext)
+    const { currentTheme } = useContext(GeneralContext)
     return (
         <div className={`about-container ${currentTheme === darkTheme ? 'dark-mode' : 'light-mode'}`}>
             <div className="page-header">
@@ -32,8 +33,19 @@ export default function About() {
                 <p>If you have any further question feel free to contact 😀</p>
                 <br />
                 <h3>Contact Information</h3>
-                <p><b>Email:</b> cardcraft@gmail.com.</p> 
-                <p><b>Phone:</b> 0555664959.</p> 
+                <div className='contact-way-box'>
+                    <AiOutlinePhone className='contact-icon' />
+                    <div>
+                        <span><b>Phone: <br /> </b>0555664959</span>
+                    </div>
+                </div>
+                <div className='contact-way-box'>
+                    <AiOutlineMail className='contact-icon' />
+                    <div>
+                        <span><b>Email: <br /> </b> cardcraft@gmail.com</span>
+                    </div>
+                </div>
+            
             </div>
         </div>
 

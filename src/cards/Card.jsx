@@ -4,7 +4,7 @@ import { RoleTyps } from "../components/Navbar";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { AiFillDelete, AiOutlinePhone } from "react-icons/ai";
 import EditCard from "./EditCard";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import './card.css'
 
 export default function Card({ c, cardEdited, cardDeleted, removeFromFav }) {
@@ -12,6 +12,7 @@ export default function Card({ c, cardEdited, cardDeleted, removeFromFav }) {
   const [editCard, setEditCard] = useState();
   const location = useLocation();
   const { userRoleTyps, user, snackbar, currentTheme } = useContext(GeneralContext);
+
 
   function addFav(cardId) {
     if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
@@ -66,22 +67,24 @@ export default function Card({ c, cardEdited, cardDeleted, removeFromFav }) {
     }
     setEditCard();
   }
+
   return (
     <div key={c.id} className={`card-box ${currentTheme === darkTheme ? 'dark-card' : 'light-card'}`}>
-      <div className="img-box">
-        <img src={c.imgUrl} alt={c.imgAlt} />
-      </div>
-      <div className="detail-box">
-        <div>
-          <h3>{c.title}</h3>
-          <p>"{c.subtitle}"</p>
+      <Link to={`/business/${c.id}`}>
+        <div className="img-box">
+          <img src={c.imgUrl ? c.imgUrl : 'https://cdn-icons-png.flaticon.com/512/3014/3014694.png'} alt={c.imgAlt} />
         </div>
-        <p><b>Email:</b>{c.email}</p>
-        <p><b>Address:</b> {c.street + ' ' + c.city + ' ' + c.state}</p>
-        <p><b>Card Number:</b> {c.id}</p>
-
-      </div>
-      {<div className="btn-box">
+        <div className="detail-box">
+          <div>
+            <h3>{c.title}</h3>
+            <p>"{c.subtitle}"</p>
+          </div>
+          <p><b>Email:</b>{c.email}</p>
+          <p><b>Address:</b> {c.street + ' ' + c.city + ' ' + c.state}</p>
+          <p><b>Card Number:</b> {c.id}</p>
+        </div>
+      </Link>
+      <div className="btn-box">
         {user ? (
           <>
             {localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
@@ -90,21 +93,19 @@ export default function Card({ c, cardEdited, cardDeleted, removeFromFav }) {
               <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
             )}
             <AiOutlinePhone onClick={() => snackbar(`Phone Number: ${c.title}-${c.phone}`)} className="card-icon" />
-            {
-              (c.clientId === user.id || userRoleTyps === RoleTyps.admin) ? (
-                <>
-                  <EditCard card={c} cardEdited={update} />
-                  <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
-                </>
-              ) : (
-                ""
-              )
-            }
+            {c.clientId === user.id && (
+              <EditCard card={c} cardEdited={update} />
+            )}
+            {(c.clientId === user.id || userRoleTyps === RoleTyps.admin) && (
+              <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
+            )}
           </>
         ) : (
           <AiOutlinePhone onClick={() => snackbar(`Phone Number: ${c.title}-${c.phone}`)} className="card-icon" />
         )}
-      </div>}
+      </div>
+
     </div>
+
   );
 }

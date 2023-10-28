@@ -1,0 +1,75 @@
+.business-page-container{
+    width: 60vw;
+    min-width: 1000px;
+    background-color: #020f38;
+    margin: 20px auto;
+    padding: 15px;
+   margin-bottom: 10%;
+   line-height: 1.6;
+   color: white;
+   border-radius: 8px;
+}
+.business-img-box{
+    width: 100%;
+padding: 20px;
+}
+.business-img-box .business-img{
+    width: 100%;
+    height: 600px;
+    border-radius: 50px;
+    transition: all .5s;
+}
+
+ .business-title {
+    transition: all .4s;
+}
+.business-title:hover {
+    letter-spacing: 2px;
+}
+.business-title h1{
+    font-size: 2.5rem;
+}
+
+.content{
+    font-size: 1.1rem;
+    text-align: left;
+   font-weight: bold;
+   line-height: 2;
+   letter-spacing: .9px;
+}
+.contact {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 15px;
+
+    background: linear-gradient(to right, #1CB5E0, #000046); 
+}
+.contact-dark{
+    /* background: linear-gradient(to right, #414345, #232526); */
+    background: #232526;
+}
+.contact span{
+    font-size:1.1rem;
+    letter-spacing: 1px;
+}
+
+
+.business-img-box .business-img:hover{
+    border-radius: 5px;
+}
+
+.business-page-container-dark{
+     background-color: #333333;
+}
+
+.contact-way-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.contact-icon{
+    font-size: 3rem;
+    margin: 15px;
+    border-radius:50px;
+}

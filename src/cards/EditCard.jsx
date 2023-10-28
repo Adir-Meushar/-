@@ -21,7 +21,11 @@ export default function EditCard({ card, cardEdited }) {
             "string.pattern.base": "Phone must be a number 10-13.",
             "any.required": "Password is required",
         }),
-        imgUrl: Joi.string(),
+        imgUrl: Joi.string().uri({
+            scheme: ['http', 'https'],
+          }).allow('').messages({
+            "string.uri": "Invalid image URL format",
+          }),
         imgAlt: Joi.string(),
         state: Joi.string().min(2),
         country: Joi.string().min(2),

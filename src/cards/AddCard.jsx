@@ -1,19 +1,16 @@
 import React, { useContext, useState } from "react";
 import { GeneralContext, darkTheme } from "../App";
-import { RoleTyps } from "../components/Navbar";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Joi from "joi";
 import { Box, Container } from "@mui/system";
-import { Avatar, Button, CssBaseline, FormControlLabel, Grid, Modal, Switch, TextField, TextareaAutosize, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Avatar, Button, CssBaseline, Grid,TextField, TextareaAutosize, Typography } from "@mui/material";
 import './addEditModal.css'
-
 export const cardStructur = [
-    { name: 'title', type: 'text', label: 'title', required: true, block: false },
-    { name: 'subtitle', type: 'text', label: 'subtitle', required: true, block: false },
+    { name: 'title', type: 'text', label: 'Title', required: true, block: false },
+    { name: 'subtitle', type: 'text', label: 'Subtitle', required: true, block: false },
     { name: 'phone', type: 'tel', label: 'Phone', required: true, block: false },
     { name: 'email', type: 'text', label: 'Email', required: true, block: false },
-    { name: 'web', type: 'text', label: 'web', required: true, block: false, initialOnly: true },
+    { name: 'web', type: 'text', label: 'Web', required: true, block: false, initialOnly: true },
     { name: 'imgUrl', type: 'text', label: 'Img Url', required: true, block: true },
     { name: 'imgAlt', type: 'text', label: 'Img Alt', required: true, block: false },
     { name: 'state', type: 'text', label: 'State', required: true, block: false },
@@ -43,8 +40,12 @@ export default function AddCard({ added }) {
             "string.pattern.base": "Phone must be a number 10-13.",
             "any.required": "Password is required",
         }),
-        imgUrl: Joi.string().min(8),
-        imgAlt: Joi.string().min(2),
+        imgUrl: Joi.string().uri({
+            scheme: ['http', 'https'],
+        }).allow('').messages({
+            "string.uri": "Invalid image URL format",
+        }),
+        imgAlt: Joi.string().allow(),
         state: Joi.string().min(2),
         country: Joi.string().min(2),
         city: Joi.string().min(2),
@@ -70,8 +71,8 @@ export default function AddCard({ added }) {
         setIsFormValid(!validate.error)
         setErrors(tempErrors)
     }
-    const {  setLoader,snackbar,currentTheme } = useContext(GeneralContext);
- 
+    const { setLoader, snackbar, currentTheme } = useContext(GeneralContext);
+
     function addCard(ev) {
         ev.preventDefault();
         setLoader(true)
@@ -98,15 +99,14 @@ export default function AddCard({ added }) {
                 <Container className="modal-frame" component="main" maxWidth="xxl">
                     <CssBaseline />
                     <Box
-                       className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
+                        className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
                         sx={{
                             width: '65vw',
                             height: '80vh',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                        }}
-                    >
+                        }} >
                         <Button className="close" onClick={() => setIsModal(false)}>X</Button>
                         <Typography paddingTop={'20px'} component="h2" variant="h5">
                             Add New Card
@@ -118,9 +118,8 @@ export default function AddCard({ added }) {
                                         {s.name === 'description' ? (
                                             <div>
                                                 <TextareaAutosize className="textArea"
-                                                   
                                                     required={s.required}
-                                                    placeholder={s.label+'...'}
+                                                    placeholder={s.label + '...'}
                                                     name={s.name}
                                                     onChange={handleValid}
                                                     value={formData[s.name]}
@@ -141,19 +140,17 @@ export default function AddCard({ added }) {
                                                 autoComplete={s.name}
                                                 onChange={handleValid}
                                                 value={formData[s.name]}
-                                                helperText={errors[s.name]}
-                                            />
+                                                helperText={errors[s.name]} />
                                         )}
                                     </Grid>
                                 ))}
                                 <Grid item xs={12}>
                                     <Button
-                                     className="save-btn"
+                                        className="save-btn"
                                         type="submit"
                                         fullWidth
                                         variant="contained"
                                         disabled={!isFormValid}>
-                                            
                                         Submit
                                     </Button>
                                 </Grid>
@@ -162,7 +159,7 @@ export default function AddCard({ added }) {
                     </Box>
                 </Container>
             )}
-            <AiOutlinePlusCircle onClick={() => setIsModal(true)} className={currentTheme===darkTheme?'add-btn-dark':'add-btn-light'} />
+            <AiOutlinePlusCircle onClick={() => setIsModal(true)} className={`add-btn ${currentTheme === darkTheme ? 'add-btn-dark' : 'add-btn-light'}`} />
         </>
     );
 }      
