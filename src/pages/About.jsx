@@ -18,7 +18,7 @@ export default function About() {
                     <li>Sign up and create a Business Type user.</li>
                     <li>Login to CardCraft with the new user.</li>
                     <li>Navigate to MyCards.</li>
-                    <li>Click on the "<AiOutlinePlusCircle style={{ marginBottom: '-3px' }} />" Button at the bottom of the page.</li>
+                    <li>Click on the "<AiOutlinePlusCircle style={{ marginBottom: '-3px' }} />" button at the top/bottom of the page (depending on your device).</li>
                     <li>Fill in your Business/Attraction Details and Submit.</li>
                 </ol>
                 <p>After following these steps, your card will be added to the main page, and you can repeat the last three steps to create new cards with your user.</p>

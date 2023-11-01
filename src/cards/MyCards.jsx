@@ -48,8 +48,8 @@ export default function MyCards({ searchQuery }) {
                 {filteredCards.length > 0 ? filteredCards.map((c) => (
                     <Card c={c} key={c.id} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
                 )) :
-                    <div className="empty-msg">
-                        <p>You Don't Have Any Business Cards At The Moment Feel Free To Create Some </p>
+                    <div className={`empty-msg ${currentTheme===darkTheme?'empty-msg-dark':''}`}>
+                        <p>No Business Cards was found,Feel Free To Create Some. </p>
                         <div className="cards-icon-box" > <TbCards className="cards-icon" /> <TbDots className="dots" /></div>
                     </div>
                 }  

@@ -22,6 +22,7 @@ padding: 20px;
 
  .business-title {
     transition: all .4s;
+    padding-left: 25px;
 }
 .business-title:hover {
     letter-spacing: 2px;
@@ -36,13 +37,14 @@ padding: 20px;
    font-weight: bold;
    line-height: 2;
    letter-spacing: .9px;
+   padding: 25px;
 }
 .contact {
     display: flex;
     flex-direction: column;
     align-items: start;
     padding: 15px;
-
+    margin-left: 5px;
     background: linear-gradient(to right, #1CB5E0, #000046); 
 }
 .contact-dark{

@@ -51,7 +51,7 @@ export default function UsersManagement() {
     };
     return (
         <div >
-            <div className="page-header">
+            <div className={`page-header ${currentTheme===darkTheme?'page-header-dark':''}`}>
             <h1 >Users Management</h1>
             </div>
             <table className="users-table">

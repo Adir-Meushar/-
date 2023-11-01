@@ -80,7 +80,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname.startsWith('/business/')
   );
   return (
-    <AppBar position="static">
+    <AppBar  style={{ minWidth: location.pathname !== '/about' ? '450px' : '' }} className="top-nav" position="static">
       <Container maxWidth="xl"> 
       {/* 'm?' */}
         <Toolbar disableGutters>
@@ -134,10 +134,9 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               mr: 1,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",}}>
+              fontWeight: 600,
+              letterSpacing: ".1rem",
+              color: "inherit",}}>
             {user ? user.firstName : "CardCraft"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>

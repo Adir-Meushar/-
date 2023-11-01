@@ -28,7 +28,7 @@ export default function BusinessPage() {
                 <div>
                     <div className={`page-header ${currentTheme === darkTheme ? 'page-header-dark' : ''}`}>
                         <h1 >{card.title}</h1>
-                        <p>Welcome! here you can find All the information about {card.title}</p>
+                        <p>Welcome! here you can find more information about {card.title}</p>
                     </div>
 
                     <div className={`business-page-container ${currentTheme === darkTheme ? 'business-page-container-dark' : ''}`}>

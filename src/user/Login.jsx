@@ -88,6 +88,7 @@ export default function Login() {
       })
       .catch((err) => {
         console.log(err.message);
+        snackbar('Invalid username or password,Please double-check and try again')
       })
       .finally(() => setLoader(false));
   };
@@ -147,7 +148,7 @@ export default function Login() {
             <Button
               type="submit"
               fullWidth
-              // disabled={!isFormValid}
+              disabled={!isFormValid}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >

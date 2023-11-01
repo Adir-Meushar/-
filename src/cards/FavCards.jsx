@@ -58,7 +58,7 @@ export default function FavCards({ searchQuery }) {
                       />
                   ) 
               )) : 
-                  <div className="empty-msg">
+                  <div className={`empty-msg ${currentTheme===darkTheme?'empty-msg-dark':''}`}>
                       <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some</p>
                       <div className="cards-icon-box">
                           <TbCards className="cards-icon" /> <TbDots className="dots" />

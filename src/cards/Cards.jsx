@@ -44,7 +44,7 @@ export default function Cards({ searchQuery }) {
                         <Card c={c} key={c.id} cardEdited={updateCardInEdit} cardDeleted={deleteCardFromState} />
                     ))
                 ) : (
-                    <div className="empty-msg">
+                    <div className={`empty-msg ${currentTheme===darkTheme?'empty-msg-dark':''}`}>
                         <p style={{marginLeft:'20%'}}>No cards matched your search...</p>
                         <div className="cards-icon-box">
                             <TbCards className="cards-icon" /> <TbDots className="dots" />

@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import {AiOutlineForm} from "react-icons/ai";
+import { AiOutlineForm } from "react-icons/ai";
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link, useNavigate } from 'react-router-dom';
@@ -34,53 +34,53 @@ export default function Signup() {
   const navigate = useNavigate();
   const { setLoader } = useContext(GeneralContext);
   const [formData, setFormData] = useState({
-    firstName:'',
-    middleName:'',
-    lastName:'',
-    email:'',
-    password:'',
-    phone:'',
-    imgUrl:'',
-    imgAlt:'',
-    state:'',
-    country:'',
-    city:'',
-    street:'',
-    houseNumber:'',
-    zip:'',
-    business:'',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phone: '',
+    imgUrl: '',
+    imgAlt: '',
+    state: '',
+    country: '',
+    city: '',
+    street: '',
+    houseNumber: '',
+    zip: '',
+    business: '',
   })
-  const [isFormValid,setIsFormValid]=useState(false)
+  const [isFormValid, setIsFormValid] = useState(false)
   const [errors, setErrors] = useState({})
   const schema = Joi.object({
-    firstName:Joi.string().min(2),
-    middleName:Joi.allow(),
-    lastName:Joi.string().min(2),
+    firstName: Joi.string().min(2),
+    middleName: Joi.allow(),
+    lastName: Joi.string().min(2),
     email: Joi.string().email({ tlds: false }).required(),
     password: Joi.string()
-    .pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
-    .messages({
-      "string.pattern.base": "Password must meet the specified criteria",
-      "any.required": "Password is required",
-    })
+      .pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
+      .messages({
+        "string.pattern.base": "Password must meet the specified criteria",
+        "any.required": "Password is required",
+      })
     ,
     phone: Joi.string().pattern(/^[0-9]{10,15}$/).required().messages({
       "string.pattern.base": "Phone must be a number 10-13.",
       "any.required": "Password is required",
-    }), 
+    }),
     imgUrl: Joi.string().uri({
       scheme: ['http', 'https'],
     }).allow('').messages({
       "string.uri": "Invalid image URL format",
     }),
-    imgAlt:Joi.string(),
-    state:Joi.string().min(2),
-    country:Joi.string().min(2),
-    city:Joi.string().min(2),
-    street:Joi.string().min(2),
-    houseNumber:Joi.number(),
-    zip:Joi.number(),
-    business:Joi.allow()
+    imgAlt: Joi.string(),
+    state: Joi.string().min(2),
+    country: Joi.string().min(2),
+    city: Joi.string().min(2),
+    street: Joi.string().min(2),
+    houseNumber: Joi.number(),
+    zip: Joi.number(),
+    business: Joi.allow()
   });
   const handleValid = (ev) => {
     const { name, value } = ev.target;
@@ -144,7 +144,7 @@ export default function Signup() {
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <AiOutlineForm />
           </Avatar>
-          <Typography  component="h1" variant="h5">Sign up</Typography>
+          <Typography component="h1" variant="h5">Sign up</Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <Grid container spacing={2}>
               {
@@ -152,7 +152,7 @@ export default function Signup() {
                   <Grid key={s.name} item xs={12} sm={s.block ? 12 : 6}>
                     {
                       s.type === 'boolean' ?
-                        <FormControlLabel style={{marginTop:'25px'}}
+                        <FormControlLabel style={{ marginTop: '25px' }}
                           control={<Switch color="primary" name={s.name} />}
                           label={s.label}
                           labelPlacement="start"
@@ -167,8 +167,9 @@ export default function Signup() {
                           type={s.type}
                           autoComplete={s.name}
                           onChange={handleValid}
-                          value={formData[s.name]} 
-                          helperText={errors[s.name]} /> }
+                          value={formData[s.name]}
+                          error={Boolean(errors[s.name])} 
+                          helperText={errors[s.name]} />}
                   </Grid>)}
             </Grid>
             <Button
@@ -190,6 +191,6 @@ export default function Signup() {
         </Box>
       </Container>
       <br /> <br /> <br /> <br />
-      </>
+    </>
   );
 }

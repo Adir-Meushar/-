@@ -49,3 +49,17 @@
     margin: 15px;
   }
   
+  @media screen and (min-width:330px) and (max-width:450px){
+    .about-container{
+      padding: 10px;
+    }
+    .about-container h3{
+      font-size: 1.3rem;
+    }
+   .steps, .about-container p {
+     font-size: .9rem;
+    }
+    .contact-icon{
+      font-size: 2.5rem;
+    }
+   }

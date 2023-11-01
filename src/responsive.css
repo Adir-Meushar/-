@@ -5,6 +5,11 @@
       min-width: 1000px;
       margin-bottom: 10%;
     }
+    .empty-msg{
+      grid-column-start:2 ;
+      grid-column-end:3;
+     
+    }
     .page-header{
       min-width: 500px;
     }
@@ -45,9 +50,9 @@
     .card-box{
       min-width: 335px;
     }
-    .page-header{
-      min-width: 100%;
-    }
+    /* .page-header{
+      min-width: 450px;
+    } */
     .page-header h1{
       font-size: 2rem;
     }
@@ -67,6 +72,33 @@
     .business-img-box .business-img{
       height: 330px;
     }
+    .empty-msg{
+     min-width: 450px;
+     font-size: 1.3rem;
+     transform: translateX(-15px);
+    }
+    .cards-icon{
+      font-size: 4rem;
+    }
+    .dots{
+      font-size: 3rem;
+    }
   }
 
   /* @media screen Phone!!! */
+
+  @media screen and (min-width:330px) and (max-width:500px) {
+    .page-header {
+      min-width:450px;
+    }
+    .business-page-container{
+      margin-bottom: 15%;
+    }
+    .card-box{
+      min-width: 315px;
+    }
+    .add-btn{
+     font-size: 3rem;
+     right: 10px;
+    }
+  }
