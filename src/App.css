@@ -1,4 +1,6 @@
-
+/* .top-nav{
+  width: 100vw;
+} */
 .page-header{
   /* width: 60vw;
   margin: 30px ; */
@@ -93,10 +95,8 @@ button{
 .bottom-nav{
   /* border: 1px solid black; */
   width: 100vw;
-  /* min-width: 450px; */
   position: fixed;
   bottom: 0;
-
 }
 
 .bottom-nav-icon{

@@ -4,7 +4,8 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { BiSolidUserRectangle } from "react-icons/bi";
+import { FaUsersCog } from "react-icons/fa";
+import { FaRegIdCard } from "react-icons/fa";
 import { GeneralContext,darkTheme } from "../App";
 import { RoleTyps } from './Navbar';
 import { Link, useResolvedPath } from 'react-router-dom';
@@ -14,7 +15,8 @@ import { Link, useResolvedPath } from 'react-router-dom';
 const pages = [
     { route: "/about", title: "About", icon: <HiOutlineInformationCircle /> },
     { route: "/favcards", title: "Favcards", icon: <FavoriteIcon />, permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin] },
-    { route: "/mycards", title: "Mycards", icon: <BiSolidUserRectangle />, permissions: [RoleTyps.business, RoleTyps.admin] },
+    { route: "/mycards", title: "Mycards", icon: <FaRegIdCard />, permissions: [RoleTyps.business, RoleTyps.admin] },
+    {route:'/admin',title:'Admin',icon:<FaUsersCog/>,permissions:[RoleTyps.admin]},
 ];
 
 const checkPermissions = (permissions, userRoletype) => {

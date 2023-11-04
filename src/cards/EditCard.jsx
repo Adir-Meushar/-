@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { GeneralContext,darkTheme } from "../App";
+import { GeneralContext, darkTheme } from "../App";
 import { cardStructur } from "./AddCard"
 import { FaRegEdit } from "react-icons/fa";
 import Joi from "joi";
 import { Box, Container } from "@mui/system";
-import { Button, CssBaseline, Grid, TextField, TextareaAutosize, Typography } from "@mui/material";
+import { Button, CssBaseline, Grid, TextField,Typography } from "@mui/material";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+
 
 export default function EditCard({ card, cardEdited }) {
     const [formData, setFormData] = useState({});
     const [ismodal, setIsModal] = useState(false);
-    const { setLoader,snackbar,currentTheme } = useContext(GeneralContext);
+    const { setLoader, snackbar, currentTheme } = useContext(GeneralContext);
     const [isFormValid, setIsFormValid] = useState(false)
     const [errors, setErrors] = useState({})
     const schema = Joi.object({
@@ -23,9 +25,9 @@ export default function EditCard({ card, cardEdited }) {
         }),
         imgUrl: Joi.string().uri({
             scheme: ['http', 'https'],
-          }).allow('').messages({
+        }).allow('').messages({
             "string.uri": "Invalid image URL format",
-          }),
+        }),
         imgAlt: Joi.string(),
         state: Joi.string().min(2),
         country: Joi.string().min(2),
@@ -33,7 +35,7 @@ export default function EditCard({ card, cardEdited }) {
         street: Joi.string().min(2),
         houseNumber: Joi.number(),
         zip: Joi.number(),
-        description: Joi.string().min(10),
+        description: Joi.string().min(10).max(750),
         id: Joi.allow(),
         clientId: Joi.allow(),
         userName: Joi.allow(),
@@ -81,7 +83,6 @@ export default function EditCard({ card, cardEdited }) {
                 setIsModal(false)
                 setLoader(false)
                 snackbar(`Card ${card.id} Was Edited Succesfully!`)
-
             });
     }
     return (
@@ -90,15 +91,13 @@ export default function EditCard({ card, cardEdited }) {
                 <Container className="modal-frame" component="main" maxWidth="xxl">
                     <CssBaseline />
                     <Box
-                       className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
+                        className={`modal ${currentTheme === darkTheme ? 'dark-modal' : 'light-modal'}`}
                         sx={{
                             width: '65vw',
                             height: '80vh',
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
+                            alignItems: 'center',}} >
                         <Button className="close" onClick={() => setIsModal(false)}>X</Button>
                         <Typography paddingTop={'20px'} component="h2" variant="h5">
                             Edit Card
@@ -109,20 +108,18 @@ export default function EditCard({ card, cardEdited }) {
                                     <Grid key={s.name} item xs={10} sm={6}>
                                         {s.name === 'description' ? (
                                             <div>
-                                                <TextareaAutosize className="textArea"
-                                                    rowsMin={3}
-                                                    placeholder={s.name}
+                                                <TextareaAutosize className="text-area"
+                                                     placeholder={s.label + '...'}
                                                     name={s.name}
                                                     onChange={handleValid}
                                                     value={formData[s.name]}
                                                     autoComplete={s.name}
-                                                    style={{ maxHeight: '200px', minHeight: '110px'}}
                                                 />
                                                 <span className="helper-text">{errors[s.name]}</span>
                                             </div>
                                         ) : (
                                             <TextField
-                                                style={{ height: '75px' }}
+                                                style={{ height: '75px', marginBottom: '20px' }}
                                                 required={s.required}
                                                 fullWidth
                                                 id={s.name}
@@ -133,8 +130,7 @@ export default function EditCard({ card, cardEdited }) {
                                                 onChange={handleValid}
                                                 value={formData[s.name] || ''}
                                                 helperText={errors[s.name]}
-
-                                            />
+                                                error={Boolean(errors[s.name])}/>
                                         )}
                                     </Grid>
                                 ))}

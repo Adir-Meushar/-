@@ -6,8 +6,9 @@
   box-sizing: border-box;
 }
 body {
-  margin: 0;
+  /* margin: 0; */
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 .Loader {
   display: flex;

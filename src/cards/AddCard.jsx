@@ -3,7 +3,7 @@ import { GeneralContext, darkTheme } from "../App";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Joi from "joi";
 import { Box, Container } from "@mui/system";
-import { Avatar, Button, CssBaseline, Grid,TextField, TextareaAutosize, Typography } from "@mui/material";
+import { Avatar, Button, CssBaseline, Grid, TextField, TextareaAutosize, Typography } from "@mui/material";
 import './addEditModal.css'
 export const cardStructur = [
     { name: 'title', type: 'text', label: 'Title', required: true, block: false },
@@ -18,9 +18,8 @@ export const cardStructur = [
     { name: 'city', type: 'text', label: 'City', required: true, block: false },
     { name: 'street', type: 'text', label: 'Street', required: true, block: false },
     { name: 'houseNumber', type: 'number', label: 'House Number', required: true, block: false },
-    { name: 'description', type: 'text', label: 'Description', required: true, block: false },
     { name: 'zip', type: 'number', label: 'Zip', required: true, block: false },
-
+    { name: 'description', type: 'text', label: 'Description', required: true, block: false },
 ];
 const initialFormData = cardStructur.reduce((obj, field) => {
     obj[field.name] = '';
@@ -30,6 +29,7 @@ export default function AddCard({ added }) {
     const [ismodal, setIsModal] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
     const [isFormValid, setIsFormValid] = useState(false)
+    const [isAddBtn, setIsAddBtn] = useState(true)
     const [errors, setErrors] = useState({})
     const schema = Joi.object({
         title: Joi.string().min(2),
@@ -43,7 +43,7 @@ export default function AddCard({ added }) {
         imgUrl: Joi.string().uri({
             scheme: ['http', 'https'],
         }).allow('').messages({
-            "string.uri": "Invalid image URL format",
+            "string.uri": "Please enter a valid image URL",
         }),
         imgAlt: Joi.string().allow(),
         state: Joi.string().min(2),
@@ -52,7 +52,7 @@ export default function AddCard({ added }) {
         street: Joi.string().min(2),
         houseNumber: Joi.number(),
         zip: Joi.number(),
-        description: Joi.string().min(10)
+        description: Joi.string().min(10).max(750)
     });
     const handleValid = (ev) => {
         const { name, value } = ev.target;
@@ -89,6 +89,7 @@ export default function AddCard({ added }) {
                 setIsModal(false)
                 setIsFormValid(false);
                 setFormData(initialFormData)
+                setIsAddBtn(true)
                 snackbar(`Card Added Succesfully!`)
             });
     }
@@ -107,7 +108,7 @@ export default function AddCard({ added }) {
                             flexDirection: 'column',
                             alignItems: 'center',
                         }} >
-                        <Button className="close" onClick={() => setIsModal(false)}>X</Button>
+                        <Button className="close" onClick={() => { setIsModal(false); setIsAddBtn(true);setFormData(initialFormData); }}>X</Button>
                         <Typography paddingTop={'20px'} component="h2" variant="h5">
                             Add New Card
                         </Typography>
@@ -117,20 +118,20 @@ export default function AddCard({ added }) {
                                     <Grid key={s.name} item xs={10} sm={6}>
                                         {s.name === 'description' ? (
                                             <div>
-                                                <TextareaAutosize className="textArea"
+                                                <TextareaAutosize className="text-area"
                                                     required={s.required}
                                                     placeholder={s.label + '...'}
                                                     name={s.name}
                                                     onChange={handleValid}
                                                     value={formData[s.name]}
                                                     autoComplete={s.name}
-                                                    style={{ maxHeight: '200px', minHeight: '110px' }}
+                                                    style={{ maxHeight: '200px', minHeight: '130px' }}
                                                 />
                                                 <span className="helper-text">{errors[s.name]}</span>
                                             </div>
                                         ) : (
                                             <TextField
-                                                style={{ height: '75px' }}
+                                                style={{ height: '70px', marginBottom: '20px' }}
                                                 required={s.required}
                                                 fullWidth
                                                 id={s.name}
@@ -140,12 +141,14 @@ export default function AddCard({ added }) {
                                                 autoComplete={s.name}
                                                 onChange={handleValid}
                                                 value={formData[s.name]}
-                                                helperText={errors[s.name]} />
+                                                helperText={errors[s.name]}
+                                                error={Boolean(errors[s.name])} />
                                         )}
                                     </Grid>
                                 ))}
                                 <Grid item xs={12}>
                                     <Button
+                                        style={{ marginTop: '20px' }}
                                         className="save-btn"
                                         type="submit"
                                         fullWidth
@@ -159,7 +162,15 @@ export default function AddCard({ added }) {
                     </Box>
                 </Container>
             )}
-            <AiOutlinePlusCircle onClick={() => setIsModal(true)} className={`add-btn ${currentTheme === darkTheme ? 'add-btn-dark' : 'add-btn-light'}`} />
+            {isAddBtn &&
+                <AiOutlinePlusCircle onClick={() => {
+                    setIsModal(true);
+                    setIsAddBtn(false);
+                }} 
+               className={`add-btn  ${currentTheme === darkTheme ? 'add-btn-dark' : 'add-btn-light'}`} 
+                
+                />}
+
         </>
     );
 }      

@@ -32,7 +32,7 @@ const pages = [
   { route: "/signup", title: "Signup", permissions: [RoleTyps.none] },
   { route: "/favcards", title: "Favcards", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
   { route: "/mycards", title: "Mycards", permissions: [RoleTyps.business, RoleTyps.admin], },
-  { route: "/admin", title: "User Managment", permissions: [RoleTyps.admin], },];
+  { route: "/admin", title: "Admin", permissions: [RoleTyps.admin], },];
 const settings = [
   { route: "/account", title: "Account", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
 ];
@@ -80,9 +80,8 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname.startsWith('/business/')
   );
   return (
-    <AppBar  style={{ minWidth: location.pathname !== '/about' ? '450px' : '' }} className="top-nav" position="static">
+    <AppBar  style={{width:'101%', minWidth: location.pathname !== '/about' ? '450px' : '' }} className="top-nav" position="static">
       <Container maxWidth="xl"> 
-      {/* 'm?' */}
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography

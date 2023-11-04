@@ -8,17 +8,18 @@ import UsersEditAdmin from './UsersEditAdmin';
 export default function UsersManagement() {
     const [users, setUsers] = useState([]);
     const [isEditUser,setIsEditUser]=useState(null);
-    const { snackbar,currentTheme } = useContext(GeneralContext)
+    const { snackbar,currentTheme,setLoader } = useContext(GeneralContext)
     const usersRef = useRef(users);
     useEffect(() => {
+        setLoader(true)
         fetch(`https://api.shipap.co.il/admin/clients?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setUsers(data)
                 usersRef.current = data;
+                setLoader(false)
             });
     }, [])
 

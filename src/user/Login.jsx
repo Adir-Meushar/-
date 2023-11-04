@@ -148,7 +148,7 @@ export default function Login() {
             <Button
               type="submit"
               fullWidth
-              disabled={!isFormValid}
+              // disabled={!isFormValid}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
