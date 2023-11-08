@@ -93,12 +93,12 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
         }
         setErrors(tempErrors);
         setIsFormValid(!validate.error);
-        console.log(validate.error);
     };
-console.log(usersDetails);
+
     const handleSubmit = (ev, userId) => {
         ev.preventDefault();
         const obj = { ...formData };
+        obj.business = formData.business;
         setLoader(true);
         fetch(`https://api.shipap.co.il/admin/clients/${userId}?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -106,19 +106,16 @@ console.log(usersDetails);
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(obj),
         })
-
             .then(() => {
                 setLoader(false);
                 closeUserEdit();
                 snackbar(`User Number ${userId} Was Updated Succesfully!`)
+                console.log(obj);
                 updateUserState(obj);
-
             }).catch((err) => {
-                console.error(err);
                 setLoader(false);
             });
     };
-
     return (
         <>
             {usersDetails ? (
@@ -142,18 +139,23 @@ console.log(usersDetails);
                                 {modifiedClientStructure.map((s) => (
                                     <Grid key={s.name} item sm={s.block ? 12 : 6}>
                                         {s.type === 'boolean' ? (
-                                            <FormControlLabel style={{ marginTop: '25px' }}
-                                                control={
-                                                    <Switch
-                                                        color="primary"
-                                                        name={s.name}
-                                                        checked={formData[s.name]}
-                                                        onChange={() => alert('User type are not allowed to be Changed, you can create a new user with your preferences')}
-                                                    />
-                                                }
-                                                label={s.label}
-                                                labelPlacement="start"
-                                            />
+                                             <FormControlLabel style={{ marginTop: '25px' }}
+                                             control={
+                                                 <Switch
+                                                     color="primary"
+                                                     name="business"
+                                                     checked={formData.business}
+                                                     onChange={(ev) => {
+                                                         // Toggle between business and regular user types
+                                                         const updatedFormData = { ...formData };
+                                                         updatedFormData.business = ev.target.checked;
+                                                         setFormData(updatedFormData);
+                                                     }}
+                                                 />
+                                             }
+                                             label="Business User"
+                                             labelPlacement="start"
+                                         />
                                         ) : s.name !== 'password' ? ( // Check if s.name is not equal to 'password'
                                             <TextField
                                                 margin="normal"

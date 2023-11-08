@@ -7,7 +7,6 @@ import { Box, Container } from "@mui/system";
 import { Button, CssBaseline, Grid, TextField,Typography } from "@mui/material";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 
-
 export default function EditCard({ card, cardEdited }) {
     const [formData, setFormData] = useState({});
     const [ismodal, setIsModal] = useState(false);
@@ -140,8 +139,7 @@ export default function EditCard({ card, cardEdited }) {
                                         fullWidth
                                         variant="contained"
                                         disabled={!isFormValid}
-                                        className="save-btn"
-                                    >
+                                        className="save-btn" >
                                         Save Changes
                                     </Button>
                                 </Grid>

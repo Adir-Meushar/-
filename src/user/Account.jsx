@@ -154,7 +154,7 @@ export default function EditAccount() {
                             color="primary"
                             name={s.name}
                             checked={formData[s.name]}
-                            onChange={()=>alert('User type are not allowed to be Changed, you can create a new user with your preferences')}
+                            onChange={()=>alert('User type are not allowed to be Changed by the user, you can contact the admin for this changes.')}
                           />
                         }
                         label={s.label}

@@ -17,6 +17,8 @@ import { Link, useLocation, useNavigate, useResolvedPath } from "react-router-do
 import { GeneralContext, lightTheme } from "../App";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { PiUserCircleDuotone } from "react-icons/pi";
+import { BsSearch } from "react-icons/bs";
+
 export const RoleTyps = {
   none: 0,
   user: 1,
@@ -152,8 +154,8 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               ))}
           </Box>
           {shouldShowSearchBar && (
-            <div><input className='search' type="text" placeholder="Search..."
-            value={searchQuery} onChange={handleSearchChange} /></div>
+            <div className="search-box"><input className='search' type="text" placeholder="Search..." 
+            value={searchQuery} onChange={handleSearchChange} /><BsSearch className="search-icon"/></div>
           )}
           {theme === lightTheme ? <MdOutlineDarkMode onClick={onToggleTheme} className="theme" /> :
             <MdOutlineLightMode onClick={onToggleTheme} className="theme" />}

@@ -34,4 +34,21 @@
   .users-table .ai-delete:hover {
     transform: scale(1.2);
   }
+
+  /* responsive */
+  
+  @media screen and (max-width:750px){
+    .users-table th{
+      padding: 5px;
+      font-size: .7rem;
+    }
+    .users-table td{
+      padding: 7px;
+      font-size: .7rem;
+    }
+    .users-table .fa-edit,
+    .users-table .ai-delete {
+      font-size: 1rem;
+    }
+  }
   

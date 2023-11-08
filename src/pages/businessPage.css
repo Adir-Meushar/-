@@ -43,7 +43,8 @@ padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding: 15px;
+    padding: 15px 25px;
+    border-radius: 7px;
     margin-left: 5px;
     background: linear-gradient(to right, #1CB5E0, #000046); 
 }

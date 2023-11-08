@@ -45,7 +45,7 @@ export default function Cards({ searchQuery }) {
                     ))
                 ) : (
                     <div className={`empty-msg ${currentTheme===darkTheme?'empty-msg-dark':''}`}>
-                        <p style={{marginLeft:'20%'}}>No cards matched your search...</p>
+                        <p style={{textAlign:'center'}}>No cards matched your search...</p>
                         <div className="cards-icon-box">
                             <TbCards className="cards-icon" /> <TbDots className="dots" />
                         </div>

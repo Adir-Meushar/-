@@ -3,7 +3,7 @@ import { GeneralContext, darkTheme } from "../App";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Joi from "joi";
 import { Box, Container } from "@mui/system";
-import { Avatar, Button, CssBaseline, Grid, TextField, TextareaAutosize, Typography } from "@mui/material";
+import { Button, CssBaseline, Grid, TextField, TextareaAutosize, Typography } from "@mui/material";
 import './addEditModal.css'
 export const cardStructur = [
     { name: 'title', type: 'text', label: 'Title', required: true, block: false },
