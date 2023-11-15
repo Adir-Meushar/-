@@ -52,8 +52,7 @@ export default function BottomNav() {
             onChange={handleChange}
             showLabels
             className={'bottom-nav'}
-            style={style}
-        >
+            style={style}>
             {pages
                 .filter((page) => !page.permissions || checkPermissions(page.permissions, userRoleTyps))
                 .map((page) => (

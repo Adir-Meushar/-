@@ -1,520 +1,592 @@
-import React, { useContext, useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { Link, useNavigate } from "react-router-dom";
 import { GeneralContext } from "../App";
+import { useContext, useState ,useEffect} from "react";
 import { RoleTyps } from "../components/Navbar";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
+import Joi from "joi";
+export default function Login() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ""
+  })
+  const [isFormValid,setIsFormValid]=useState(false)
+  const [errors, setErrors] = useState({})
+  const navigate = useNavigate();
+  const [userStatus, setUserStatus] = useState({
+    email: '',
+    loginAttempts: 0,
+    isBlocked: false,
+  });
+  const [blockedUsers, setBlockedUsers] = useState(
+    JSON.parse(localStorage.getItem('blockedUsers')) || []
+  );
+  const { setUser, setLoader, setUserRoleType,snackbar} = useContext(GeneralContext);
+  const schema = Joi.object({
+    email: Joi.string().email({ tlds: false }).required(),
+    password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
+    .messages({
+      "string.pattern.base": "Password must meet the specified criteria",
+      "any.required": "Password is required",
+    }),
+  });
 
-export default function Cards() {
-    const { userRoleTyps } = useContext(GeneralContext);
-    const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
-            .then(res => res.json())
-            .then(data => {
-                // Add a clicked property to each card and initialize it to false
-                const cardsWithClicked = data.map(card => ({ ...card, clicked: false }));
-                setCards(cardsWithClicked);
-            });
-    }, []);
-
-    function toggleCardClick(cardId) {
-        // Toggle the clicked property for the specific card with cardId
-        setCards(prevCards =>
-            prevCards.map(card =>
-                card.id === cardId ? { ...card, clicked: !card.clicked } : card
-            )
-        );
+  const handleValid = (ev) => {
+    const { name, value } = ev.target;
+    const obj = { ...formData, [name]: value }
+    setFormData(obj)
+    const validate = schema.validate(obj, { abortEarly: false })
+    const tempErrors = { ...errors }
+    delete tempErrors[name];
+    if (validate.error) {
+      const item = validate.error.details.find((e) => e.context.key == name)
+      if (item) {
+        tempErrors[name] = item.message;
+      }
     }
-
-    function addFav(cardId) {
-        if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
-            // Perform the favorite action for the specific card with cardId
-            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    // Update the state for the specific card
-                    setCards(prevCards =>
-                        prevCards.map(card =>
-                            card.id === cardId ? { ...card, favCard: true } : card
-                        )
-                    );
-                });
-        }
+    setIsFormValid(!validate.error)
+    setErrors(tempErrors)
+  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const blockedUsers = JSON.parse(localStorage.getItem('blockedUsers')) || [];
+    const isBlocked = userStatus.isBlocked;
+    if (blockedUsers.includes(formData.email)) {
+      snackbar('You are blocked. Please try again later.');
+      return;
     }
-
-    function removeFav(cardId) {
-        if (window.confirm('Are you sure you want to remove this Card from your Favorites?')) {
-            // Perform the unfavorite action for the specific card with cardId
-            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    // Update the state for the specific card
-                    setCards(prevCards =>
-                        prevCards.map(card =>
-                            card.id === cardId ? { ...card, favCard: false } : card
-                        )
-                    );
-                });
-        }
-    }
-
-    return (
-        <>
-            <h2>Cards</h2>
-            <div className="container">
-                {cards.map((c) => (
-                    <div key={c.id} className="card-box">
-                        <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
-                        <div className="detail-box">
-                            <div>
-                                <h3>{c.title}</h3>
-                                <p>{c.description}</p>
-                            </div>
-                            <p>{c.phone}</p>
-                            <p>Address: {c.city + ' ' + c.street}</p>
-                            <p>Card Number:{c.id}</p>
-                            <div className="btn-box">
-                                {userRoleTyps === RoleTyps.user || userRoleTyps === RoleTyps.business || userRoleTyps === RoleTyps.admin ? (
-                                    <>
-                                        {c.favCard ? <VscHeartFilled onClick={() => removeFav(c.id)} className="fav" /> :
-                                            <VscHeart onClick={() => addFav(c.id)} className={`fav ${c.clicked ? 'clicked' : ''}`} />}
-                                        <button onClick={() => toggleCardClick(c.id)}>Call(?)</button>
-                                    </>
-                                ) : (
-                                    <button>Call(?)</button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </>
-    );
-}
-
-
-///With Loacl Storage//
-import React, { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../App";
-import { RoleTyps } from "../components/Navbar";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
-import { AiOutlinePhone } from "react-icons/ai";
-
-export default function Cards() {
-    const [cards, setCards] = useState([]);
-    const { userRoleTyps } = useContext(GeneralContext);
-
-    useEffect(() => {
-        // Load favorite status from localStorage when the component mounts
-        const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || {};
-
-        fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
-            .then(res => res.json())
-            .then(data => {
-                // Initialize the favorite status for each card
-                const cardsWithFavorites = data.map(card => ({
-                    ...card,
-                    isFavorite: savedFavorites[card.id] || false
-                }));
-                setCards(cardsWithFavorites);
-            });
-    }, []);
-
-    function addFav(cardId) {
-        if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
-            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    // Update the favorite status for the specific card
-                    setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: true } : card));
-
-                    // Update localStorage to store the favorite status
-                    localStorage.setItem("favorites", JSON.stringify({ ...JSON.parse(localStorage.getItem("favorites") || "{}"), [cardId]: true }));
-                });
-        }
-    }
-
-    function removeFav(cardId) {
-        if (window.confirm('Are you sure you want to remove this Card from your Favorites?')) {
-            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    // Update the favorite status for the specific card
-                    setCards(prevCards => prevCards.map(card => card.id === cardId ? { ...card, isFavorite: false } : card));
-
-                    // Update localStorage to store the favorite status
-                    localStorage.setItem("favorites", JSON.stringify({ ...JSON.parse(localStorage.getItem("favorites") || "{}"), [cardId]: false }));
-                });
-        }
-    }
-
-    return (
-        <>
-            <h2>Cards</h2>
-            <div className="container">
-                {cards.map((c) => (
-                    <div key={c.id} className="card-box">
-                        <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
-                        <div className="detail-box">
-                            <div>
-                                <h3>{c.title}</h3>
-                                <p>{c.description}</p>
-                            </div>
-                            <p>{c.phone}</p>
-                            <p>Address: {c.city + ' ' + c.street}</p>
-                            <p>Card Number: {c.id}</p>
-                            <div className="btn-box">
-                                {userRoleTyps === RoleTyps.user || userRoleTyps === RoleTyps.business || userRoleTyps === RoleTyps.admin ? (
-                                    <>
-                                        {c.isFavorite ? (
-                                            <VscHeartFilled onClick={() => removeFav(c.id)} className="fav" />
-                                        ) : (
-                                            <VscHeart onClick={() => addFav(c.id)} className="fav" />
-                                        )}
-                                        <AiOutlinePhone />
-                                    </>
-                                ) : (
-                                    <AiOutlinePhone />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </>
-    );
-}
-
-
-///fav-with-local//
-import React, { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../App";
-import { RoleTyps } from "../components/Navbar";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
-import { AiOutlinePhone } from "react-icons/ai";
-
-export default function Cards() {
-    const [cards, setCards] = useState([]);
-    const { userRoleTyps } = useContext(GeneralContext);
-
-    // Initialize cards from local storage or API data
-    useEffect(() => {
-        // Check if there are cards in local storage
-        const storedCards = JSON.parse(localStorage.getItem("favoriteCards")) || [];
-
-        // Fetch cards from the API if local storage is empty
-        if (storedCards.length === 0) {
-            fetch(`https://api.shipap.co.il/cards?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`)
-                .then((res) => res.json())
-                .then((data) => {
-                    // Initialize the favorite status for each card
-                    const cardsWithFavorites = data.map((card) => ({
-                        ...card,
-                        isFavorite: false,
-                    }));
-                    setCards(cardsWithFavorites);
-                });
+    const data = new FormData(event.currentTarget);
+    setLoader(true);
+    fetch(
+      `https://api.shipap.co.il/clients/login?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          email: data.get("email"),
+          password: data.get("password"),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          setUserStatus({
+            email: '',
+            loginAttempts: 0,
+            isBlocked: false,
+          });
+          return res.json();
         } else {
-            // Set cards from local storage
-            setCards(storedCards);
+          return res.text().then((x) => {
+            throw new Error(x);
+          });
         }
-    }, []);
-
-    // Function to update favorite status and local storage
-    function updateFavoriteStatus(cardId, isFavorite) {
-        // Update the favorite status for the specific card
-        const updatedCards = cards.map((card) =>
-            card.id === cardId ? { ...card, isFavorite } : card
-        );
-
-        // Update local storage
-        localStorage.setItem("favoriteCards", JSON.stringify(updatedCards));
-
-        // Update state
-        setCards(updatedCards);
-    }
-
-    function addFav(cardId) {
-        if (window.confirm("Are you sure you want to add this Card to your Favorites?")) {
-            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: "include",
-                method: "PUT",
-            })
-                .then(() => {
-                    updateFavoriteStatus(cardId, true);
-                });
+      })
+      .then((data) => {
+        setUser(data);
+        setUserRoleType(RoleTyps.user);
+        if (data.business) {
+          setUserRoleType(RoleTyps.business);
+        } else if (data.admin) {
+          setUserRoleType(RoleTyps.admin);
         }
-    }
-
-    function removeFav(cardId) {
-        if (window.confirm("Are you sure you want to remove this Card from your Favorites?")) {
-            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-                credentials: "include",
-                method: "PUT",
-            })
-                .then(() => {
-                    updateFavoriteStatus(cardId, false);
-                });
-        }
-    }
-
-
-    return (
-        <>
-            <h2>Cards</h2>
-            <div className="container">
-                {cards.map((c) => (
-                    <div key={c.id} className="card-box">
-                        <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
-                        <div className="detail-box">
-                            <div>
-                                <h3>{c.title}</h3>
-                                <p>{c.description}</p>
-                            </div>
-                            <p>{c.phone}</p>
-                            <p>Address: {c.city + ' ' + c.street}</p>
-                            <p>Card Number: {c.id}</p>
-                            <div className="btn-box">
-                                {userRoleTyps === RoleTyps.user || userRoleTyps === RoleTyps.business || userRoleTyps === RoleTyps.admin ? (
-                                    <>
-                                        {c.isFavorite ? (
-                                            <VscHeartFilled onClick={() => removeFav(c.id)} className="fav card-icon" />
-                                        ) : (
-                                            <VscHeart onClick={() => addFav(c.id)} className="fav card-icon" />
-                                        )}
-                                        <AiOutlinePhone className="card-icon" />
-                                    </>
-                                ) : (
-                                    <AiOutlinePhone className="card-icon" />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </>
-    );
-}
-
-<div>
-<h2>FavCards</h2>
-<div className="container">
-    {favCards.map((c) => {
-        if (c.id === undefined) {
-            return null; // Skip rendering when c.id is undefined
-        }
-
-        return (
-            <div key={c.id} className="card-box">
-                <div className="img-box"><img src={c.imgUrl} alt={c.imgAlt} /></div>
-                <div className="detail-box">
-                    <div>
-                        <h3>{c.title}</h3>
-                        <p>{c.subtitle}</p>
-                    </div>
-                    <p>Email:{c.email}</p>
-                    <p>Address: {c.street + ' ' + c.city + ' ' + c.state}</p>
-                    <p>Card Number:{c.id}</p>
-                    <div className="btn-box">
-                        <VscHeartFilled className="fav card-icon" onClick={() => removeFav(c.id)} />
-                        <AiOutlinePhone className="card-icon" />
-                        {c.clientId === user.id || userRoleTyps === RoleTyps.admin ? (
-                            <AiFillDelete className="card-icon" onClick={() => deleteCard(c.id)} />
-                        ) : null}
-                    </div>
-                </div>
-            </div>
-        );
-    })}
-
-</div>
-</div>
-
-{ismodal && (
-    <div className="modal-frame">
-        <div className="modal">
-            <header>
-                <button className="close" onClick={() => setIsModal(false)}>
-                    X
-                </button>
-                <h2> New Card</h2>
-            </header>
-            <form onSubmit={addCard}>
-                {cardStructur.map((s) => {
-                    if (s.name === 'description') {
-                        return (
-                            <textarea
-                                key={s.name}
-                                name={s.name}
-                                placeholder={s.name}
-                                id={s.name}
-                                cols="30"
-                                rows="10"
-                                onChange={handleValid}
-                                helperText={errors[s.name]} 
-                                style={{ resize: 'none' }}
-                            ></textarea>
-                        );
-                    } else {
-                        return (
-                            <label key={s.name}>
-                                <input
-                                    placeholder={s.name}
-                                    type={s.type}
-                                    name={s.name}
-                                    value={formData[s.name]} // Use formData[s.name] to get the value dynamically
-                                    onChange={handleValid}
-                                    helperText={errors[s.name]} 
-                                />
-                            </label>
-                        );
-                    }
-                })}
-                {/* Add a submit button here */}
-                <button type="submit" className="save-btn" disabled={!isFormValid}>Submit</button>
-            </form>
-
-        </div>
-    </div>
-)}
-
-
-///same as the add card!
-import React, { useContext, useEffect, useState } from "react";
-import { GeneralContext } from "../App";
-import { RoleTyps } from "../components/Navbar";
-import { cardStructur } from "./AddCard"
-import { FaRegEdit } from "react-icons/fa";
-
-export default function EditCard({ card, cardEdited }) {
-    const [formData, setFormData] = useState({});
-    const [ismodal, setIsModal] = useState(false);
-    const {setLoader } = useContext(GeneralContext);
-    useEffect(() => {
-        if (card) {
-            console.log(card);
-            setFormData(card);
-        } else {
-            setFormData({});
-        }
-    }, [card])
-    const inputChange = (ev) => {
-        const { name, value } = ev.target;
-        setFormData({
-            ...formData,
-            [name]: value,
+        navigate("/");
+        snackbar(`Welcome ${data.fullName}`)
+      })
+      .catch((err) => {
+        setUserStatus({
+          email: formData.email,
+          loginAttempts: userStatus.loginAttempts+1,
+          isBlocked: false,
         });
-    };
-    function editCard(ev) {
-        ev.preventDefault();
-        setLoader(true)
-        fetch(`https://api.shipap.co.il/business/cards/${card.id}?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
-            credentials: 'include',
-            method: 'PUT',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(formData),
-        })
-            .then(() => {
-                cardEdited(formData)
-                setIsModal(false)
-                setLoader(false)
-               
+        console.log(err.message);
+        if (userStatus.loginAttempts + 1 >= 3) {
+          setUserStatus({
+            email: formData.email,
+            loginAttempts: userStatus.loginAttempts,
+            isBlocked: true,
+          });
+          setBlockedUsers([...blockedUsers, userStatus]);
+          localStorage.setItem('blockedUsers', JSON.stringify([...blockedUsers, userStatus]));
+          setTimeout(() => {
+            const updatedBlockedUsers = blockedUsers.filter(user => user !== formData.email);
+            setBlockedUsers(updatedBlockedUsers);
+            localStorage.setItem('blockedUsers', JSON.stringify(updatedBlockedUsers));
+            setUserStatus({
+              email: '',
+              loginAttempts: 0,
+              isBlocked: false,
             });
-    }
-    return (
-        <div>
-            {ismodal && (
-                <div className="modal-frame">
-                    <div className="modal">
-                        <header>
-                            <button className="close" onClick={() => setIsModal(false)}>
-                                X
-                            </button>
-                            <h2>Edit Card</h2>
-                        </header>
-                        <form onSubmit={editCard}>
-                            {cardStructur.map(s =>
-                                <label key={s.name}>
-                                    <input placeholder={s.name}
-                                        type={s.type}
-                                        name={s.name}
-                                        value={formData[s.name]||''}
-                                        onChange={inputChange}/>
-                                </label>
-                            )}
-                            <button className="save-btn" >Save Changes</button>
-                        </form>
-                    </div>
-                </div>
-            )}
-            <FaRegEdit className="card-icon" onClick={()=>setIsModal(true)}/>
-        </div>
-    );
+          }, 1 * 60 * 1000); // user block time.
+          snackbar('Three Failed Login Attempts, Please Try Again Later');
+        } else {
+          snackbar('Invalid username or password, Please double-check and try again');
+        }
+      })
+      .finally(() => setLoader(false));
+  };
+  return (
+    <>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
+            <TextField
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleValid}
+              value={formData.email}/>
+            <TextField
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleValid}
+              value={formData.password}/>
+            <Button
+              type="submit"
+              fullWidth
+              // disabled={!isFormValid|| userStatus.email}
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}>
+              Login
+            </Button>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Link to="/signup">Don't have an account? Sign Up</Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+       
+
+       {/* Msg */}
+      {/* {isBlocked&&localStorage.getItem('blockedUser')===formData.email? <div><p>blablabla</p></div>:''} */}
+     
+      </>
+  );
 }
-<>
-          <div className="page-header">
-                <h1 >Favorite Cards</h1>
-                <p>Here you will find All your favorite cards.</p>
-            </div>
-            <div className="container">
-                {filteredCards.length > 0 ? filteredCards.map((c) => (
-                    localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
-                        <Card
-                            c={c}
-                            key={c.id}
-                            cardEdited={updateCardInEdit}
-                            cardDeleted={deleteCardFromState}
-                            removeFromFav={removeFavFromState}
-                        />
-                    ) : null
-                )) : (
-                    <div className="empty-msg">
-                        <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some</p>
-                        <div className="cards-icon-box">
-                            <TbCards className="cards-icon" /> <TbDots className="dots" />
-                        </div>
-                    </div>
-                )}
-            </div>
-
-        </>
 
 
-// fixed local storage clear but empty msg wont apper for other users
-{user && (
-    <div>
-        <div className="page-header">
-            <h1 >Favorite Cards</h1>
-            <p>Here you will find All your favorite cards.</p>
-        </div>
-        <div className="container">
-            {filteredCards.length > 0 &&localStorage.length ? filteredCards.map((c) => (
-                localStorage.getItem(`favorite_${user.id}_${c.id}`) === 'true' ? (
-                    <Card
-                        c={c}
-                        key={c.id}
-                        cardEdited={updateCardInEdit}
-                        cardDeleted={deleteCardFromState}
-                        removeFromFav={removeFavFromState}
-                    />
-                ) : ''
-            ))
-                : (
-                    <div className="empty-msg">
-                        <p>You Don't Have Any Favorite Cards At The Moment Feel Free To Add Some</p>
-                        <div className="cards-icon-box">
-                            <TbCards className="cards-icon" /> <TbDots className="dots" />
-                        </div>
-                    </div>
-                )}
-        </div>
-    </div>
-)}
+
+
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { Link, useNavigate } from "react-router-dom";
+import { GeneralContext } from "../App";
+import { useContext, useState ,useEffect} from "react";
+import { RoleTyps } from "../components/Navbar";
+import Joi from "joi";
+export default function Login() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ""
+  })
+  const [isFormValid,setIsFormValid]=useState(false)
+  const [errors, setErrors] = useState({})
+  const navigate = useNavigate();
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [loginAttemts,setLoginAttempts]=useState(0);
+  const { setUser, setLoader, setUserRoleType,snackbar,user } = useContext(GeneralContext);
+  const schema = Joi.object({
+    email: Joi.string().email({ tlds: false }).required(),
+    password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
+    .messages({
+      "string.pattern.base": "Password must meet the specified criteria",
+      "any.required": "Password is required",
+    }),
+  });
+
+  const handleValid = (ev) => {
+    const { name, value } = ev.target;
+    const obj = { ...formData, [name]: value }
+    setFormData(obj)
+    const validate = schema.validate(obj, { abortEarly: false })
+    const tempErrors = { ...errors }
+    delete tempErrors[name];
+    if (validate.error) {
+      const item = validate.error.details.find((e) => e.context.key == name)
+      if (item) {
+        tempErrors[name] = item.message;
+      }
+    }
+    setIsFormValid(!validate.error)
+    setErrors(tempErrors)
+  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  
+    const isBlocked = localStorage.getItem('isBlocked');
+    if (isBlocked&&localStorage.getItem('blockedUser')===formData.email) {
+      setIsBlocked(true);
+      snackbar('You are blocked. Please try again later.');
+      return;
+    }
+    const data = new FormData(event.currentTarget);
+    setLoader(true);
+    fetch(
+      `https://api.shipap.co.il/clients/login?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          email: data.get("email"),
+          password: data.get("password"),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          setLoginAttempts(0);
+          setIsBlocked(false);
+          return res.json();
+        } else {
+          return res.text().then((x) => {
+            throw new Error(x);
+          });
+        }
+      })
+      .then((data) => {
+        setUser(data);
+        setUserRoleType(RoleTyps.user);
+        if (data.business) {
+          setUserRoleType(RoleTyps.business);
+        } else if (data.admin) {
+          setUserRoleType(RoleTyps.admin);
+        }
+        navigate("/");
+        snackbar(`Welcome ${data.fullName}`)
+      })
+      .catch((err) => {
+        setLoginAttempts(loginAttemts + 1); 
+        console.log(err.message);
+        if (loginAttemts + 1 >= 3) {
+          setIsBlocked(true);
+          localStorage.setItem('isBlocked', 'true');
+          localStorage.setItem('blockedUser', formData.email);
+          setTimeout(() => {
+            setIsBlocked(false);
+            setLoginAttempts(0);
+            localStorage.removeItem('isBlocked'); 
+            localStorage.removeItem('blockedUser'); 
+          }, 1 * 60 * 1000); // user block time.
+          snackbar('Three Failed Login Attempts, Please Try Again Later');
+        } else {
+          snackbar('Invalid username or password, Please double-check and try again');
+        }
+      })
+      .finally(() => setLoader(false));
+  };
+
+  return (
+    <>
+  
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
+            <TextField
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleValid}
+              value={formData.email}/>
+            <TextField
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleValid}
+              value={formData.password}/>
+            <Button
+              type="submit"
+              fullWidth
+              disabled={!isFormValid||isBlocked&&localStorage.getItem('blockedUser')===formData.email}
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}>
+              Login
+            </Button>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Link to="/signup">Don't have an account? Sign Up</Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+
+      {isBlocked&&localStorage.getItem('blockedUser')===formData.email? <div><p></p></div>:''}
+     
+      </>
+  );
+}
+
+
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { Link, useNavigate } from "react-router-dom";
+import { GeneralContext } from "../App";
+import { useContext, useState, useEffect } from "react";
+import { RoleTyps } from "../components/Navbar";
+import Joi from "joi";
+export default function Login() {
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ""
+  })
+  const [userStatus, setUserStatus] = useState([{
+    email: '',
+    loginAttempts: 0,
+    isBlocked: false,
+  }]);
+  const [blockedUsers, setBlockedUsers] = useState([]);
+  const [isFormValid, setIsFormValid] = useState(false)
+  const [errors, setErrors] = useState({})
+  const navigate = useNavigate();
+  const { setUser, setLoader, setUserRoleType, snackbar, user } = useContext(GeneralContext);
+  console.log(user);
+  const schema = Joi.object({
+    email: Joi.string().email({ tlds: false }).required(),
+    password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
+      .messages({
+        "string.pattern.base": "Password must meet the specified criteria",
+        "any.required": "Password is required",
+      }),
+  });
+
+  const handleValid = (ev) => {
+    const { name, value } = ev.target;
+    const obj = { ...formData, [name]: value }
+    setFormData(obj)
+    const validate = schema.validate(obj, { abortEarly: false })
+    const tempErrors = { ...errors }
+    delete tempErrors[name];
+    if (validate.error) {
+      const item = validate.error.details.find((e) => e.context.key == name)
+      if (item) {
+        tempErrors[name] = item.message;
+      }
+    }
+    setIsFormValid(!validate.error)
+    setErrors(tempErrors)
+  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+    const userEmail = data.get("email");
+    setLoader(true);
+    fetch(
+      `https://api.shipap.co.il/clients/login?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          email: data.get("email"),
+          password: data.get("password"),
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.text().then((x) => {
+            throw new Error(x);
+          });
+        }
+      })
+      .then((data) => {
+        setUser(data);
+        setUserRoleType(RoleTyps.user);
+        if (data.business) {
+          setUserRoleType(RoleTyps.business);
+        } else if (data.admin) {
+          setUserRoleType(RoleTyps.admin);
+        }
+        navigate("/");
+        snackbar(`Welcome ${data.fullName}`)
+      })
+      .catch((err) => {
+        const updatedUserStatus = userStatus.map((user) => {
+          if (user.email === userEmail) {
+            return {
+              ...user,
+              loginAttempts: user.loginAttempts + 1,
+              isBlocked: user.loginAttempts + 1 < 3 ? false : true,
+            };
+          }
+          return user;
+        });
+  
+        setUserStatus(updatedUserStatus);
+  
+        // Check if the user is blocked and add to blockedUsers if true
+        const blockedUser = updatedUserStatus.find((user) => user.isBlocked);
+  
+        if (blockedUser) {
+          setBlockedUsers([...blockedUsers, blockedUser]);
+        }
+        console.log(userStatus);
+        console.log(blockedUsers);
+        console.log(err.message);
+
+      })
+      .finally(() => setLoader(false));
+  };
+
+  return (
+    <>
+
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
+            <TextField
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleValid}
+              value={formData.email} />
+            <TextField
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleValid}
+              value={formData.password} />
+            <Button
+              type="submit"
+              fullWidth
+              // disabled={!isFormValid}
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}>
+              Login
+            </Button>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Link to="/signup">Don't have an account? Sign Up</Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </>
+  );
+}
+
+

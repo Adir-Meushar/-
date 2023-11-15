@@ -13,7 +13,7 @@
     width: 80%;
     height: 75%;
     max-width: 800px;
-    min-width: 400px;
+    min-width: 470px;
     min-height: 300px;
     border-radius: 5px;
     margin: auto;
@@ -55,8 +55,8 @@
     transition: 0.3s;
   }
   .modal .text-area{
-    width: 350px;
-    min-width: 250px;
+    width: 360px;
+    min-width: 310px;
     resize: none;
     line-height: 1.3;
     outline: none;

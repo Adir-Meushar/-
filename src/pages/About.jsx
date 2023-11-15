@@ -27,7 +27,8 @@ export default function About() {
                 <ul className="steps">
                     <li>You can edit and update your card after creating it.</li>
                     <li>Only a Business Type user can create cards.</li>
-                    <li>If your current user isn't a Business Type, you can create one totally free!</li>
+                    <li>If your current user isn't a Business Type, you can contact the admin with the Information below 
+                        or create a new one totally free!</li>
                 </ul>
                 <br />
                 <p>If you have any further question feel free to contact 😀</p>

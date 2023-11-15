@@ -61,7 +61,6 @@ export default function EditCard({ card, cardEdited }) {
 
     useEffect(() => {
         if (card) {
-            console.log(card);
             setFormData(card);
         } else {
             setFormData({});

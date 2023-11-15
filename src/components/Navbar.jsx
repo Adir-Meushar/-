@@ -79,6 +79,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname === '/login' ||
     location.pathname === '/account' ||
     location.pathname === '/signup' ||
+    location.pathname === '/admin' ||
     location.pathname.startsWith('/business/')
   );
   return (
