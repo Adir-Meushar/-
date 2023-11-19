@@ -12,7 +12,7 @@ import BusinessPage from './pages/BusinessPage';
 export default function Router({query}) {
     return (
         <Routes>
-            <Route path="/Business-Cards" element={<Cards searchQuery={query}/>} />
+            <Route path="/" element={<Cards searchQuery={query}/>} />
             <Route path="/about" element={<About />} />
             <Route path="/mycards" element={<MyCards searchQuery={query}/>} />
             <Route path="/favcards" element={<FavCards searchQuery={query} />} />
