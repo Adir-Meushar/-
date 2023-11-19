@@ -91,6 +91,7 @@ export default function Login() {
       })
       .catch((err) => {
         // Handle login error
+        snackbar('Invalid email or password please try again...')
         let obj = JSON.parse(localStorage.getItem('obj')) || {};
         if (!obj[formData.email]) {
           obj[formData.email] = { attempts: 1, isBlocked: false };
@@ -99,6 +100,7 @@ export default function Login() {
           obj[formData.email] = {
             attempts: attempts + 1,
             isBlocked: attempts + 1 >= 3 ? true : false,
+            // snackbar('Sorry this email is blocked for now try again later')
           };
         }
         localStorage.setItem('obj', JSON.stringify(obj));
