@@ -11,7 +11,7 @@
   }
   .light-card{
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    background-color: #e6f3ff;
+    background-color: red;
   }
   .light-card a{
     color: rgb(46, 46, 46);
