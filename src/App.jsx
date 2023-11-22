@@ -23,17 +23,15 @@ export const darkTheme = createTheme({
 export const lightTheme = createTheme({
   palette: {
     primary: {
-      main: '#1976D2', // Define your primary color
+      main: '#1976D2', 
     },
     secondary: {
-      main: '#FF4081', // Define your secondary color
+      main: '#FF4081', 
     },
     background: {
-      default: '#d8f5ff', // Define your background color
+      default: '#d8f5ff', 
     },
-    // Other theme options...
   },
-  // Typography and other theme options...
   typography:{
     fontFamily:'Inter',
   }
@@ -50,7 +48,6 @@ export default function App() {
   const handleSearchChange = (query) => {
     setSearchQuery(query); // Update the search query in the parent component
   };
-
   useEffect(() => {
     fetch(`https://api.shipap.co.il/clients/login`, {
       credentials: "include",

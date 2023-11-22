@@ -83,7 +83,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname.startsWith('/business/')
   );
   return (
-    <AppBar  style={{width:'101%', minWidth: location.pathname !== '/about' ? '450px' : '' }} className="top-nav" position="static">
+    <AppBar  style={{width:'100%', minWidth: location.pathname !== '/about' ? '450px' : '' }} className="top-nav" position="static">
       <Container maxWidth="xl"> 
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -139,7 +139,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               fontWeight: 600,
               letterSpacing: ".1rem",
               color: "inherit",}}>
-            {user ? user.firstName : "CardCraft"}
+            {user && user.firstName ? user.firstName : "CardCraft"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.filter((page) => !page.permissions ||

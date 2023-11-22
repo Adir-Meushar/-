@@ -12,7 +12,7 @@
     border-radius: 5px;
     margin: 25px 0;
   }
-  /* Light-Container */
+ 
   .light-mode .page-header {
     background-color: #3498db;
   }
@@ -25,7 +25,7 @@
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  /* Dark-Container */
+ 
   .dark-mode .page-header {
     box-shadow: 0 10px 15px -3px rgb(216 215 215 / 10%), 0 4px 6px -4px rgb(213 213 213 / 10%);
     background: linear-gradient(to right, #414345, #232526);
@@ -34,7 +34,7 @@
     background-color: #494949;
     box-shadow: 0 10px 15px -3px rgb(216 215 215 / 10%), 0 4px 6px -4px rgb(213 213 213 / 10%);
   }
-  /* Lists */
+
 .steps {
     padding-left: 20px;
     font-size: 1.1rem;
@@ -44,7 +44,6 @@
     margin-bottom: 10px;
   }
   
-  /* Contact Information */
   .about-container h3 {
     margin: 15px;
   }

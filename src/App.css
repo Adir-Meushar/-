@@ -1,6 +1,4 @@
 .page-header{
-  /* width: 60vw;
-  margin: 30px ; */
   color: #fff;
   padding: 20px 40px;
   text-align: left;
@@ -100,7 +98,6 @@ button{
   font-size: 3rem;
 }
 .bottom-nav{
-  /* border: 1px solid black; */
   width: 100vw;
   position: fixed;
   bottom: 0;

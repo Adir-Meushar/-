@@ -13,7 +13,6 @@ export default function Card({ c, cardEdited, cardDeleted, removeFromFav }) {
   const location = useLocation();
   const { userRoleTyps, user, snackbar, currentTheme } = useContext(GeneralContext);
 
-
   function addFav(cardId) {
     if (window.confirm('Are you sure you want to add this Card to your Favorites?')) {
       localStorage.setItem(`favorite_${user.id}_${cardId}`, 'true');
@@ -63,7 +62,7 @@ export default function Card({ c, cardEdited, cardDeleted, removeFromFav }) {
       const i = cards.findIndex((x) => x.id === c.id);
       cards.splice(i, 1, c);
       setCards([...cards]);
-      cardEdited(c); // Call the callback function to update state in Cards component
+      cardEdited(c); 
     }
     setEditCard();
   }

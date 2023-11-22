@@ -6,7 +6,6 @@
   box-sizing: border-box;
 }
 body {
-  /* margin: 0; */
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
@@ -22,8 +21,5 @@ body {
   left: 0;
   bottom: 0;
 }
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
+
 

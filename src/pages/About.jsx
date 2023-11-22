@@ -46,7 +46,6 @@ export default function About() {
                         <span><b>Email: <br /> </b> cardcraft@gmail.com</span>
                     </div>
                 </div>
-            
             </div>
         </div>
 

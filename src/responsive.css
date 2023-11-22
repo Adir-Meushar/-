@@ -8,7 +8,6 @@
     .empty-msg{
       grid-column-start:2 ;
       grid-column-end:3;
-     
     }
     .page-header{
       min-width: 500px;
@@ -17,7 +16,7 @@
       min-width: 200px;
     }
   }
-  
+
   @media screen and (max-width:1200px){
     .container{
       grid-template-columns: repeat(2,1fr);
@@ -54,7 +53,6 @@
   @media screen and (max-width:750px){
     .search-box{
       height: 32px;
-     
     }
     .container{
       grid-template-columns: repeat(1,1fr);
@@ -64,9 +62,6 @@
     .card-box{
       min-width: 335px;
     }
-    /* .page-header{
-      min-width: 450px;
-    } */
     .page-header h1{
       font-size: 2rem;
     }
@@ -99,12 +94,7 @@
     }
   }
 
-  /* @media screen Phone!!! */
-
   @media screen and (min-width:330px) and (max-width:500px) {
-    /* .container{
-      min-width: 400px;
-    } */
     .page-header {
       min-width:450px;
     }
@@ -125,9 +115,5 @@
       height: 250px;
       font-size: 1rem;
       transform: translateX(-50px);
-     }
-     /* .empty-msg-fav{
-      min-width: 200px;
-     } */
-     
+     }   
   }

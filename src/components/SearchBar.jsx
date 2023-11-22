@@ -48,7 +48,6 @@ export default function SearchBar({ onSearch }) {
   };
 
   const handleSearch = () => {
-    // You can perform the search action here using the inputValue
     onSearch(inputValue);
   };
 
@@ -57,7 +56,6 @@ export default function SearchBar({ onSearch }) {
       handleSearch();
     }
   };
-
   return (
     <SearchContainer>
       <SearchIconContainer>

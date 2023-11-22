@@ -20,12 +20,10 @@ export default function EditAccount() {
   const { user, setUser, setLoader,snackbar } = useContext(GeneralContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    // Set initial state to empty values
     firstName: '',
     middleName: '',
     lastName: '',
     email: '',
-    // You may or may not include password editing
     phone: '',
     imgUrl: '',
     imgAlt: '',
@@ -38,14 +36,12 @@ export default function EditAccount() {
     business: false,
   });
   useEffect(() => {
-    // When the user data is available, populate the form data
     if (user) {
       setFormData({
         firstName: user.firstName || '',
         middleName: user.middleName || '',
         lastName: user.lastName || '',
         email: user.email || '',
-       // You may or may not include password editing
         phone: user.phone || '',
         imgUrl: user.imgUrl || '',
         imgAlt: user.imgAlt || '',
@@ -59,7 +55,7 @@ export default function EditAccount() {
       });
     }
   }, [user]);
-  const [isFormValid, setIsFormValid] = useState(true); // Assuming the form starts as valid
+  const [isFormValid, setIsFormValid] = useState(true); 
   const [errors, setErrors] = useState({});
   const schema = Joi.object({
     firstName: Joi.string().min(2),
@@ -102,10 +98,8 @@ export default function EditAccount() {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    // Prepare the data to be sent to the server
     const obj = { ...formData };
     setLoader(true);
-    // Make an API call to update the user's account
     fetch(`https://api.shipap.co.il/clients/update?token=d29617f9-3431-11ee-b3e9-14dda9d4a5f0`, {
       credentials: 'include',
       method: 'PUT',
@@ -114,14 +108,12 @@ export default function EditAccount() {
     })
       .then(() => {
         setLoader(false);
-        // You can redirect or update state as needed after successful update
         navigate('/');
         snackbar('Your Account Was Updated!')
       })
       .catch((err) => {
         console.error(err);
         setLoader(false);
-        // Handle error here
       });
   };
   return (
@@ -135,10 +127,9 @@ export default function EditAccount() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-            }}
-          >
+            }} >
             <Avatar sx={{m:1, bgcolor: 'primary.main',width:'200px',height:'200px' }}>
-              <img className='profile-img'  src={user.imgUrl.length>0?user.imgUrl:'https://srcwap.com/wp-content/uploads/2022/08/blank-profile-picture-hd-images-photo.jpg'} alt={user.imgAlt} />
+              <img className='profile-img'  src={user.imgUrl&& user.imgUrl.length>0?user.imgUrl:'https://srcwap.com/wp-content/uploads/2022/08/blank-profile-picture-hd-images-photo.jpg'} alt={user.imgAlt} />
             </Avatar>
             <Typography component="h1" variant="h5">
               Edit Account
@@ -160,7 +151,7 @@ export default function EditAccount() {
                         label={s.label}
                         labelPlacement="start"
                       />
-                    ) : s.name !== 'password' ? ( // Check if s.name is not equal to 'password'
+                    ) : s.name !== 'password' ? ( 
                       <TextField
                         margin="normal"
                         required={s.required}
@@ -172,13 +163,13 @@ export default function EditAccount() {
                         autoComplete={s.name}
                         value={formData[s.name]}
                         onChange={(ev) => {
-                          handleValid(ev); // Call handleValid first
-                          setUser({ ...user, [s.name]: ev.target.value }); // Then update user state
+                          handleValid(ev); 
+                          setUser({ ...user, [s.name]: ev.target.value }); 
                         }}
                         error={errors[s.name] !== undefined}
                         helperText={errors[s.name] || ''}
                       />
-                    ) : ''} {/* Render null if s.name is 'password' */}
+                    ) : ''} 
                   </Grid>
                 ))}
               </Grid>
@@ -187,8 +178,7 @@ export default function EditAccount() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-              disabled={!isFormValid}
-              >
+              disabled={!isFormValid} >
                 Save
               </Button>
             </Box>

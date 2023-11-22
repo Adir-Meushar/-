@@ -110,7 +110,6 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
                 setLoader(false);
                 closeUserEdit();
                 snackbar(`User Number ${userId} Was Updated Succesfully!`)
-                console.log(obj);
                 updateUserState(obj);
             }).catch((err) => {
                 setLoader(false);

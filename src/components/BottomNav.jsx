@@ -10,8 +10,6 @@ import { GeneralContext,darkTheme } from "../App";
 import { RoleTyps } from './Navbar';
 import { Link, useResolvedPath } from 'react-router-dom';
 
-
-
 const pages = [
     { route: "/about", title: "About", icon: <HiOutlineInformationCircle /> },
     { route: "/favcards", title: "Favcards", icon: <FavoriteIcon />, permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin] },
@@ -26,12 +24,10 @@ export default function BottomNav() {
    
     const [value, setValue] = useState(0);
     const path = useResolvedPath().pathname;
-    const { user, setUser, setLoader, userRoleTyps, setUserRoleType,currentTheme } = useContext(GeneralContext);
+    const { userRoleTyps, setUserRoleType,currentTheme } = useContext(GeneralContext);
 
-    // Find the index of the page that matches the current path
     const activePageIndex = pages.findIndex((page) => page.route === path);
 
-    // Set the active page index as the initial value for BottomNavigation
     useEffect(() => {
         if (activePageIndex !== -1) {
             setValue(activePageIndex);
@@ -70,4 +66,3 @@ export default function BottomNav() {
 }
 
 
-// ${classes.root}

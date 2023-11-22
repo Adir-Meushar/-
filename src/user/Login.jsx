@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link, useNavigate } from "react-router-dom";
 import { GeneralContext } from "../App";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { RoleTyps } from "../components/Navbar";
 import Joi from "joi";
 export default function Login() {
@@ -49,7 +49,6 @@ export default function Login() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setLoader(true);
-    // Clear attempts for formData.email
     const clearAttempts = () => {
       let obj = JSON.parse(localStorage.getItem('obj')) || {};
       delete obj[formData.email];
@@ -86,11 +85,9 @@ export default function Login() {
         }
         navigate("/");
         snackbar(`Welcome ${data.fullName}`);
-        // Clear attempts when user logs in successfully
         clearAttempts();
       })
       .catch((err) => {
-        // Handle login error
         snackbar('Invalid email or password please try again...')
         let obj = JSON.parse(localStorage.getItem('obj')) || {};
         if (!obj[formData.email]) {
@@ -162,7 +159,7 @@ export default function Login() {
             <Button
               type="submit"
               fullWidth
-              disabled={!isFormValid|| (localStorage.getItem('obj') && JSON.parse(localStorage.getItem('obj'))[formData.email]?.isBlocked)}
+              // disabled={!isFormValid|| (localStorage.getItem('obj') && JSON.parse(localStorage.getItem('obj'))[formData.email]?.isBlocked)}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}>
               Login

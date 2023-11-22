@@ -31,6 +31,7 @@ export default function AddCard({ added }) {
     const [isFormValid, setIsFormValid] = useState(false)
     const [isAddBtn, setIsAddBtn] = useState(true)
     const [errors, setErrors] = useState({})
+    const { setLoader, snackbar, currentTheme } = useContext(GeneralContext);
     const schema = Joi.object({
         title: Joi.string().min(2),
         subtitle: Joi.string().min(2),
@@ -71,8 +72,6 @@ export default function AddCard({ added }) {
         setIsFormValid(!validate.error)
         setErrors(tempErrors)
     }
-    const { setLoader, snackbar, currentTheme } = useContext(GeneralContext);
-
     function addCard(ev) {
         ev.preventDefault();
         setLoader(true)
@@ -93,7 +92,6 @@ export default function AddCard({ added }) {
                 snackbar(`Card Added Succesfully!`)
             });
     }
-    console.log(currentTheme);
     return (
         <>
             {ismodal && (
@@ -168,9 +166,7 @@ export default function AddCard({ added }) {
                     setIsAddBtn(false);
                 }} 
                className={`add-btn  ${currentTheme === darkTheme ? 'add-btn-dark' : 'add-btn-light'}`} 
-                
                 />}
-
         </>
     );
 }      
