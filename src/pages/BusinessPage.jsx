@@ -25,7 +25,7 @@ export default function BusinessPage() {
     return (
         <>
             {card &&
-                <div>
+                <div className='business-page'>
                     <div className={`page-header ${currentTheme === darkTheme ? 'page-header-dark' : ''}`}>
                         <h1 >{card.title}</h1>
                         <p>Welcome! here you can find more information about {card.title}</p>
@@ -39,7 +39,7 @@ export default function BusinessPage() {
                         </div>
                         <div className='content'>
                             <h2>About Us</h2>
-                            {card.description}
+                            <p>{card.description}</p>
                         </div>
                         <div className={`contact ${currentTheme === darkTheme ? 'contact-dark' : ''}`}>
                             <h2>Any Question?</h2>
