@@ -4,10 +4,10 @@ Create and manage business cards with detailed information about businesses and 
 Users can favorite cards, and business users can create their own cards.
 
 ## Features
-Create Cards: Users can create business cards with detailed information.
-Favorite Cards: Users can add cards to their favorites for easy access.
-User Customization: Business users can create and manage their own cards.
-Authentication: Secure login and signup system for user accounts.
++ Create Cards: Users can create business cards with detailed information.
++ Favorite Cards: Users can add cards to their favorites for easy access.
++ User Customization: Business users can create and manage their own cards.
++ Authentication: Secure login and signup system for user accounts.
 
 ## Authentication
 The app provides a user authentication system.
