@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { FaHome } from "react-icons/fa";
 import { Link, useLocation, useNavigate, useResolvedPath } from "react-router-dom";
 import { GeneralContext, lightTheme } from "../App";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
@@ -83,7 +84,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname.startsWith('/business/')
   );
   return (
-    <AppBar  style={{width:'100%', minWidth: location.pathname !== '/about' ? '400px' : '' }} className="top-nav" position="static">
+    <AppBar  style={{width:'100%'}} className="top-nav" position="static">
       <Container maxWidth="xl"> 
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -139,7 +140,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               fontWeight: 600,
               letterSpacing: ".1rem",
               color: "inherit",}}>
-            {user && user.firstName ? user.firstName : "CardCraft"}
+            {user && user.firstName ? user.firstName : <FaHome />}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.filter((page) => !page.permissions ||

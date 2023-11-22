@@ -10,7 +10,7 @@
       grid-column-end:3;
     }
     .page-header{
-      min-width: 500px;
+      width: 700px;
     }
     .search{
       min-width: 200px;
@@ -56,11 +56,14 @@
     }
     .container{
       grid-template-columns: repeat(1,1fr);
-      min-width: 450px;
+      min-width: 335px;
       margin-bottom: 23%;
     }
     .card-box{
-      min-width: 335px;
+      min-width: 325px;
+    }
+    .page-header{
+      width: 480px;
     }
     .page-header h1{
       font-size: 2rem;
@@ -95,8 +98,12 @@
   }
 
   @media screen and (min-width:330px) and (max-width:500px) {
+    .search-box{
+      width: 152px;
+      padding: 4px;
+    }
     .page-header {
-      min-width:450px;
+      width:100%;
     }
     .business-page-container{
       margin-bottom: 15%;
@@ -107,6 +114,9 @@
     .add-btn{
      font-size: 3rem;
      right: 10px;
+    }
+    .theme{
+      margin: 0 -15px 0 11px;
     }
     .empty-msg{
       width: 350px;

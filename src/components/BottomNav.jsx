@@ -39,8 +39,7 @@ export default function BottomNav() {
     };
  const style={
     backgroundColor:currentTheme===darkTheme?'rgb(40 40 40)':'#aad3ff',
-    color: currentTheme === darkTheme ? 'white' : 'black',
-    minWidth:'450px'
+    color: currentTheme === darkTheme ? 'white' : 'black'
  }
     return (
         <BottomNavigation
