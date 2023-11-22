@@ -39,12 +39,12 @@
   
   @media screen and (max-width:750px){
     .users-table th{
-      padding: 5px;
-      font-size: .7rem;
+      padding: 3px;
+      font-size: .6rem;
     }
     .users-table td{
       padding: 7px;
-      font-size: .7rem;
+      font-size: .6rem;
     }
     .users-table .fa-edit,
     .users-table .ai-delete {

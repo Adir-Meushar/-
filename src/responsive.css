@@ -108,6 +108,9 @@
     .business-page-container{
       margin-bottom: 15%;
     }
+    .modal{
+      min-width: 360px;
+    }
     .card-box{
       min-width: 315px;
     }
@@ -121,9 +124,8 @@
     .empty-msg{
       width: 350px;
       min-width: 320px;
-      min-height: 200px;
-      height: 250px;
+      height: 218px;
       font-size: 1rem;
-      transform: translateX(-50px);
+      transform: translateX(-28px);
      }   
   }
