@@ -83,7 +83,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname.startsWith('/business/')
   );
   return (
-    <AppBar  style={{width:'100%', minWidth: location.pathname !== '/about' ? '450px' : '' }} className="top-nav" position="static">
+    <AppBar  style={{width:'100%', minWidth: location.pathname !== '/about' ? '400px' : '' }} className="top-nav" position="static">
       <Container maxWidth="xl"> 
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
