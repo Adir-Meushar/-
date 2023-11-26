@@ -27,7 +27,7 @@
     position: absolute;
     top: 130px;
     right: 50px;
-    color: rgb(1, 1, 59);
+    color: rgb(38 86 197);
     transition: all .5s;
     z-index: 10;
   }
@@ -36,7 +36,7 @@
   }
   
   .modal form {
-    padding: 30px;
+    padding: 20px;
   }
   
   .modal form input{
@@ -94,43 +94,6 @@
     color: rgb(1, 1, 1);
     border-color: #c3c1c1;
   }
- 
-  .add-btn-light{
-    color: rgb(0, 0, 69);
-  }
-
-  /* dark-modal */
- .dark-modal{
-    background-color: rgb(49, 49, 49);
-    color: white;
-    box-shadow: 0 0 5px rgb(255, 255, 255);
- }
- .dark-modal h2 {
-  color: white;
-  margin-top: 4px;
-}
-.dark-modal .close {
-    background: none;
-    color: white;
-  } 
-  .dark-modal .close:hover {
-    background-color: #595959;
-    color: white;
-    border-radius: 45%;
-  }
-  .dark-modal .text-area{
-    background-color: rgb(49, 49, 49);
-    color: white;
-    border-color: #656565;
-  }
-  .dark-modal .text-area::placeholder{
-    color: rgb(220, 217, 217);
-  }
-
-  .add-btn-dark{
-   color: rgb(184, 183, 183);
-  }
-
   @keyframes slide-bottom {
     0% {
       transform: translateY(-200px);

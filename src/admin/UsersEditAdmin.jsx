@@ -17,12 +17,10 @@ const modifiedClientStructure = clientStructure.map((item) =>
 export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUserState }) {
     const { user, setUser, setLoader, snackbar, currentTheme } = useContext(GeneralContext);
     const [formData, setFormData] = useState({
-        // Set initial state to empty values
         firstName: '',
         middleName: '',
         lastName: '',
         email: '',
-        // You may or may not include password editing
         phone: '',
         imgUrl: '',
         imgAlt: '',
@@ -41,7 +39,6 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
                 middleName: usersDetails.middleName || '',
                 lastName: usersDetails.lastName || '',
                 email: usersDetails.email || '',
-                // You may or may not include password editing
                 phone: usersDetails.phone || '',
                 imgUrl: usersDetails.imgUrl || '',
                 imgAlt: usersDetails.imgAlt || '',
@@ -145,7 +142,6 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
                                                      name="business"
                                                      checked={formData.business}
                                                      onChange={(ev) => {
-                                                         // Toggle between business and regular user types
                                                          const updatedFormData = { ...formData };
                                                          updatedFormData.business = ev.target.checked;
                                                          setFormData(updatedFormData);
@@ -155,7 +151,7 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
                                              label="Business User"
                                              labelPlacement="start"
                                          />
-                                        ) : s.name !== 'password' ? ( // Check if s.name is not equal to 'password'
+                                        ) : s.name !== 'password' ? ( 
                                             <TextField
                                                 margin="normal"
                                                 required={s.required}
@@ -167,8 +163,8 @@ export default function UsersEditAdmin({ usersDetails, closeUserEdit, updateUser
                                                 autoComplete={s.name}
                                                 value={formData[s.name]}
                                                 onChange={(ev) => {
-                                                    handleValid(ev); // Call handleValid first
-                                                    setUser({ ...user, [s.name]: ev.target.value }); // Then update user state
+                                                    handleValid(ev); 
+                                                    setUser({ ...user, [s.name]: ev.target.value }); 
                                                 }}
                                                 error={errors[s.name] !== undefined}
                                                 helperText={errors[s.name] || ''}

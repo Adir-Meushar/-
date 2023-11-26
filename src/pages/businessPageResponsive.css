@@ -1,0 +1,78 @@
+
+@media screen and (max-width:1200px){
+    .business-page-container{
+      width: 80vw;
+        min-width: 700px;
+        margin-bottom: 15%;
+      }
+      .business-img-box .business-img{
+        height: 500px;
+      }
+}
+
+@media screen and (max-width:750px){
+    .business-page-container{
+        width: 80vw;
+        min-width: 500px;
+      }
+      .business-img-box .business-img{
+        height: 330px;
+      }
+      .business-page .page-header h1{
+        font-size: 2.3rem;
+      }
+      .business-title h1{
+        font-size: 2rem;
+      }
+}
+
+@media screen and (min-width:330px) and (max-width:550px){
+    .business-page .page-header{
+        width: 100%;
+        padding: 20px 17px;
+        border-radius: 0;
+        margin-bottom:-20px;
+        margin-top: 40px;
+    }
+    .business-page .page-header h1{
+        font-size: 1.6rem;
+    }
+    .business-page .page-header p{
+        font-size: .8rem;
+    }
+    .business-page-container{
+      border-radius: 0;
+       padding: 35px 10px;
+       margin-bottom: 10%;
+        min-width: 100%;
+      }
+      .business-img-box{
+        height: 250px;
+        padding: 0;
+      }
+      .business-img-box .business-img{
+        height: 100%;
+      }
+      .business-title h1{
+        font-size: 1.3rem;
+        margin-top: 15px;
+      }
+      .business-title h2{
+        font-size: 1rem;
+      }
+      .contact{
+        padding: 15px 7px;
+      }
+      .content h2{
+        font-size: 1.2rem;
+      }
+      .content p{
+        font-size: .8rem;
+      }
+      .contact-icon{
+        font-size: 2rem;
+      }
+      .contact span{
+        font-size: .9rem;
+      }
+}

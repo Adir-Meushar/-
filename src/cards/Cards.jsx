@@ -16,14 +16,12 @@ export default function Cards({ searchQuery }) {
             });
     }, [])
     function updateCardInEdit(updatedCard) {
-        // Find the index of the updated card in the cards state and update it
         const updatedCards = cards.map((c) =>
             c.id === updatedCard.id ? updatedCard : c
         );
         setCards(updatedCards);
     }
     function deleteCardFromState(deletedCardId) {
-        // Filter out the deleted card from the cards state
         const updatedCards = cards.filter((c) => c.id !== deletedCardId);
         setCards(updatedCards);
     }

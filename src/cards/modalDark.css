@@ -1,0 +1,31 @@
+/* dark-modal */
+.dark-modal{
+    background-color: rgb(49, 49, 49);
+    color: white;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+ }
+ .dark-modal h2 {
+  color: white;
+  margin-top: 4px;
+}
+.dark-modal .close {
+    background: none;
+    color: white;
+  } 
+  .dark-modal .close:hover {
+    background-color: #595959;
+    color: white;
+    border-radius: 45%;
+  }
+  .dark-modal .text-area{
+    background-color: rgb(49, 49, 49);
+    color: white;
+    border-color: #656565;
+  }
+  .dark-modal .text-area::placeholder{
+    color: rgb(220, 217, 217);
+  }
+
+  .add-btn-dark{
+   color: rgb(184, 183, 183);
+  }

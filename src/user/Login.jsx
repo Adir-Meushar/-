@@ -1,6 +1,5 @@
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -8,7 +7,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link, useNavigate } from "react-router-dom";
-import { GeneralContext } from "../App";
+import { GeneralContext, darkTheme } from "../App";
 import { useContext, useState } from "react";
 import { RoleTyps } from "../components/Navbar";
 import Joi from "joi";
@@ -20,7 +19,7 @@ export default function Login() {
   const [isFormValid, setIsFormValid] = useState(false)
   const [errors, setErrors] = useState({})
   const navigate = useNavigate();
-  const { setUser, setLoader, setUserRoleType, snackbar, user } = useContext(GeneralContext);
+  const { setUser, setLoader, setUserRoleType, snackbar, user, currentTheme } = useContext(GeneralContext);
   const schema = Joi.object({
     email: Joi.string().email({ tlds: false }).required(),
     password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required()
@@ -97,27 +96,35 @@ export default function Login() {
           obj[formData.email] = {
             attempts: attempts + 1,
             isBlocked: attempts + 1 >= 3 ? true : false,
-            // snackbar('Sorry this email is blocked for now try again later')
           };
+          if (obj[formData.email].isBlocked) {
+            snackbar('Sorry, this email is blocked for now. Try again later.');
+          }
         }
         localStorage.setItem('obj', JSON.stringify(obj));
         console.log(err.message);
         setTimeout(() => {
           clearAttempts();
-        }, 20000); // 60000 milliseconds = 1 minute
+        }, 3600000); 
+          // 24 * 60 * 60 * 1000=day
       })
       .finally(() => setLoader(false));
   };
+  const style = {
+    backgroundColor: currentTheme === darkTheme ? 'rgb(65 65 65)' : '#f9feff',
+    color: currentTheme === darkTheme ? 'white' : 'black',
+    borderRadius: '8px'
+  }
   return (
     <>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container style={style} component="main" maxWidth="xs" >
         <Box
           sx={{
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            padding: '25px',
           }}>
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
             <LockOutlinedIcon />
@@ -159,7 +166,7 @@ export default function Login() {
             <Button
               type="submit"
               fullWidth
-              // disabled={!isFormValid|| (localStorage.getItem('obj') && JSON.parse(localStorage.getItem('obj'))[formData.email]?.isBlocked)}
+              disabled={!isFormValid || (localStorage.getItem('obj') && JSON.parse(localStorage.getItem('obj'))[formData.email]?.isBlocked)}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}>
               Login
@@ -172,6 +179,11 @@ export default function Login() {
           </Box>
         </Box>
       </Container>
+      {localStorage.getItem('obj') && JSON.parse(localStorage.getItem('obj'))[formData.email]?.isBlocked && (
+        <div className={`blocked-msg ${currentTheme === darkTheme ? 'blocked-msg-dark' : ''}`}>
+          Sorry, this email is blocked for now. Please try again later... 😥
+        </div>
+      )}
     </>
   );
 }

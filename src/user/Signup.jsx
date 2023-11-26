@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { GeneralContext } from '../App';
+import { GeneralContext,darkTheme } from '../App';
 import Switch from '@mui/material/Switch';
 import { FormControlLabel } from '@mui/material';
 import Joi from 'joi';
@@ -32,7 +32,7 @@ export const clientStructure = [
 ];
 export default function Signup() {
   const navigate = useNavigate();
-  const { setLoader } = useContext(GeneralContext);
+  const { setLoader,currentTheme } = useContext(GeneralContext);
   const [formData, setFormData] = useState({
     firstName: '',
     middleName: '',
@@ -130,9 +130,14 @@ export default function Signup() {
       .catch(err => alert(err.message))
       .finally(() => setLoader(false));
   };
+  const style={
+    backgroundColor:currentTheme===darkTheme?'rgb(65 65 65)':'#f9feff',
+    color: currentTheme === darkTheme ? 'white' : 'black',
+    borderRadius:'8px'
+ }
   return (
     <>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm" style={style}>
         <CssBaseline />
         <Box
           sx={{
@@ -140,15 +145,14 @@ export default function Signup() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            padding:'15px',
           }} >
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <AiOutlineForm />
           </Avatar>
           <Typography component="h1" variant="h5">Sign up</Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <Grid container spacing={2}>
-              {
-                clientStructure.map(s =>
+            <Grid container spacing={2}> {clientStructure.map(s =>
                   <Grid key={s.name} item xs={12} sm={s.block ? 12 : 6}>
                     {
                       s.type === 'boolean' ?

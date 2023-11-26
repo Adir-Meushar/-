@@ -54,10 +54,9 @@
     width: 100%;
     display: flex;
     justify-content: space-evenly;
-    /* margin-bottom:10px ; */
     align-items: center;
     height: 50px;
-  border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
   }
   .card-icon{
     font-size: 1.5rem;

@@ -19,19 +19,16 @@ export default function FavCards({ searchQuery }) {
             });
     }, [])
     function updateCardInEdit(updatedCard) {
-        // Find the index of the updated card in the cards state and update it
         const updatedCards = favCards.map((c) =>
             c.id === updatedCard.id ? updatedCard : c
         );
         setFavCards(updatedCards);
     }
     function deleteCardFromState(deletedCardId) {
-        // Filter out the deleted card from the cards state
         const updatedCards = favCards.filter((c) => c.id !== deletedCardId);
         setFavCards(updatedCards);
     }
     function removeFavFromState(deletedCardId) {
-        // Filter out the deleted card from the cards state
         const updatedCards = favCards.filter((c) => c.id !== deletedCardId);
         setFavCards(updatedCards);
     }

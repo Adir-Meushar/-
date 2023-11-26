@@ -5,6 +5,7 @@ import Joi from "joi";
 import { Box, Container } from "@mui/system";
 import { Button, CssBaseline, Grid, TextField, TextareaAutosize, Typography } from "@mui/material";
 import './addEditModal.css'
+import './modalDark.css'
 export const cardStructur = [
     { name: 'title', type: 'text', label: 'Title', required: true, block: false },
     { name: 'subtitle', type: 'text', label: 'Subtitle', required: true, block: false },

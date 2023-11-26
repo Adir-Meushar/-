@@ -33,8 +33,8 @@ const pages = [
   { route: "/about", title: "About" },
   { route: "/login", title: "Login", permissions: [RoleTyps.none] },
   { route: "/signup", title: "Signup", permissions: [RoleTyps.none] },
-  { route: "/favcards", title: "Favcards", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
-  { route: "/mycards", title: "Mycards", permissions: [RoleTyps.business, RoleTyps.admin], },
+  { route: "/favcards", title: "Favorites", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
+  { route: "/mycards", title: "My cards", permissions: [RoleTyps.business, RoleTyps.admin], },
   { route: "/admin", title: "Admin", permissions: [RoleTyps.admin], },];
 const settings = [
   { route: "/account", title: "Account", permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin], },
@@ -84,7 +84,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
     location.pathname.startsWith('/business/')
   );
   return (
-    <AppBar  style={{width:'100%'}} className="top-nav" position="static">
+    <AppBar  style={{width:'102%'}} className="top-nav" position="static">
       <Container maxWidth="xl"> 
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -95,7 +95,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
             to="/"
             sx={{
               mr: 2, display: { xs: "none", md: "flex" },
-              fontWeight: 700, letterSpacing: ".2rem", color: "inherit", textDecoration: "none", }}>
+              fontWeight: 700, letterSpacing: ".1rem", color: "inherit", textDecoration: "none", }}>
             {user ? user.fullName : "CardCraft"}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

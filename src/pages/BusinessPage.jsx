@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './businessPage.css'
+import './businessPageResponsive.css'
 import { GeneralContext, darkTheme } from '../App';
 import { AiOutlinePhone, AiOutlineMail } from "react-icons/ai";
 import { CgWebsite } from "react-icons/cg";

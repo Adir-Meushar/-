@@ -1,16 +1,21 @@
+
 .users-table {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
-  
+  .users-table-dark{
+    color: black;
+   }
+   
   .users-table th {
     background-color: #ebebeb;
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
   }
-  
+
   .users-table th:nth-child(7) {
     background-color: #ff6666; 
     color: white;
@@ -19,10 +24,14 @@
   
   .users-table td {
     border: 1px solid #bbbbbb;
+    background-color: #f9feff;
     padding: 20px;
     text-align: center;
   }
-  
+  .users-table-dark td{
+    color: white;
+    background: linear-gradient(to right, #414345, #232526);
+   }
   .users-table .fa-edit,
   .users-table .ai-delete {
     cursor: pointer;
@@ -40,15 +49,14 @@
   @media screen and (max-width:750px){
     .users-table th{
       padding: 3px;
-      font-size: .6rem;
+      font-size: .5rem;
     }
     .users-table td{
-      padding: 7px;
-      font-size: .6rem;
+      padding: 6px;
+      font-size: .5rem;
     }
     .users-table .fa-edit,
     .users-table .ai-delete {
-      font-size: 1rem;
+      font-size: .7rem;
     }
   }
-  

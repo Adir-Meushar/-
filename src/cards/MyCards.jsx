@@ -21,17 +21,15 @@ export default function MyCards({ searchQuery }) {
 
     useEffect(() => {
         fetchMyCards();
-    }, []); // Fetch cards when the component mounts
+    }, []); 
 
     function updateCardInEdit(updatedCard) {
-        // Find the index of the updated card in the cards state and update it
         const updatedCards = myCards.map((c) =>
             c.id === updatedCard.id ? updatedCard : c
         );
         setMyCards(updatedCards);
     }
     function deleteCardFromState(deletedCardId) {
-        // Filter out the deleted card from the cards state
         const updatedCards = myCards.filter((c) => c.id !== deletedCardId);
         setMyCards(updatedCards);
     }

@@ -6,7 +6,7 @@ import Joi from "joi";
 import { Box, Container } from "@mui/system";
 import { Button, CssBaseline, Grid, TextField,Typography } from "@mui/material";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-
+import './modalDark.css'
 export default function EditCard({ card, cardEdited }) {
     const [formData, setFormData] = useState({});
     const [ismodal, setIsModal] = useState(false);
@@ -58,7 +58,6 @@ export default function EditCard({ card, cardEdited }) {
         setIsFormValid(!validate.error)
         setErrors(tempErrors)
     }
-
     useEffect(() => {
         if (card) {
             setFormData(card);

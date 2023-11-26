@@ -1,5 +1,4 @@
 import  { useContext, useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles'; 
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { HiOutlineInformationCircle } from "react-icons/hi";
@@ -12,8 +11,8 @@ import { Link, useResolvedPath } from 'react-router-dom';
 
 const pages = [
     { route: "/about", title: "About", icon: <HiOutlineInformationCircle /> },
-    { route: "/favcards", title: "Favcards", icon: <FavoriteIcon />, permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin] },
-    { route: "/mycards", title: "Mycards", icon: <FaRegIdCard />, permissions: [RoleTyps.business, RoleTyps.admin] },
+    { route: "/favcards", title: "Favorites", icon: <FavoriteIcon />, permissions: [RoleTyps.user, RoleTyps.business, RoleTyps.admin] },
+    { route: "/mycards", title: "My cards", icon: <FaRegIdCard />, permissions: [RoleTyps.business, RoleTyps.admin] },
     {route:'/admin',title:'Admin',icon:<FaUsersCog/>,permissions:[RoleTyps.admin]},
 ];
 
@@ -21,11 +20,9 @@ const checkPermissions = (permissions, userRoletype) => {
     return permissions.includes(userRoletype);
 };
 export default function BottomNav() {
-   
     const [value, setValue] = useState(0);
     const path = useResolvedPath().pathname;
-    const { userRoleTyps, setUserRoleType,currentTheme } = useContext(GeneralContext);
-
+    const { userRoleTyps,currentTheme } = useContext(GeneralContext);
     const activePageIndex = pages.findIndex((page) => page.route === path);
 
     useEffect(() => {

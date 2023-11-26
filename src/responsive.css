@@ -33,7 +33,16 @@
       cursor: pointer;
       font-size: 1.5rem;
       margin: 0 -5px 0 20px;
-      }
+      } 
+  }
+  @media screen and (max-width:850px){
+    .add-btn{
+      position: fixed;
+      font-size: 3.5rem;
+      top: unset;
+      right: 5px;
+      bottom: 70px;
+    }
   }
   @media screen and (min-width:599px) and (max-width:1000px){
     .modal .text-area{
@@ -70,9 +79,9 @@
       bottom: 70px;
     }
     .empty-msg{
-     min-width: 450px;
+     min-width: 410px;
      font-size: 1.3rem;
-     transform: translateX(-20px);
+     transform: translateX(-30px);
     }
     .cards-icon{
       font-size: 4rem;
@@ -89,20 +98,27 @@
     }
     .page-header {
       width:100%;
+      border-radius: 0;
+      padding: 20px;
     }
- 
+    .page-header h1{
+      font-size: 1.8rem;
+      padding-bottom: 5px;
+    }
     .modal{
-      min-width: 360px;
+      min-width: 330px;
     }
     .card-box{
       min-width: 315px;
     }
     .add-btn{
      font-size: 3rem;
-     right: 10px;
+     top: 90px;
+     right: 20px;
+     color: white;
     }
     .theme{
-      margin: 0 -15px 0 11px;
+      margin: 0 0 0 11px;
     }
     .empty-msg{
       width: 350px;

@@ -41,22 +41,19 @@ export default function UsersManagement() {
         setIsEditUser(null);
       }
       const updateUserState = (updatedUser) => {
-        // Create a new users array with the updated user
         const updatedUsers = usersRef.current.map((user) =>
             user.id === updatedUser.id ? updatedUser : user
         );
-
-        // Update both the state and the ref
         setUsers(updatedUsers);
         usersRef.current = updatedUsers;
     };
     return (
-        <div >
+        <div className="container-table">
             <div className={`page-header ${currentTheme===darkTheme?'page-header-dark':''}`}>
             <h1 >Users Management</h1>
             <p>Here you can fined information about the users.</p>
             </div>
-            <table className="users-table">
+            <table className={`users-table ${currentTheme===darkTheme?'users-table-dark':''}`}>
                 <thead>
                     <tr style={{ color: currentTheme === darkTheme ? 'black' : '' }}>
                         <th>X</th>

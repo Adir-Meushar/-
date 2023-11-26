@@ -10,14 +10,14 @@ import Container from '@mui/material/Container';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Joi from 'joi';
-import { GeneralContext } from '../App';
+import { GeneralContext,darkTheme } from '../App';
 import { clientStructure } from './Signup';
 import { useNavigate } from 'react-router-dom';
 const modifiedClientStructure = clientStructure.map((item) =>
   item.name === 'email' ? { ...item, block: true } : item);
 
 export default function EditAccount() {
-  const { user, setUser, setLoader,snackbar } = useContext(GeneralContext);
+  const { user, setUser, setLoader,snackbar,currentTheme } = useContext(GeneralContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -116,10 +116,15 @@ export default function EditAccount() {
         setLoader(false);
       });
   };
+  const style={
+    backgroundColor:currentTheme===darkTheme?'rgb(65 65 65)':'#f9feff',
+    color: currentTheme === darkTheme ? 'white' : 'black',
+    borderRadius:'8px'
+ }
   return (
     <>
       {user ? (
-        <Container  component="main" maxWidth="xs">
+        <Container  component="main" maxWidth="sm" style={style}>
           <CssBaseline />
           <Box
             sx={{
@@ -127,6 +132,7 @@ export default function EditAccount() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              padding:'20px',
             }} >
             <Avatar sx={{m:1, bgcolor: 'primary.main',width:'200px',height:'200px' }}>
               <img className='profile-img'  src={user.imgUrl&& user.imgUrl.length>0?user.imgUrl:'https://srcwap.com/wp-content/uploads/2022/08/blank-profile-picture-hd-images-photo.jpg'} alt={user.imgAlt} />
