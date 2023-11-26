@@ -140,7 +140,7 @@ export default function Navbar({ theme, onToggleTheme, onSearchChange }) {
               fontWeight: 600,
               letterSpacing: ".1rem",
               color: "inherit",}}>
-            {user && user.firstName ? user.firstName : <FaHome />}
+           {user && user.firstName && user.firstName.length <= 4 ? user.firstName : <FaHome />}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.filter((page) => !page.permissions ||
